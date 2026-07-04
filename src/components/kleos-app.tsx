@@ -285,6 +285,7 @@ const navItems = [
   { label: "Overview", icon: LayoutDashboard, href: "#overview" },
   { label: "Scorecard", icon: Gauge, href: "#scorecard" },
   { label: "Proofs", icon: ShieldCheck, href: "#proofs" },
+  { label: "Proof explorer", icon: ShieldCheck, href: "/proof" },
   { label: "Settlement", icon: ReceiptText, href: "#settlement" },
   { label: "Sources", icon: BookOpen, href: "#sources" },
   { label: "Agent runs", icon: Bot, href: "#agent" },
@@ -719,6 +720,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 "GET /api/traction/campaign",
                 "GET /api/traction/github",
                 "GET /test",
+                "GET /proof",
                 "POST /api/impact/settle",
                 "GET /api/mcp",
               ].map((endpoint) => (

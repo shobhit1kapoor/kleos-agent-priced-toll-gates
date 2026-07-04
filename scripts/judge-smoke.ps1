@@ -213,6 +213,16 @@ if (-not $oneClick.trial.citationReceipts -or $oneClick.trial.citationReceipts.C
 }
 Write-Host "One-click proof: $($oneClick.attestation.proofHash)"
 
+Write-Step "Proof explorer page"
+$proofExplorer = Invoke-WebRequest -UseBasicParsing "$BaseUrl/proof"
+if ($proofExplorer.Content -notlike "*Kleos Proof Explorer*") {
+  throw "Proof explorer did not render expected content."
+}
+if ($proofExplorer.Content -notlike "*Transparency root*") {
+  throw "Proof explorer is missing transparency root content."
+}
+Write-Host "Proof explorer rendered."
+
 Write-Step "Durable GitHub traction verifier"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if ($null -eq $githubTraction.reachable) {

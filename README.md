@@ -87,6 +87,9 @@ tiny toll.
   prefilled GitHub attestation issue URL.
 - `GET /test` - public tester page that lets nontechnical testers run the hosted
   scenario and open the prefilled GitHub issue from a browser.
+- `GET /proof` - public proof explorer that turns the x402 receipt, submission
+  certificate, transparency root, impact graph, and traction gates into a
+  reviewer-readable audit console.
 - `POST /api/traction/attest` - mints a signed tester proof hash and prefilled
   GitHub issue URL after someone runs the public scenario.
 - `GET /api/traction/campaign` - returns role-specific tester asks, curl
@@ -229,9 +232,10 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 17. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
    x402 settlement records, and collaborator split payouts.
 18. Click **Reprice sources** to run the citation-aware seller pricing agent.
-19. Open `/api/proof-pack` and `/api/submission/report` for the structured
+19. Open `/proof` for the reviewer-readable proof explorer.
+20. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
-20. Open `/api/provenance` or `/api/submission/certificate` to verify the live
+21. Open `/api/provenance` or `/api/submission/certificate` to verify the live
    deployment, repo, CI, x402 receipt, score honesty, and remaining traction
    gate in one object.
 

@@ -92,6 +92,7 @@ export async function buildPublicStatus() {
     checks,
     publicProofs: {
       dashboard: APP_URL,
+      proofExplorer: `${APP_URL}/proof`,
       testerPage: `${APP_URL}/test`,
       agentCard: `${APP_URL}/.well-known/agent-card.json`,
       catalog: `${APP_URL}/api/catalog`,

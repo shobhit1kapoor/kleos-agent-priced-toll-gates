@@ -75,6 +75,9 @@ Implemented:
   clone and returns the prefilled public GitHub issue URL.
 - Public `/test` tester page that makes the same proof-hash and GitHub-issue
   flow usable from a browser.
+- Public `/proof` proof explorer that presents the live x402 receipt, submission
+  certificate, transparency root, impact graph, proof links, and honest traction
+  gates in one reviewer-readable page.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -248,8 +251,10 @@ Target length: under 3 minutes.
 12. Trigger the sponsored no-wallet trial endpoint.
 13. Open the traction campaign endpoint and show the tester success gates.
 14. Open the GitHub traction verifier to show durable public feedback evidence.
-15. Trigger repricing and show seller-agent price movement.
-16. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+15. Open `/proof` to show the proof explorer: x402 receipt, transparency root,
+   impact graph, and score-honesty gate.
+16. Trigger repricing and show seller-agent price movement.
+17. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and public tester-attestation progress.
 
 ## Final Checklist
@@ -281,6 +286,7 @@ Target length: under 3 minutes.
 - `/api/tester/one-click` lets external testers create a proof hash and GitHub
   issue URL from the hosted deployment.
 - `/test` exposes the same flow as a browser-first tester page.
+- `/proof` exposes the reviewer-readable proof explorer.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
