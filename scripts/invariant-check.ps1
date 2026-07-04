@@ -164,7 +164,20 @@ Write-Step "Traction template invariants"
 $campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
 Assert-True ($campaign.links.githubIssueTemplate -like "*template=tester-attestation.md*") "Traction campaign is missing the GitHub issue template link."
 Assert-True (($campaign.successGates -join " ") -like "*5 public GitHub issues*") "Traction campaign does not describe the five-public-issue gate."
+Assert-True ($campaign.testerRunner.command -like "*scripts/tester-run.ps1*") "Traction campaign is missing the tester runner command."
 Write-Host "Traction template checked."
+
+Write-Step "Tester runner invariants"
+$runnerScript = Join-Path $PSScriptRoot "tester-run.ps1"
+$runnerOutput = & $runnerScript `
+  -BaseUrl $BaseUrl `
+  -TesterName "Invariant Tester" `
+  -Role "builder" `
+  -Quote "Invariant check verified the one-command tester runner."
+$runnerText = $runnerOutput -join " "
+Assert-True ($runnerText -like "*KLEOS_PROOF_HASH=0x*") "Tester runner did not print a machine-readable proof hash."
+Assert-True ($runnerText -like "*KLEOS_GITHUB_ISSUE_URL=https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new*") "Tester runner did not print a machine-readable GitHub issue URL."
+Write-Host "Tester runner checked."
 
 Write-Host ""
 Write-Host "Kleos invariant check passed." -ForegroundColor Green

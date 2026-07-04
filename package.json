@@ -9,6 +9,7 @@
     "lint": "eslint",
     "smoke": "powershell -ExecutionPolicy Bypass -File scripts/judge-smoke.ps1",
     "invariants": "powershell -ExecutionPolicy Bypass -File scripts/invariant-check.ps1",
+    "tester:run": "powershell -ExecutionPolicy Bypass -File scripts/tester-run.ps1",
     "mcp:smoke": "node packages/kleos-mcp/bin/kleos-mcp.js --list-tools",
     "x402:estimate": "powershell -ExecutionPolicy Bypass -File scripts/x402-estimate.ps1"
   },

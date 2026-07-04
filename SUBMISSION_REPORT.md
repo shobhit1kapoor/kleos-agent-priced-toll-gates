@@ -64,6 +64,8 @@ Implemented:
   grants into Arc-ready settlement records.
 - Tester attestation endpoint and dashboard action that mint a proof hash plus
   prefilled GitHub issue URL for external feedback.
+- One-command tester runner that checks the live deployment, runs the no-wallet
+  settlement scenario, mints a proof hash, and prints/opens the GitHub issue URL.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -264,6 +266,8 @@ Target length: under 3 minutes.
 - `/api/citations/challenge` records citation challenge outcomes.
 - `/api/traction/campaign` returns tester asks and success gates.
 - `/api/traction/github` verifies public tester issue evidence.
+- `scripts/tester-run.ps1` gives external testers a one-command path to produce
+  a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/provenance` and `/api/submission/certificate` bind deployment, repo, CI,
   live x402 proof, score honesty, and public traction gates into one verifier.

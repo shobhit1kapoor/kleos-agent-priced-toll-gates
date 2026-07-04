@@ -108,7 +108,7 @@ export async function buildSubmissionCertificate() {
   const githubTraction = await getGithubTractionSnapshot();
   const ci = await getLatestCiRun();
   const deployment = deploymentSnapshot();
-  const tractionScore = githubTraction.successGates.allPassed || ledger.metrics.testerAttestations >= 5 ? 30 : 26;
+  const tractionScore = githubTraction.successGates.allPassed ? 30 : 26;
   const estimatedScore = {
     agenticSophistication: ledger.metrics.receiptVerifications > 0 ? 30 : 29,
     traction: tractionScore,

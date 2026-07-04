@@ -75,6 +75,9 @@ tiny toll.
   citation tolls, and impact grants into Arc-ready cash-out records.
 - `scripts/invariant-check.ps1` - verifies budget caps, split totals, receipt
   links, registry records, vault gates, A2A gates, and score honesty.
+- `scripts/tester-run.ps1` - one-command tester runner that checks the live app,
+  runs the no-wallet settlement scenario, mints a proof hash, and prints the
+  prefilled GitHub attestation issue URL.
 - `POST /api/traction/attest` - mints a signed tester proof hash and prefilled
   GitHub issue URL after someone runs the public scenario.
 - `GET /api/traction/campaign` - returns role-specific tester asks, curl
@@ -240,6 +243,19 @@ node packages/kleos-mcp/bin/kleos-mcp.js --call quote_source --arguments itemId=
 
 By default it targets the public Kleos deployment. Set `KLEOS_MCP_ENDPOINT` or
 pass `--endpoint` to point it at a local or forked deployment.
+
+## Tester Runner
+
+The fastest way for external testers to produce durable public traction evidence:
+
+```powershell
+corepack pnpm tester:run -TesterName "Your Name" -Role builder -OpenIssue
+```
+
+The script checks the live deployment, runs the no-wallet settlement scenario,
+verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue
+URL. The score only reaches 100 when those generated issues are submitted
+publicly and `/api/traction/github` verifies the public gates.
 
 ## Royalty splitter
 

@@ -46,6 +46,7 @@ export function buildSubmissionReport() {
         "A2A trust-event ledger plus a local bonded citation broker for ERC-8004-ready reputation.",
         "Well-known agent card exposing Kleos wallet, x402 payment schemes, service endpoints, proof links, and ERC-8004-ready identity posture.",
         "Retroactive impact pool that allocates sponsor capital only after citations prove which sources changed an answer.",
+        "One-command tester runner that checks the live deployment, runs the no-wallet scenario, mints a proof hash, and prints the public GitHub issue URL.",
         "Publisher kit for RSS/Ghost-style creators through /.well-known/kleos.json and crawler payment policy.",
         "MCP-style catalog manifest.",
         "Publishable `packages/kleos-mcp` stdio bridge so MCP clients can call Kleos tools through a one-command agent connector.",

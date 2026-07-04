@@ -130,7 +130,6 @@ function encodeJson(data: unknown) {
 
 export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
   const snapshot = getTractionSnapshot();
-  const ledger = getLedgerSnapshot();
   const remainingAttestations = Math.max(0, 5 - snapshot.totals.testerAttestations);
   const roles: Array<{
     role: TesterAttestation["testerRole"];
@@ -199,15 +198,15 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     purpose:
       "Turn the remaining traction gap into a repeatable tester flow with proof hashes and public GitHub feedback.",
     currentScorePath: {
-      currentEstimate: ledger.metrics.testerAttestations >= 5 ? 100 : 96,
+      currentEstimate: 96,
       targetEstimate: 100,
       remainingAttestations,
       reason:
         remainingAttestations === 0
-          ? "Five or more tester attestations are present."
+          ? "Five or more draft tester attestations are present; publish them as GitHub issues so /api/traction/github can verify durable public traction."
           : `${remainingAttestations} more real tester attestation${
               remainingAttestations === 1 ? "" : "s"
-            } needed to close the traction gap honestly.`,
+            } needed, then each generated GitHub issue URL must be published to close the traction gap honestly.`,
     },
     successGates: [
       "At least 5 public GitHub issues labeled tester-attestation.",
@@ -216,7 +215,15 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       "At least 1 agent-operator or builder attestation.",
       "At least 3 unique proof hashes copied from /api/traction/attest or the Attest button.",
     ],
+    testerRunner: {
+      command:
+        'powershell -ExecutionPolicy Bypass -File scripts/tester-run.ps1 -TesterName "Your Name" -Role builder -OpenIssue',
+      purpose:
+        "Runs the live no-wallet scenario, verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue URL.",
+      roles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
+    },
     testerFlow: [
+      "Optional fastest path: clone the repo and run scripts/tester-run.ps1 with your name and role.",
       "Open the live app.",
       "Click Run scenario.",
       "Open the latest answer proof and proof pack.",

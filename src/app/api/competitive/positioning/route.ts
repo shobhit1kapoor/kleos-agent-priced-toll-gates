@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const ledger = getLedgerSnapshot();
   const githubTraction = await getGithubTractionSnapshot();
-  const tractionScore = githubTraction.successGates.allPassed || ledger.metrics.testerAttestations >= 5 ? 30 : 26;
+  const tractionScore = githubTraction.successGates.allPassed ? 30 : 26;
 
   return Response.json(
     {
@@ -77,6 +77,7 @@ export async function GET() {
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",
           "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
+          "One-command tester runner that executes the no-wallet scenario and prints the public GitHub issue URL.",
           "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",
           "Well-known agent card with wallet, payment schemes, services, proof links, and ERC-8004-ready identity posture.",
@@ -87,9 +88,9 @@ export async function GET() {
         ],
       },
       nextBestAction:
-        ledger.metrics.testerAttestations >= 5
+        githubTraction.successGates.allPassed
           ? "Record the final demo video and submit."
-          : "Ask 3-5 testers to run the app and click Attest, then record the final demo.",
+          : "Ask 3-5 testers to run the app, click Attest, and publish the generated GitHub issue URL.",
     },
     {
       headers: {
