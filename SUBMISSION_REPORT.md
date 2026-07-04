@@ -57,6 +57,9 @@ Implemented:
   claim-level support traces.
 - Independent receipt verifier that checks answer links, read/citation payments,
   split totals, receipt hashes, and claim support.
+- Public transparency log that rolls payments, citation receipts, collaborator
+  splits, impact grants, cash-outs, verifications, and challenges into a root
+  hash with per-entry inclusion proofs.
 - Adversarial citation challenge route that releases or risks the broker bond
   depending on receipt and support quality.
 - Signed creator webhook records for citation, impact, and cash-out events.
@@ -267,6 +270,8 @@ Target length: under 3 minutes.
 - `/api/agent/research` runs and respects budget.
 - `/api/citations/finalize` creates answer-linked citation tolls.
 - `/api/receipts/verify` verifies receipt integrity.
+- `/api/transparency/log` and `/api/transparency/proof/:id` expose the public
+  settlement/audit root and inclusion proofs.
 - `/api/citations/challenge` records citation challenge outcomes.
 - `/api/traction/campaign` returns tester asks and success gates.
 - `/api/traction/github` verifies public tester issue evidence.

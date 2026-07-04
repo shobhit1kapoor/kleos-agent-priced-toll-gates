@@ -1,6 +1,7 @@
 import { getGithubTractionSnapshot } from "./github-traction";
 import { getLedgerSnapshot } from "./ledger";
 import { buildSourceRegistry } from "./source-registry";
+import { buildTransparencyLog } from "./transparency-log";
 
 const APP_URL = "https://kleos-agent-priced-toll-gates.vercel.app";
 const GITHUB_URL = "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates";
@@ -9,6 +10,7 @@ export async function buildPublicStatus() {
   const ledger = getLedgerSnapshot();
   const githubTraction = await getGithubTractionSnapshot();
   const sourceRegistry = buildSourceRegistry();
+  const transparencyLog = buildTransparencyLog();
 
   const checks = [
     {
@@ -48,6 +50,12 @@ export async function buildPublicStatus() {
       label: "Source registry",
       status: sourceRegistry.records.length >= ledger.catalog.length ? "pass" : "warn",
       detail: `${sourceRegistry.records.length} creator-scoped source record(s), ${sourceRegistry.totals.multiAuthorSources} multi-author source(s).`,
+    },
+    {
+      id: "transparency-log",
+      label: "Transparency log",
+      status: transparencyLog.entryCount >= ledger.payments.length ? "pass" : "warn",
+      detail: `${transparencyLog.entryCount} audited settlement/audit entries rooted at ${transparencyLog.rootHash.slice(0, 12)}...`,
     },
     {
       id: "public-traction",
@@ -90,6 +98,7 @@ export async function buildPublicStatus() {
       provenance: `${APP_URL}/api/provenance`,
       submissionCertificate: `${APP_URL}/api/submission/certificate`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
+      transparencyLog: `${APP_URL}/api/transparency/log`,
       githubTraction: `${APP_URL}/api/traction/github`,
       oneClickTester: `${APP_URL}/api/tester/one-click`,
       sponsoredTrial: `${APP_URL}/api/trial/sponsored`,
@@ -107,6 +116,12 @@ export async function buildPublicStatus() {
       mode: sourceRegistry.mode,
       contract: sourceRegistry.contract,
       totals: sourceRegistry.totals,
+    },
+    transparencyLog: {
+      schema: transparencyLog.schema,
+      rootHash: transparencyLog.rootHash,
+      entryCount: transparencyLog.entryCount,
+      totals: transparencyLog.totals,
     },
   };
 }
@@ -179,6 +194,8 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/citations/finalize": { post: { summary: "Finalize an answer and settle citation tolls." } },
       "/api/answers/proof": { get: { summary: "Shareable answer proof with claim traces." } },
       "/api/receipts/verify": { get: { summary: "Latest receipt verification." }, post: { summary: "Verify a citation receipt." } },
+      "/api/transparency/log": { get: { summary: "Append-only transparency log with root hash for payments, citations, splits, impact, cash-outs, and audits." } },
+      "/api/transparency/proof/{id}": { get: { summary: "Inclusion proof for a transparency log entry." } },
       "/api/citations/challenge": { get: { summary: "Latest citation challenge." }, post: { summary: "Challenge weak citation support." } },
       "/api/impact/settle": { post: { summary: "Allocate sponsor impact pool to cited sources." } },
       "/api/webhooks/dispatch": { post: { summary: "Create signed creator webhook delivery records." } },

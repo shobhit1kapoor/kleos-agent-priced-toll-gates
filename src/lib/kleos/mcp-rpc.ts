@@ -12,6 +12,7 @@ import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
 import { runOneClickTesterFlow } from "./tester-flow";
 import { buildTractionCampaign, createTesterAttestation } from "./traction";
+import { buildTransparencyLog, buildTransparencyProof } from "./transparency-log";
 
 type JsonRpcRequest = {
   jsonrpc?: "2.0";
@@ -201,6 +202,20 @@ export const mcpTools: ToolDefinition[] = [
     description: "Return Gateway, toll, split, impact, and cash-out treasury proof.",
     inputSchema: { type: "object", properties: {} },
   },
+  {
+    name: "get_transparency_log",
+    description: "Return public transparency log root, entries, and settlement/audit totals.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "get_transparency_proof",
+    description: "Return an inclusion proof for a payment, citation receipt, split, impact grant, cash-out, or audit entry.",
+    inputSchema: {
+      type: "object",
+      required: ["id"],
+      properties: { id: { type: "string" } },
+    },
+  },
 ];
 
 export function mcpResources(origin: string) {
@@ -325,6 +340,15 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       return toolResult(await buildPublicStatus());
     case "get_treasury_proof":
       return toolResult(buildTreasuryProof());
+    case "get_transparency_log":
+      return toolResult(buildTransparencyLog());
+    case "get_transparency_proof": {
+      const proof = buildTransparencyProof(asString(args.id));
+      if (!proof) {
+        throw new Error(`Unknown transparency entry: ${asString(args.id)}`);
+      }
+      return toolResult(proof);
+    }
     default:
       throw new Error(`Unknown MCP tool: ${name}`);
   }

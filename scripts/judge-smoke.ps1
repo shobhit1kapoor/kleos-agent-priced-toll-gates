@@ -146,6 +146,19 @@ if (-not $cashouts.cashouts -or $cashouts.cashouts.Count -lt 1) {
 Write-Host "Cash-outs: $($cashouts.cashouts.Count)"
 Write-Host "Cash-out USDC: $($cashouts.totals.amountUsdc)"
 
+Write-Step "Transparency log"
+$transparencyLog = Invoke-RestMethod "$BaseUrl/api/transparency/log"
+if (-not $transparencyLog.rootHash -or $transparencyLog.entryCount -lt 1) {
+  throw "Transparency log did not return a root hash and entries."
+}
+$firstTransparencyEntry = $transparencyLog.entries[0]
+$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($firstTransparencyEntry.id)"
+if (-not $transparencyProof.verified -or $transparencyProof.recomputedRoot -ne $transparencyLog.rootHash) {
+  throw "Transparency proof did not verify against the log root."
+}
+Write-Host "Transparency root: $($transparencyLog.rootHash)"
+Write-Host "Transparency proof: $($firstTransparencyEntry.id)"
+
 Write-Step "Tester attestation"
 $attestation = Invoke-RestMethod `
   -Uri "$BaseUrl/api/traction/attest" `

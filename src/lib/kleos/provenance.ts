@@ -234,6 +234,7 @@ export async function buildSubmissionCertificate() {
       submissionReport: `${APP_URL}/api/submission/report`,
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
+      transparencyLog: `${APP_URL}/api/transparency/log`,
       liveX402Receipt: arcExplorerTxUrl(ledger.gatewayProof.liveX402Receipt.receiptId),
       githubTraction: `${APP_URL}/api/traction/github`,
     },

@@ -3,6 +3,7 @@ import { buildPublisherKit } from "./publisher-kit";
 import { buildSubmissionReport } from "./submission";
 import { buildAnswerProof } from "./answer-proof";
 import { buildTractionCampaign } from "./traction";
+import { buildTransparencyLog } from "./transparency-log";
 
 export function buildProofPack(origin?: string) {
   const ledger = getLedgerSnapshot();
@@ -10,6 +11,7 @@ export function buildProofPack(origin?: string) {
   const publisherKit = buildPublisherKit(origin);
   const answerProof = buildAnswerProof(undefined, origin);
   const tractionCampaign = buildTractionCampaign(origin);
+  const transparencyLog = buildTransparencyLog();
 
   return {
     generatedAt: new Date().toISOString(),
@@ -22,6 +24,7 @@ export function buildProofPack(origin?: string) {
       "Claim-level proof: finalized answers expose covered, partial, and unsupported claims with receipt-backed support traces.",
       "Creator operations: signed webhook delivery records and Arc-ready cash-out records are generated from citation and impact settlement.",
       "Adversarial audit layer: receipts can be independently verified and weak citations can put the broker bond at risk.",
+      "Transparency log: payments, citation receipts, splits, impact grants, cash-outs, verifications, and challenges roll into a public root hash with per-entry inclusion proofs.",
       "Tester attestation loop: every tester can mint a signed proof hash and prefilled GitHub issue from the live app.",
       "GitHub tester issue template: public feedback is structured so /api/traction/github can count real scenario runs, roles, and proof hashes.",
       "Traction campaign kit: role-specific tester links, curl payloads, Discord copy, X copy, and success gates make external validation repeatable.",
@@ -59,6 +62,7 @@ export function buildProofPack(origin?: string) {
       "Run node packages/kleos-mcp/bin/kleos-mcp.js --list-tools",
       "Open /api/proof-pack",
       "Open /api/answers/proof",
+      "Open /api/transparency/log and /api/transparency/proof/:id",
       "POST /api/trial/sponsored",
       "POST /api/webhooks/dispatch",
       "POST /api/creators/cashout",
@@ -91,6 +95,13 @@ export function buildProofPack(origin?: string) {
     citationChallenges: ledger.citationChallenges.slice(0, 8),
     testerAttestations: ledger.testerAttestations.slice(0, 8),
     tractionCampaign,
+    transparencyLog: {
+      schema: transparencyLog.schema,
+      rootHash: transparencyLog.rootHash,
+      entryCount: transparencyLog.entryCount,
+      totals: transparencyLog.totals,
+      sampleEntries: transparencyLog.entries.slice(0, 5),
+    },
     durableTractionVerifier: origin ? `${origin}/api/traction/github` : "/api/traction/github",
     publisherKit: publisherKit.wellKnownManifest,
     apiSurfaces: [
@@ -118,6 +129,8 @@ export function buildProofPack(origin?: string) {
       "POST /api/creators/cashout",
       "GET /api/receipts/verify",
       "POST /api/receipts/verify",
+      "GET /api/transparency/log",
+      "GET /api/transparency/proof/:id",
       "GET /api/citations/challenge",
       "POST /api/citations/challenge",
       "GET /api/traction/attest",

@@ -127,6 +127,8 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /api/agent-card") "Proof pack
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/provenance") "Proof pack missing provenance surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate") "Proof pack missing submission certificate surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/tester/one-click") "Proof pack missing one-click tester surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
+Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
 Write-Host "Proof pack surfaces checked."
 
 Write-Step "Submission certificate invariants"
@@ -156,6 +158,12 @@ $quote = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"quote_source","arguments":{"itemId":"ci_arc_gateway_notes"}}}'
 Assert-True ($quote.result.structuredContent.id -eq "ci_arc_gateway_notes") "MCP quote_source did not return the requested source."
+$mcpTransparency = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_transparency_log","arguments":{}}}'
+Assert-True ($mcpTransparency.result.structuredContent.rootHash -like "0x*") "MCP transparency log did not return a root hash."
 $mcpTester = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
@@ -193,6 +201,13 @@ Write-Host "Tester runner checked."
 Write-Step "Hosted tester flow invariants"
 $testerPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/test"
 Assert-True ($testerPage.Content -like "*Create a public Kleos proof hash*") "Public tester page did not render expected copy."
+$transparencyLog = Invoke-RestMethod "$BaseUrl/api/transparency/log"
+Assert-True ($transparencyLog.rootHash -like "0x*") "Transparency log did not return a root hash."
+Assert-True ($transparencyLog.entryCount -ge $ledger.payments.Count) "Transparency log entry count is too low."
+$transparencyEntry = $transparencyLog.entries[0]
+$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($transparencyEntry.id)"
+Assert-True ($transparencyProof.verified) "Transparency inclusion proof did not verify."
+Assert-True ($transparencyProof.recomputedRoot -eq $transparencyLog.rootHash) "Transparency inclusion proof root mismatch."
 $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `

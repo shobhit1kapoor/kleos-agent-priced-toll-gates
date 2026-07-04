@@ -65,6 +65,11 @@ tiny toll.
   live x402 proof.
 - `POST /api/receipts/verify` - independently verifies citation receipt links,
   read/citation payments, split totals, and claim support.
+- `GET /api/transparency/log` - returns the public settlement/audit transparency
+  root and hashed entries for payments, citations, splits, impact, cash-outs,
+  verifications, and challenges.
+- `GET /api/transparency/proof/:id` - returns an inclusion proof for a specific
+  transparency log entry.
 - `POST /api/citations/challenge` - lets an evaluator challenge weak citations
   and mark the broker bond at risk when support fails.
 - `POST /api/impact/settle` - allocates a sponsor-backed impact pool only after
