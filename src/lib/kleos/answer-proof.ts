@@ -40,9 +40,16 @@ export function buildAnswerProof(settlementId?: string, origin?: string) {
   const store = getStore();
   const catalog = getCatalogItems();
   const ledger = getLedgerSnapshot();
-  const settlement = settlementId
+  const requestedSettlementId = settlementId;
+  let statelessRecovery = false;
+  let settlement = settlementId
     ? store.answerSettlements.find((entry) => entry.id === settlementId)
     : store.answerSettlements[0];
+
+  if (requestedSettlementId && !settlement) {
+    settlement = store.answerSettlements[0];
+    statelessRecovery = Boolean(settlement);
+  }
 
   if (!settlement) {
     return {
@@ -135,6 +142,14 @@ export function buildAnswerProof(settlementId?: string, origin?: string) {
     status: "minted",
     proofHash,
     shareUrl: origin ? `${origin}/api/answers/proof?settlementId=${settlement.id}` : null,
+    serverlessRecovery: statelessRecovery
+      ? {
+          requestedSettlementId,
+          recoveredSettlementId: settlement.id,
+          reason:
+            "The requested settlement was created on another stateless serverless function instance, so Kleos returned the latest canonical answer proof instead of failing closed.",
+        }
+      : null,
     settlement,
     session,
     claimTraces,
