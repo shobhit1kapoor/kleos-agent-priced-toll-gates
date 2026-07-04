@@ -79,6 +79,7 @@ export async function GET() {
           "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",
           "Callable JSON-RPC MCP endpoint plus well-known MCP discovery document.",
+          "Publishable packages/kleos-mcp stdio bridge for npx-style MCP distribution.",
           "Submission certificate that binds live deployment, public repo, CI, Circle x402 receipt, score honesty, and public traction gates.",
           "CI-backed economic invariant checks for spend caps, split math, receipt integrity, payment gates, and score honesty.",
         ],

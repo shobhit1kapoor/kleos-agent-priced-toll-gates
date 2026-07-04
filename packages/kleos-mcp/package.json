@@ -1,0 +1,25 @@
+{
+  "name": "kleos-mcp",
+  "version": "0.1.0",
+  "description": "MCP stdio bridge for Kleos, the settlement layer for grounded AI answers.",
+  "type": "module",
+  "bin": {
+    "kleos-mcp": "./bin/kleos-mcp.js"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "x402",
+    "arc",
+    "circle",
+    "nanopayments",
+    "ai-agents"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.18.2"
+  }
+}

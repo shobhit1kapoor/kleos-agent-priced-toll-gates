@@ -46,6 +46,8 @@ tiny toll.
 - `GET /.well-known/mcp.json` - MCP discovery document for agent clients.
 - `POST /api/mcp/rpc` - JSON-RPC MCP endpoint for `tools/list`,
   `tools/call`, `resources/list`, and `resources/read`.
+- `packages/kleos-mcp` - publishable MCP stdio bridge for agent clients; after
+  publishing, the intended command is `npx -y kleos-mcp`.
 - `POST /api/trial/sponsored` - no-wallet sponsored trial that runs the full
   inspect, buy, cite, impact, and reprice loop under bounded spend caps.
 - `POST /api/agent/research` - runs the buyer research agent with a task and
@@ -221,6 +223,18 @@ Each finalized answer emits receipts shaped for reuse by other builders:
 - `readPaymentId`, `citationPaymentId`, `citationTollUsdc`
 - `claim`, `confidence`, `settlementStatus`
 - `itemId`, `sessionId`, collaborator payout split ids through the payment ledger
+
+## MCP Bridge
+
+Kleos includes a packageable MCP stdio bridge for agent clients:
+
+```bash
+node packages/kleos-mcp/bin/kleos-mcp.js --list-tools
+node packages/kleos-mcp/bin/kleos-mcp.js --call quote_source --arguments itemId=ci_arc_gateway_notes
+```
+
+By default it targets the public Kleos deployment. Set `KLEOS_MCP_ENDPOINT` or
+pass `--endpoint` to point it at a local or forked deployment.
 
 ## Royalty splitter
 

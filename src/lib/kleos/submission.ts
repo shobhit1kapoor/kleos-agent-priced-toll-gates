@@ -47,6 +47,7 @@ export function buildSubmissionReport() {
         "Retroactive impact pool that allocates sponsor capital only after citations prove which sources changed an answer.",
         "Publisher kit for RSS/Ghost-style creators through /.well-known/kleos.json and crawler payment policy.",
         "MCP-style catalog manifest.",
+        "Publishable `packages/kleos-mcp` stdio bridge so MCP clients can call Kleos tools through a one-command agent connector.",
         "Submission certificate endpoint that binds the stable deployment, GitHub repo, CI status, live x402 receipt, rubric score, and public traction gates.",
         "RoyaltySplitter smart contract.",
         "Judge dashboard and ledger APIs.",

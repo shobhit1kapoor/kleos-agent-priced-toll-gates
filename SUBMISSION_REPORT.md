@@ -80,6 +80,8 @@ Implemented:
   Kleos, after which Kleos pays creator sources and returns settlement proof.
 - Callable JSON-RPC MCP endpoint and `/.well-known/mcp.json` discovery document
   so agent clients can list resources, quote sources, and call Kleos tools.
+- Publishable `packages/kleos-mcp` stdio bridge so agent clients can connect to
+  Kleos with an `npx`-style MCP command after package publication.
 - Economic invariant checker and GitHub Actions workflow for budget caps, split
   totals, receipt links, registry records, vault gates, A2A gates, and score
   honesty.

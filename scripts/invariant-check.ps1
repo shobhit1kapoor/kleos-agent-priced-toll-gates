@@ -138,7 +138,12 @@ $quote = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"quote_source","arguments":{"itemId":"ci_arc_gateway_notes"}}}'
 Assert-True ($quote.result.structuredContent.id -eq "ci_arc_gateway_notes") "MCP quote_source did not return the requested source."
-Write-Host "MCP RPC checked."
+$bridgeOutput = node packages/kleos-mcp/bin/kleos-mcp.js --endpoint "$BaseUrl/api/mcp/rpc" --list-tools
+$bridge = $bridgeOutput | ConvertFrom-Json
+Assert-True ($bridge.result.tools.Count -ge 10) "kleos-mcp bridge returned too few tools."
+$bridgeQuoteTools = @($bridge.result.tools | Where-Object { $_.name -eq "quote_source" })
+Assert-True ($bridgeQuoteTools.Count -eq 1) "kleos-mcp bridge missing quote_source."
+Write-Host "MCP RPC and stdio bridge checked."
 
 Write-Step "Traction template invariants"
 $campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
