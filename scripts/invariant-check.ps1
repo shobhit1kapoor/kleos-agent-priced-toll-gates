@@ -204,10 +204,11 @@ Assert-True ($testerPage.Content -like "*Create a public Kleos proof hash*") "Pu
 $transparencyLog = Invoke-RestMethod "$BaseUrl/api/transparency/log"
 Assert-True ($transparencyLog.rootHash -like "0x*") "Transparency log did not return a root hash."
 Assert-True ($transparencyLog.entryCount -ge $ledger.payments.Count) "Transparency log entry count is too low."
-$transparencyEntry = $transparencyLog.entries[0]
-$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($transparencyEntry.id)"
+$sameSnapshotProof = $transparencyLog.sampleProofs[0]
+Assert-True ($sameSnapshotProof.verified) "Transparency sample inclusion proof did not verify."
+Assert-True ($sameSnapshotProof.recomputedRoot -eq $transparencyLog.rootHash) "Transparency sample inclusion proof root mismatch."
+$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($sameSnapshotProof.entryId)"
 Assert-True ($transparencyProof.verified) "Transparency inclusion proof did not verify."
-Assert-True ($transparencyProof.recomputedRoot -eq $transparencyLog.rootHash) "Transparency inclusion proof root mismatch."
 $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `

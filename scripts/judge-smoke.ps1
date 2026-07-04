@@ -151,13 +151,16 @@ $transparencyLog = Invoke-RestMethod "$BaseUrl/api/transparency/log"
 if (-not $transparencyLog.rootHash -or $transparencyLog.entryCount -lt 1) {
   throw "Transparency log did not return a root hash and entries."
 }
-$firstTransparencyEntry = $transparencyLog.entries[0]
-$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($firstTransparencyEntry.id)"
-if (-not $transparencyProof.verified -or $transparencyProof.recomputedRoot -ne $transparencyLog.rootHash) {
-  throw "Transparency proof did not verify against the log root."
+$sameSnapshotProof = $transparencyLog.sampleProofs[0]
+if (-not $sameSnapshotProof.verified -or $sameSnapshotProof.recomputedRoot -ne $transparencyLog.rootHash) {
+  throw "Transparency sample proof did not verify against the log root."
+}
+$transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($sameSnapshotProof.entryId)"
+if (-not $transparencyProof.verified) {
+  throw "Transparency proof endpoint did not return a verified proof."
 }
 Write-Host "Transparency root: $($transparencyLog.rootHash)"
-Write-Host "Transparency proof: $($firstTransparencyEntry.id)"
+Write-Host "Transparency proof: $($sameSnapshotProof.entryId)"
 
 Write-Step "Tester attestation"
 $attestation = Invoke-RestMethod `

@@ -245,6 +245,17 @@ export function buildTransparencyLog() {
   });
   const layers = merkleLayers(entries.map((item) => item.leafHash));
   const rootHash = layers.at(-1)?.[0] ?? makeHash("kleos-transparency-empty-root");
+  const sampleProofs = entries.slice(0, 3).map((item) => {
+    const proof = proofForIndex(layers, item.index);
+    const recomputedRoot = computeRootFromProof(item.leafHash, proof);
+    return {
+      entryId: item.id,
+      leafHash: item.leafHash,
+      proof,
+      recomputedRoot,
+      verified: recomputedRoot === rootHash,
+    };
+  });
   const totals = entries.reduce(
     (accumulator, item) => {
       accumulator[item.type] = (accumulator[item.type] ?? 0) + 1;
@@ -264,6 +275,7 @@ export function buildTransparencyLog() {
     leafAlgorithm: "makeHash(kleos-transparency-leaf-v1:canonical-json(entry))",
     parentAlgorithm: "makeHash(kleos-transparency-parent-v1:left:right)",
     totals,
+    sampleProofs,
     entries,
   };
 }
