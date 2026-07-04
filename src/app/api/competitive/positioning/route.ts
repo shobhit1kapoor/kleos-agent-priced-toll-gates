@@ -36,6 +36,10 @@ export async function GET() {
         app: "https://kleos-agent-priced-toll-gates.vercel.app",
         github: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates",
         proofPack: "https://kleos-agent-priced-toll-gates.vercel.app/api/proof-pack",
+        publicStatus: "https://kleos-agent-priced-toll-gates.vercel.app/api/status",
+        openApi: "https://kleos-agent-priced-toll-gates.vercel.app/api/openapi",
+        treasury: "https://kleos-agent-priced-toll-gates.vercel.app/api/treasury",
+        sponsoredTrial: "https://kleos-agent-priced-toll-gates.vercel.app/api/trial/sponsored",
         answerProof: "https://kleos-agent-priced-toll-gates.vercel.app/api/answers/proof",
         receiptVerifier: "https://kleos-agent-priced-toll-gates.vercel.app/api/receipts/verify?latest=true",
         citationChallenge: "https://kleos-agent-priced-toll-gates.vercel.app/api/citations/challenge",
@@ -65,6 +69,7 @@ export async function GET() {
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",
           "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
+          "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
         ],
       },
       nextBestAction:

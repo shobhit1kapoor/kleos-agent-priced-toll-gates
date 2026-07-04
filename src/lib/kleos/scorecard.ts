@@ -28,7 +28,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
     evidence:
       "The app tracks paid reads, answer settlements, citation receipts, citation tolls, buyer-agent runs, USDC moved, creators paid, source catalog size, registered/RSS-imported sources, impact-pool grants, signed creator webhooks, creator cash-outs, receipt verifications, citation challenges, A2A proof events, and payout splits in the live ledger.",
     fullMarksMove:
-      "Deploy publicly, onboard 3-5 real testers or creators, and capture their paid runs before submission.",
+      "Onboard 3-5 real testers or creators and capture their public GitHub attestation issues before submission.",
   },
   {
     id: "circle",
@@ -38,7 +38,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
     evidence:
       "Arc Testnet wallet is funded through Gateway; Charon returns x402 v2-style 402 challenges, base64 PAYMENT-REQUIRED headers, GatewayWalletBatched metadata, live BatchFacilitatorClient verification, read/citation toll payment records, and a successful Circle CLI paid request.",
     fullMarksMove:
-      "Repeat the real Circle CLI paid request on the final stable deployment URL and include it in the demo.",
+      "Show the existing stable-deployment Circle CLI receipt and Arcscan link in the demo.",
   },
   {
     id: "innovation",
@@ -46,7 +46,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
     weightPct: 20,
     coverage: "Strong",
     evidence:
-      "Combines two-stage creator citation tolls, answer-linked receipt hashes, claim-level proof traces, independent receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-out aggregation, dynamic value-of-information pricing, autonomous buyer budgets, collaborator royalties, MCP discovery, publisher manifests, retroactive impact rewards, and a bonded ERC-8004-ready citation broker.",
+      "Combines two-stage creator citation tolls, answer-linked receipt hashes, claim-level proof traces, independent receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-out aggregation, dynamic value-of-information pricing, autonomous buyer budgets, collaborator royalties, MCP discovery, publisher manifests, retroactive impact rewards, no-wallet sponsored trials, public ops proof, treasury proof, OpenAPI discoverability, and a bonded ERC-8004-ready citation broker.",
     fullMarksMove:
       "Use the demo to show emergent price movement after demand changes instead of presenting static paywall pricing.",
   },

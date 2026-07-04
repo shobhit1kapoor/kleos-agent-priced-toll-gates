@@ -182,6 +182,43 @@ if (-not $githubTraction.successGates) {
 Write-Host "GitHub reachable: $($githubTraction.reachable)"
 Write-Host "GitHub issue attestations: $($githubTraction.totals.githubIssueAttestations)"
 
+Write-Step "Public operations status"
+$publicStatus = Invoke-RestMethod "$BaseUrl/api/status"
+if (-not $publicStatus.checks -or $publicStatus.checks.Count -lt 4) {
+  throw "Public status endpoint is missing checks."
+}
+Write-Host "Ops status: $($publicStatus.status)"
+
+Write-Step "Treasury proof"
+$treasury = Invoke-RestMethod "$BaseUrl/api/treasury"
+if (-not $treasury.gateway.liveX402Receipt.receiptId) {
+  throw "Treasury proof is missing live x402 receipt."
+}
+Write-Host "Treasury read tolls: $($treasury.totals.readTollUsdc)"
+Write-Host "Treasury citation tolls: $($treasury.totals.citationTollUsdc)"
+
+Write-Step "OpenAPI manifest"
+$openApi = Invoke-RestMethod "$BaseUrl/api/openapi"
+if (-not $openApi.paths."/api/trial/sponsored") {
+  throw "OpenAPI manifest is missing sponsored trial route."
+}
+Write-Host "OpenAPI: $($openApi.info.title)"
+
+Write-Step "Sponsored no-wallet trial"
+$trial = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/trial/sponsored" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"budgetUsdc":0.018,"citationBudgetUsdc":0.006,"sponsorPoolUsdc":0.012}'
+if (-not $trial.citations.citationReceipts -or $trial.citations.citationReceipts.Count -lt 1) {
+  throw "Sponsored trial created no citation receipts."
+}
+if (-not $trial.impact.impactGrants -or $trial.impact.impactGrants.Count -lt 1) {
+  throw "Sponsored trial created no impact grants."
+}
+Write-Host "Trial mode: $($trial.trial.mode)"
+Write-Host "Trial citations: $($trial.citations.citationReceipts.Count)"
+
 Write-Step "Citation-aware repricing"
 $pricing = Invoke-RestMethod `
   -Uri "$BaseUrl/api/pricing/recompute" `

@@ -10,13 +10,12 @@ creator work was inspected, cited, paid, and split.
 
 The current build is strong enough to submit as a polished prototype and now has
 the category-defining primitive: answer-linked citation settlement. It also has a
-real Circle CLI x402 paid request against a public endpoint. The remaining gaps
-that matter most are:
+stable public deployment and a real Circle CLI x402 paid request against the
+public content endpoint. The remaining gap that matters most is real
+tester/creator usage before the deadline.
 
-1. Move from temporary public tunnel to a stable hosted URL.
-2. Collect real tester/creator usage before the deadline.
-
-If those two gaps are closed, Kleos becomes a strong top-submission contender.
+If that traction gap is closed with public tester-attestation issues, Kleos
+becomes a strong top-submission contender.
 
 ## Hackathon Fit
 
@@ -69,6 +68,11 @@ Implemented:
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
   durable external proof across redeploys and serverless cold starts.
+- Public operations status, health, treasury, and OpenAPI endpoints so async
+  judges can verify liveness and scope without clicking through the UI.
+- Sponsored no-wallet trial endpoint that runs inspect, read toll settlement,
+  citation settlement, impact allocation, and repricing from a bounded sponsor
+  budget.
 - A2A trust-event ledger with signed/bound proof plus a bonded citation broker.
 - Live `@circle-fin/x402-batching` seller-side verifier for real Gateway x402
   payment payloads.
@@ -120,7 +124,7 @@ Full-mark move:
 
 ### Traction - 30%
 
-Current strength: medium until deployment and testers.
+Current strength: medium until testers.
 
 The product measures the right traction metrics:
 
@@ -141,13 +145,15 @@ The product measures the right traction metrics:
 - Tester attestations
 - Traction campaign success gates
 - Durable GitHub issue attestations
+- Public ops status checks
+- Sponsored trial completions through `/api/trial/sponsored`
 - Agent-to-agent proof events
 - Catalog size
 
 Full-mark move:
 
-- Deploy the app, ask 3-5 people to run the buyer agent, record their feedback,
-  and include exact counts in the submission form.
+- Ask 3-5 people to run the buyer agent, create public tester-attestation issues,
+  record their feedback, and include exact counts in the submission form.
 
 ### Circle Tool Usage - 20%
 
@@ -165,8 +171,8 @@ Implemented today:
 
 Full-mark move:
 
-- Repeat the real `circle services pay` request on the final stable deployment
-  URL and include the resulting receipt in the demo.
+- Show the existing stable-deployment `circle services pay` receipt and Arcscan
+  link in the demo.
 
 ### Innovation - 20%
 
@@ -205,11 +211,13 @@ Target length: under 3 minutes.
 7. Open the answer proof, verify a receipt, and challenge one citation to show
    the bond/reputation audit path.
 8. Open the creator operations endpoints.
-9. Open the traction campaign endpoint and show the tester success gates.
-10. Open the GitHub traction verifier to show durable public feedback evidence.
-11. Trigger repricing and show seller-agent price movement.
-12. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
-   creators onboarded, and next deployment plan.
+9. Open public status, treasury, and OpenAPI endpoints.
+10. Trigger the sponsored no-wallet trial endpoint.
+11. Open the traction campaign endpoint and show the tester success gates.
+12. Open the GitHub traction verifier to show durable public feedback evidence.
+13. Trigger repricing and show seller-agent price movement.
+14. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+   creators onboarded, and public tester-attestation progress.
 
 ## Final Checklist
 
@@ -218,7 +226,10 @@ Target length: under 3 minutes.
 - `corepack pnpm lint` passes.
 - `corepack pnpm build` passes.
 - `/api/catalog` works.
+- `/api/status`, `/api/health`, `/api/treasury`, and `/api/openapi` expose the
+  public operations surface.
 - `/api/content/:id` returns 402 without payment.
+- `/api/trial/sponsored` runs the no-wallet inspect/cite/reward/reprice loop.
 - `/api/agent/research` runs and respects budget.
 - `/api/citations/finalize` creates answer-linked citation tolls.
 - `/api/receipts/verify` verifies receipt integrity.
@@ -232,8 +243,7 @@ Target length: under 3 minutes.
 
 ## Best Next Moves
 
-1. Deploy the current app to a stable host so testers and judges can click it.
-2. Repeat the real Circle CLI paid request on the stable hosted app.
-3. Ask 3-5 testers to run the buyer agent and send one sentence of feedback.
-4. Add final traction numbers to the README and submission form.
-5. Record the video only after the stable live URL and metrics are ready.
+1. Ask 3-5 testers to run the buyer agent and submit the generated GitHub
+   tester-attestation issue.
+2. Add final traction numbers to the README and submission form.
+3. Record the video only after the public tester-attestation count is visible.

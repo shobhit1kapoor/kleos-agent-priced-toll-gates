@@ -49,7 +49,7 @@ export function buildSubmissionReport() {
       currentPaymentMode:
         "Live Circle Gateway x402 verification through BatchFacilitatorClient is implemented for real PAYMENT-SIGNATURE payloads, with a local judge walkthrough proof path kept for deterministic async review.",
       fullCircleGatewayMove:
-        "A real Circle CLI paid request has succeeded against the public content endpoint. Repeat the same check on the final stable deployment URL and include it in the video.",
+        "A real Circle CLI paid request has succeeded against the stable public content endpoint. Include the receipt and Arcscan link in the video.",
     },
     rubric: ledger.rubric,
     liveMetrics: ledger.metrics,

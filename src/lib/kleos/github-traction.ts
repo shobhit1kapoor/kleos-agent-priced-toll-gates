@@ -131,7 +131,7 @@ function gatesFromTotals(totals: ReturnType<typeof emptyTotals>) {
     threeScenarioRuns: totals.scenarioRunsAttested >= 3,
     creatorOrPublisher: totals.creatorOrPublisherAttestations >= 1,
     builderOrOperator: totals.builderOrOperatorAttestations >= 1,
-    uniqueProofHashes: totals.proofHashes >= Math.min(3, totals.githubIssueAttestations),
+    uniqueProofHashes: totals.proofHashes >= 3,
     allPassed:
       totals.githubIssueAttestations >= 5 &&
       totals.scenarioRunsAttested >= 3 &&

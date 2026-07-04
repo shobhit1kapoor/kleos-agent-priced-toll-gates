@@ -27,8 +27,16 @@ tiny toll.
 ## Product surfaces
 
 - `GET /api/catalog` - priced source catalog for agents.
+- `GET /api/status` - public operations status for async judges, including
+  health checks, proof links, and the honest public-traction gate.
+- `GET /api/health` - small uptime-monitor health check.
+- `GET /api/treasury` - Gateway, read toll, citation toll, split, impact, and
+  creator cash-out treasury proof.
+- `GET /api/openapi` - OpenAPI-style index of the public Kleos API surface.
 - `GET /api/content/:id` - Charon Gateway content endpoint. Returns `402
   Payment Required` unless a valid `PAYMENT-SIGNATURE` is supplied.
+- `POST /api/trial/sponsored` - no-wallet sponsored trial that runs the full
+  inspect, buy, cite, impact, and reprice loop under bounded spend caps.
 - `POST /api/agent/research` - runs the buyer research agent with a task and
   budget.
 - `POST /api/pricing/recompute` - runs the seller pricing agent.
@@ -58,7 +66,7 @@ tiny toll.
 - `GET /api/publisher-kit` - returns a `/.well-known/kleos.json` publisher
   manifest, crawler policy, and RSS/Ghost integration mapping.
 - `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
-  Gateway proof, receipts, impact grants, and open deployment items.
+  Gateway proof, receipts, impact grants, and remaining submission items.
 - `GET /api/submission/report` - judge-facing project summary, rubric mapping,
   current metrics, Gateway proof, and submission checklist.
 - `POST /api/sources/register` - creator source intake that adds a priced source
@@ -90,7 +98,8 @@ Kleos is designed around the hackathon scoring surface:
   verification, adversarial citation challenges, signed creator webhooks, creator
   cash-out aggregation, tester attestations, value-of-information pricing,
   autonomous buyer budgets, MCP discovery, publisher manifests, retroactive
-  impact rewards, bonded broker proof, and collaborator royalties.
+  impact rewards, bonded broker proof, collaborator royalties, no-wallet
+  sponsored trials, public status, treasury proof, and OpenAPI discoverability.
 
 The dashboard includes a rubric scorecard so reviewers can see the judge case
 and the remaining full-mark moves without needing a guided live demo.
@@ -167,10 +176,14 @@ route calls it from `src/app/api/content/[id]/route.ts`.
     submission-ready traction wording.
 11. Open `/api/traction/github` to verify public tester issues once testers submit
     the generated GitHub feedback links.
-12. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
+12. Open `/api/status`, `/api/treasury`, and `/api/openapi` to inspect the
+    operational proof surface.
+13. POST `/api/trial/sponsored` to run the no-wallet trial path from a single
+    endpoint.
+14. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
    x402 settlement records, and collaborator split payouts.
-13. Click **Reprice sources** to run the citation-aware seller pricing agent.
-14. Open `/api/proof-pack` and `/api/submission/report` for the structured
+15. Click **Reprice sources** to run the citation-aware seller pricing agent.
+16. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 
 ## Citation receipt schema
