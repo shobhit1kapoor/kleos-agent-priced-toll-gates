@@ -49,6 +49,7 @@ export function buildAgentCard(origin: string) {
       contentGateway: `${origin}/api/content/{id}`,
       catalog: `${origin}/api/catalog`,
       publisherVerification: `${origin}/api/publishers/verify`,
+      reputationPassport: `${origin}/api/reputation/passport`,
       answerProof: `${origin}/api/answers/proof`,
       receiptVerifier: `${origin}/api/receipts/verify`,
       impactGraph: `${origin}/api/impact/graph`,
@@ -101,6 +102,7 @@ export function buildAgentCard(origin: string) {
       submissionCertificate: `${origin}/api/submission/certificate`,
       sourceRegistry: `${origin}/api/registry/sources`,
       publisherVerification: `${origin}/api/publishers/verify`,
+      reputationPassport: `${origin}/api/reputation/passport`,
       liveX402Receipt: `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`,
     },
   };

@@ -48,6 +48,12 @@ export async function buildPublicStatus() {
       detail: `${ledger.metrics.verifiedPublishers} verified publisher ownership record(s).`,
     },
     {
+      id: "reputation-passport",
+      label: "Reputation passport",
+      status: ledger.metrics.agentTrustProofs >= 1 ? "pass" : "warn",
+      detail: `${ledger.metrics.agentTrustProofs} trust event(s), ${ledger.metrics.validReceiptVerifications} receipt verification(s).`,
+    },
+    {
       id: "audit",
       label: "Receipt audit layer",
       status: ledger.metrics.validReceiptVerifications >= 1 && ledger.metrics.citationChallenges >= 1 ? "pass" : "warn",
@@ -106,6 +112,7 @@ export async function buildPublicStatus() {
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
       publisherVerification: `${APP_URL}/api/publishers/verify`,
+      reputationPassport: `${APP_URL}/api/reputation/passport`,
       sourceRegistry: `${APP_URL}/api/registry/sources`,
       encryptedVault: `${APP_URL}/api/vault/ci_arc_gateway_notes`,
       a2aAsk: `${APP_URL}/api/a2a/ask`,
@@ -228,6 +235,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },
       "/api/sources/import-rss": { post: { summary: "Import recent RSS/Atom entries as x402-priced creator sources." } },
       "/api/publishers/verify": { get: { summary: "List publisher ownership verification records." }, post: { summary: "Issue or verify a publisher ownership challenge." } },
+      "/api/reputation/passport": { get: { summary: "ERC-8004-ready local reputation passports for agents, creators, and publishers." }, post: { summary: "Append a signed local reputation attestation." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },

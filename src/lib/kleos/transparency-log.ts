@@ -9,6 +9,7 @@ type TransparencyRecordType =
   | "impact_grant"
   | "creator_cashout"
   | "publisher_verification"
+  | "agent_trust_event"
   | "receipt_verification"
   | "citation_challenge";
 
@@ -219,6 +220,20 @@ function buildRawEntries() {
         proofDigest: verification.proofDigest,
         status: verification.status,
         checkedAt: verification.checkedAt,
+      }),
+    ),
+    ...ledger.agentTrustEvents.map((event) =>
+      entry("agent_trust_event", event.id, event.createdAt, event.amountUsdc, [
+        event.agent,
+        event.counterparty,
+      ], {
+        title: event.title,
+        status: event.status,
+        network: event.network,
+        contractAddress: event.contractAddress,
+        digest: event.digest,
+        txHash: event.txHash,
+        noteDigest: makeHash(event.note),
       }),
     ),
     ...ledger.receiptVerifications.map((verification) =>

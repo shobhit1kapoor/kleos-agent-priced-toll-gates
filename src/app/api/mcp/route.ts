@@ -198,6 +198,28 @@ export async function GET() {
         },
       },
       {
+        name: "get_reputation_passport",
+        description:
+          "Return ERC-8004-ready local reputation passports for buyer agents, creators, publishers, and Kleos.",
+        inputSchema: { type: "object", properties: {} },
+      },
+      {
+        name: "create_reputation_attestation",
+        description:
+          "Append a signed local trust event to the Kleos reputation passport.",
+        inputSchema: {
+          type: "object",
+          required: ["subject"],
+          properties: {
+            subject: { type: "string" },
+            counterparty: { type: "string" },
+            title: { type: "string" },
+            note: { type: "string" },
+            amountUsdc: { type: "number" },
+          },
+        },
+      },
+      {
         name: "challenge_citation",
         description:
           "Challenge a weak citation receipt and mark the broker bond at risk if support verification fails.",
@@ -288,6 +310,7 @@ export async function GET() {
       citationChallenges: store.citationChallenges.slice(0, 5),
       testerAttestations: store.testerAttestations.slice(0, 5),
       agentTrustEvents: store.agentTrustEvents.slice(0, 5),
+      publisherVerifications: store.publisherVerifications.slice(0, 5),
     },
   });
 }

@@ -132,9 +132,12 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /creators") "Proof pack missi
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/sources/import-rss") "Proof pack missing RSS import surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/publishers/verify") "Proof pack missing publisher verification list surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/publishers/verify") "Proof pack missing publisher verification surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/reputation/passport") "Proof pack missing reputation passport surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/reputation/passport") "Proof pack missing reputation attestation surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
 Assert-True ($proofPack.transparencyLog.totals.publisher_verification -ge 1) "Proof pack transparency log is missing publisher verification leaves."
+Assert-True ($proofPack.transparencyLog.totals.agent_trust_event -ge 1) "Proof pack transparency log is missing agent trust leaves."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/impact/graph") "Proof pack missing impact graph surface."
 Assert-True ($proofPack.impactGraph.graphHash -like "0x*") "Proof pack missing impact graph hash."
 Write-Host "Proof pack surfaces checked."
@@ -164,6 +167,8 @@ $rssTools = @($toolsList.result.tools | Where-Object { $_.name -eq "import_rss_f
 Assert-True ($rssTools.Count -eq 1) "MCP tools/list is missing import_rss_feed."
 $publisherTools = @($toolsList.result.tools | Where-Object { $_.name -eq "verify_publisher_ownership" })
 Assert-True ($publisherTools.Count -eq 1) "MCP tools/list is missing verify_publisher_ownership."
+$reputationTools = @($toolsList.result.tools | Where-Object { $_.name -eq "get_reputation_passport" })
+Assert-True ($reputationTools.Count -eq 1) "MCP tools/list is missing get_reputation_passport."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
@@ -182,6 +187,12 @@ $mcpImpactGraph = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_impact_graph","arguments":{}}}'
 Assert-True ($mcpImpactGraph.result.structuredContent.graphHash -like "0x*") "MCP impact graph did not return a graph hash."
+$mcpReputation = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"get_reputation_passport","arguments":{}}}'
+Assert-True (-not $mcpReputation.result.structuredContent.erc8004Ready.onchainRegistrationClaimed) "MCP reputation passport falsely claims onchain ERC-8004 registration."
 $mcpTester = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

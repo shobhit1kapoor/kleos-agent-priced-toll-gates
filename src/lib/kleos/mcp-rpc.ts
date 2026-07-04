@@ -10,6 +10,7 @@ import { getLedgerSnapshot } from "./ledger";
 import { getPublisherVerificationSnapshot, verifyPublisherOwnership } from "./publisher-verification";
 import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
 import { verifyCitationReceipt } from "./receipt-verifier";
+import { buildReputationPassport, createReputationAttestation } from "./reputation-passport";
 import { importRssFeed } from "./rss-import";
 import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
@@ -168,6 +169,26 @@ export const mcpTools: ToolDefinition[] = [
     inputSchema: {
       type: "object",
       properties: { receiptId: { type: "string" } },
+    },
+  },
+  {
+    name: "get_reputation_passport",
+    description: "Return ERC-8004-ready local reputation passports for buyer agents, creators, publishers, and Kleos.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "create_reputation_attestation",
+    description: "Append a signed local trust event to the Kleos reputation passport.",
+    inputSchema: {
+      type: "object",
+      required: ["subject"],
+      properties: {
+        subject: { type: "string" },
+        counterparty: { type: "string" },
+        title: { type: "string" },
+        note: { type: "string" },
+        amountUsdc: { type: "number" },
+      },
     },
   },
   {
@@ -366,6 +387,18 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       );
     case "verify_citation_receipt":
       return toolResult(verifyCitationReceipt(asString(args.receiptId) || undefined));
+    case "get_reputation_passport":
+      return toolResult(buildReputationPassport());
+    case "create_reputation_attestation":
+      return toolResult(
+        createReputationAttestation({
+          subject: asString(args.subject),
+          counterparty: asString(args.counterparty) || undefined,
+          title: asString(args.title) || undefined,
+          note: asString(args.note) || undefined,
+          amountUsdc: asNumber(args.amountUsdc),
+        }),
+      );
     case "settle_impact_pool":
       return toolResult(
         settleImpactPool({

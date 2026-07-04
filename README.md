@@ -119,6 +119,8 @@ tiny toll.
   entries as x402-priced creator sources.
 - `GET|POST /api/publishers/verify` - issues and verifies publisher ownership
   challenges so source owners can bind a domain/feed to a payout wallet.
+- `GET|POST /api/reputation/passport` - exports ERC-8004-ready local
+  reputation passports and appends signed local trust attestations.
 
 ## Judging strategy
 
@@ -245,6 +247,8 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 21. POST `/api/sources/import-rss` to show live publisher feed onboarding.
 22. POST `/api/publishers/verify` to show source-owner verification before a
     publisher wallet is treated as owner-verified.
+23. Open `/api/reputation/passport` to show buyer, creator, publisher, and
+    settlement-agent reputation evidence.
 21. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 22. Open `/api/provenance` or `/api/submission/certificate` to verify the live

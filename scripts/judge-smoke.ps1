@@ -86,6 +86,24 @@ if (-not $publisherVerification.verified) {
 }
 Write-Host "Publisher verified: $($publisherVerification.record.id)"
 
+Write-Step "Reputation passport"
+$reputationPassport = Invoke-RestMethod "$BaseUrl/api/reputation/passport"
+if (-not $reputationPassport.erc8004Ready -or $reputationPassport.erc8004Ready.onchainRegistrationClaimed) {
+  throw "Reputation passport is missing honest ERC-8004 readiness."
+}
+if ($reputationPassport.settlementAgent.score -lt 80) {
+  throw "Reputation passport settlement-agent score is unexpectedly low."
+}
+$reputationAttestation = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/reputation/passport" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"subject":"0x0000000000000000000000000000000000000003","title":"Judge smoke reputation attestation","note":"Smoke test appended a local trust event.","amountUsdc":0}'
+if (-not $reputationAttestation.event.digest) {
+  throw "Reputation attestation did not return a digest."
+}
+Write-Host "Reputation score: $($reputationPassport.settlementAgent.score)"
+
 Write-Step "Budgeted buyer agent"
 $run = Invoke-RestMethod `
   -Uri "$BaseUrl/api/agent/research" `
@@ -305,6 +323,9 @@ if (-not $openApi.paths."/api/sources/import-rss") {
 }
 if (-not $openApi.paths."/api/publishers/verify") {
   throw "OpenAPI manifest is missing publisher verification route."
+}
+if (-not $openApi.paths."/api/reputation/passport") {
+  throw "OpenAPI manifest is missing reputation passport route."
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 

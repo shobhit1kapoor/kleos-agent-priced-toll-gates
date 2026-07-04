@@ -243,6 +243,7 @@ export async function buildSubmissionCertificate() {
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
       publisherVerification: `${APP_URL}/api/publishers/verify`,
+      reputationPassport: `${APP_URL}/api/reputation/passport`,
       impactGraph: `${APP_URL}/api/impact/graph`,
       transparencyLog: `${APP_URL}/api/transparency/log`,
       liveX402Receipt: arcExplorerTxUrl(ledger.gatewayProof.liveX402Receipt.receiptId),
