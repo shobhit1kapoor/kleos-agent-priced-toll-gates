@@ -39,7 +39,7 @@ function githubIssueUrl(attestation: Omit<TesterAttestation, "githubIssueUrl">) 
     ].join("\n"),
   );
 
-  return `https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new?title=${title}&body=${body}&labels=tester-attestation`;
+  return `https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new?template=tester-attestation.md&title=${title}&body=${body}&labels=tester-attestation`;
 }
 
 export function createTesterAttestation(input: {
@@ -189,6 +189,8 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     competitivePositioning: `${origin}/api/competitive/positioning`,
     attestationEndpoint: `${origin}/api/traction/attest`,
     githubIssues: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues",
+    githubIssueTemplate:
+      "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new?template=tester-attestation.md&labels=tester-attestation",
     githubTractionVerifier: `${origin}/api/traction/github`,
   };
 
@@ -208,11 +210,11 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
             } needed to close the traction gap honestly.`,
     },
     successGates: [
-      "At least 5 tester attestations from builders, creators, agent operators, or judges.",
-      "At least 3 attestations marked scenarioRun=true.",
+      "At least 5 public GitHub issues labeled tester-attestation.",
+      "At least 3 public attestations marked Scenario run: yes.",
       "At least 1 creator or publisher attestation.",
       "At least 1 agent-operator or builder attestation.",
-      "At least 1 public GitHub issue created from an attestation URL.",
+      "At least 3 unique proof hashes copied from /api/traction/attest or the Attest button.",
     ],
     testerFlow: [
       "Open the live app.",

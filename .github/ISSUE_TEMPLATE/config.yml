@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Kleos live app
+    url: https://kleos-agent-priced-toll-gates.vercel.app
+    about: Run the settlement scenario before submitting a tester attestation.
+  - name: Kleos traction verifier
+    url: https://kleos-agent-priced-toll-gates.vercel.app/api/traction/github
+    about: See which public tester attestations have been counted.

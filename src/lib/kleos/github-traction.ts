@@ -16,13 +16,30 @@ type GithubIssue = {
 
 function matchLine(body: string, label: string) {
   const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = body.match(new RegExp(`- ${escaped}:\\s*(.+)`, "i"));
-  return match?.[1]?.trim();
+  const bulletMatch = body.match(new RegExp(`- ${escaped}:\\s*(.+)`, "i"));
+  if (bulletMatch?.[1]) {
+    return bulletMatch[1].trim();
+  }
+
+  const boldMatch = body.match(new RegExp(`\\*\\*${escaped}\\*\\*:?\\s*(.+)`, "i"));
+  if (boldMatch?.[1]) {
+    return boldMatch[1].trim();
+  }
+
+  const headingMatch = body.match(new RegExp(`###\\s*${escaped}\\s*\\n+([^#\\n][\\s\\S]*?)(?=\\n###|$)`, "i"));
+  if (headingMatch?.[1]) {
+    return headingMatch[1].trim().split(/\r?\n/)[0]?.trim();
+  }
+
+  return undefined;
 }
 
 function parseRole(body: string) {
   const role = matchLine(body, "Role")?.toLowerCase();
-  if (role && ["judge", "creator", "builder", "agent-operator", "other"].includes(role)) {
+  if (role && ["judge", "creator", "publisher", "builder", "agent-operator", "other"].includes(role)) {
+    if (role === "publisher") {
+      return "creator";
+    }
     return role;
   }
 
@@ -30,7 +47,8 @@ function parseRole(body: string) {
 }
 
 function parseBoolean(body: string, label: string) {
-  return matchLine(body, label)?.toLowerCase() === "yes";
+  const value = matchLine(body, label)?.toLowerCase();
+  return value === "yes" || value === "true" || value === "checked";
 }
 
 function parseProofHash(body: string) {
@@ -97,7 +115,7 @@ export async function getGithubTractionSnapshot() {
       issues,
       totals,
       successGates: gatesFromTotals(totals),
-      issueCreationUrl: `https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/new?labels=${LABEL}`,
+      issueCreationUrl: `https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/new?template=tester-attestation.md&labels=${LABEL}`,
     };
   } catch (error) {
     return {

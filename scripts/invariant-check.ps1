@@ -98,6 +98,7 @@ if (-not $githubTraction.successGates.allPassed) {
   Assert-True ($positioning.rubricScoreEstimate.total -lt 100) "Score reached 100 without public GitHub traction gates."
 }
 Assert-True (-not $githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should be false with zero public attestations."
+Assert-True ($githubTraction.issueCreationUrl -like "*template=tester-attestation.md*") "GitHub traction verifier is not pointing to the tester issue template."
 Write-Host "Score honesty checked: $($positioning.rubricScoreEstimate.total)/100."
 
 Write-Step "Proof surface invariants"
@@ -107,6 +108,12 @@ Assert-True ($proofPack.apiSurfaces -contains "POST /api/a2a/ask") "Proof pack m
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/registry/sources") "Proof pack missing registry surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/vault/:id") "Proof pack missing vault surface."
 Write-Host "Proof pack surfaces checked."
+
+Write-Step "Traction template invariants"
+$campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
+Assert-True ($campaign.links.githubIssueTemplate -like "*template=tester-attestation.md*") "Traction campaign is missing the GitHub issue template link."
+Assert-True (($campaign.successGates -join " ") -like "*5 public GitHub issues*") "Traction campaign does not describe the five-public-issue gate."
+Write-Host "Traction template checked."
 
 Write-Host ""
 Write-Host "Kleos invariant check passed." -ForegroundColor Green

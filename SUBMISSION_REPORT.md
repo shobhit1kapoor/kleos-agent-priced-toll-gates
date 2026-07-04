@@ -68,6 +68,8 @@ Implemented:
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
   durable external proof across redeploys and serverless cold starts.
+- Public GitHub tester-attestation issue template so external testers can submit
+  parseable traction evidence without custom instructions.
 - Public operations status, health, treasury, and OpenAPI endpoints so async
   judges can verify liveness and scope without clicking through the UI.
 - Creator-scoped source registry with IPFS-shaped metadata/content CIDs, split

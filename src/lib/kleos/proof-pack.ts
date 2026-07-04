@@ -23,6 +23,7 @@ export function buildProofPack(origin?: string) {
       "Creator operations: signed webhook delivery records and Arc-ready cash-out records are generated from citation and impact settlement.",
       "Adversarial audit layer: receipts can be independently verified and weak citations can put the broker bond at risk.",
       "Tester attestation loop: every tester can mint a signed proof hash and prefilled GitHub issue from the live app.",
+      "GitHub tester issue template: public feedback is structured so /api/traction/github can count real scenario runs, roles, and proof hashes.",
       "Traction campaign kit: role-specific tester links, curl payloads, Discord copy, X copy, and success gates make external validation repeatable.",
       "Public operations proof: status, health, treasury, and OpenAPI endpoints let async judges verify scope and liveness without a guided demo.",
       "Sponsored no-wallet trial: one endpoint runs inspect, read toll, citation toll, impact, and reprice flow under explicit spend caps.",

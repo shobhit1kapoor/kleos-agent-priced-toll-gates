@@ -73,6 +73,8 @@ tiny toll.
   payloads, social copy, and success gates for collecting external validation.
 - `GET /api/traction/github` - verifies durable public tester-attestation issues
   from GitHub so traction survives serverless cold starts and redeploys.
+- `.github/ISSUE_TEMPLATE/tester-attestation.md` - public tester issue template
+  that makes external feedback parseable by `/api/traction/github`.
 - `GET /api/publisher-kit` - returns a `/.well-known/kleos.json` publisher
   manifest, crawler policy, and RSS/Ghost integration mapping.
 - `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
