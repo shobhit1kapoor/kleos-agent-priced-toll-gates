@@ -33,6 +33,9 @@ tiny toll.
 - `GET /api/treasury` - Gateway, read toll, citation toll, split, impact, and
   creator cash-out treasury proof.
 - `GET /api/openapi` - OpenAPI-style index of the public Kleos API surface.
+- `GET /.well-known/agent-card.json` and `GET /api/agent-card` - public agent
+  card with Kleos wallet, x402 schemes, service endpoints, proof links, and
+  ERC-8004-ready identity posture.
 - `GET /api/content/:id` - Charon Gateway content endpoint. Returns `402
   Payment Required` unless a valid `PAYMENT-SIGNATURE` is supplied.
 - `GET /api/registry/sources` - creator-scoped source registry with IPFS-shaped
@@ -200,18 +203,20 @@ route calls it from `src/app/api/content/[id]/route.ts`.
     the generated GitHub feedback links.
 12. Open `/api/status`, `/api/treasury`, `/api/openapi`, and
     `/api/registry/sources` to inspect the operational proof surface.
-13. Open `/api/vault/ci_arc_gateway_notes`, then POST
+13. Open `/.well-known/agent-card.json` to inspect Kleos as a discoverable
+    agent service with wallet, x402, MCP, A2A, and proof links.
+14. Open `/api/vault/ci_arc_gateway_notes`, then POST
     `/api/vault/ci_arc_gateway_notes/key` with a local payment proof to see
     x402-gated encrypted content key release.
-14. POST `/api/a2a/ask` to run paid agent-to-agent research.
-15. POST `/api/trial/sponsored` to run the no-wallet trial path from a single
+15. POST `/api/a2a/ask` to run paid agent-to-agent research.
+16. POST `/api/trial/sponsored` to run the no-wallet trial path from a single
     endpoint.
-16. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
+17. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
    x402 settlement records, and collaborator split payouts.
-17. Click **Reprice sources** to run the citation-aware seller pricing agent.
-18. Open `/api/proof-pack` and `/api/submission/report` for the structured
+18. Click **Reprice sources** to run the citation-aware seller pricing agent.
+19. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
-19. Open `/api/provenance` or `/api/submission/certificate` to verify the live
+20. Open `/api/provenance` or `/api/submission/certificate` to verify the live
    deployment, repo, CI, x402 receipt, score honesty, and remaining traction
    gate in one object.
 

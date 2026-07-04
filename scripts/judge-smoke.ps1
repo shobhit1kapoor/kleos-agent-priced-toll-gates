@@ -204,6 +204,19 @@ if (-not $openApi.paths."/api/trial/sponsored") {
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 
+Write-Step "Agent card discovery"
+$agentCard = Invoke-RestMethod "$BaseUrl/.well-known/agent-card.json"
+if ($agentCard.name -ne "Kleos") {
+  throw "Agent card name is not Kleos."
+}
+if (-not $agentCard.services.mcpRpc -or -not $agentCard.services.a2aAsk) {
+  throw "Agent card is missing MCP or A2A service links."
+}
+if ($agentCard.erc8004Readiness.onchainRegistrationClaimed) {
+  throw "Agent card should not claim ERC-8004 onchain registration."
+}
+Write-Host "Agent card wallet: $($agentCard.agentWallet)"
+
 Write-Step "Source registry"
 $registry = Invoke-RestMethod "$BaseUrl/api/registry/sources"
 if (-not $registry.records -or $registry.records.Count -lt 1) {

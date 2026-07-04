@@ -78,6 +78,19 @@ try {
 }
 Write-Host "Vault payment gate checked."
 
+Write-Step "Agent card invariants"
+$agentCard = Invoke-RestMethod "$BaseUrl/.well-known/agent-card.json"
+$agentCardAlias = Invoke-RestMethod "$BaseUrl/api/agent-card"
+Assert-True ($agentCard.name -eq "Kleos") "Agent card name is not Kleos."
+Assert-True ($agentCard.agentWallet -eq $ledger.gatewayProof.agentWallet) "Agent card wallet does not match ledger gateway proof."
+Assert-True ($agentCard.services.mcpRpc -like "*/api/mcp/rpc") "Agent card is missing MCP RPC service."
+Assert-True ($agentCard.services.a2aAsk -like "*/api/a2a/ask") "Agent card is missing A2A service."
+Assert-True ($agentCard.services.provenance -like "*/api/provenance") "Agent card is missing provenance service."
+Assert-True ($agentCard.erc8004Readiness.status -eq "adapter-ready") "Agent card ERC-8004 readiness is not adapter-ready."
+Assert-True (-not $agentCard.erc8004Readiness.onchainRegistrationClaimed) "Agent card falsely claims ERC-8004 onchain registration."
+Assert-True ($agentCardAlias.agentWallet -eq $agentCard.agentWallet) "Agent card API alias does not match well-known card."
+Write-Host "Agent card checked: $($agentCard.agentWallet)."
+
 Write-Step "A2A and score honesty invariants"
 try {
   Invoke-RestMethod `
@@ -107,6 +120,8 @@ Assert-True ($proofPack.strongestDifferentiators.Count -ge 16) "Proof pack is mi
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/a2a/ask") "Proof pack missing A2A surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/registry/sources") "Proof pack missing registry surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/vault/:id") "Proof pack missing vault surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /.well-known/agent-card.json") "Proof pack missing agent card well-known surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/agent-card") "Proof pack missing agent card API surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/provenance") "Proof pack missing provenance surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate") "Proof pack missing submission certificate surface."
 Write-Host "Proof pack surfaces checked."

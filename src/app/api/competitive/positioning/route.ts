@@ -35,6 +35,7 @@ export async function GET() {
       proofLinks: {
         app: "https://kleos-agent-priced-toll-gates.vercel.app",
         github: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates",
+        agentCard: "https://kleos-agent-priced-toll-gates.vercel.app/.well-known/agent-card.json",
         proofPack: "https://kleos-agent-priced-toll-gates.vercel.app/api/proof-pack",
         provenance: "https://kleos-agent-priced-toll-gates.vercel.app/api/provenance",
         submissionCertificate: "https://kleos-agent-priced-toll-gates.vercel.app/api/submission/certificate",
@@ -78,6 +79,7 @@ export async function GET() {
           "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
           "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",
+          "Well-known agent card with wallet, payment schemes, services, proof links, and ERC-8004-ready identity posture.",
           "Callable JSON-RPC MCP endpoint plus well-known MCP discovery document.",
           "Publishable packages/kleos-mcp stdio bridge for npx-style MCP distribution.",
           "Submission certificate that binds live deployment, public repo, CI, Circle x402 receipt, score honesty, and public traction gates.",

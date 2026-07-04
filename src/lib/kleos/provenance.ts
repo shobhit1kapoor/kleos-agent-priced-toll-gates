@@ -168,7 +168,8 @@ export async function buildSubmissionCertificate() {
       id: "mcp-a2a",
       label: "Agent integration surface",
       status: "pass",
-      detail: "Callable MCP JSON-RPC, well-known MCP discovery, and x402-priced A2A research endpoint are exposed.",
+      detail:
+        "Callable MCP JSON-RPC, well-known MCP discovery, well-known agent card, packageable MCP bridge, and x402-priced A2A research endpoint are exposed.",
     },
     {
       id: "traction-honesty",
@@ -224,6 +225,7 @@ export async function buildSubmissionCertificate() {
     },
     judgeProofLinks: {
       dashboard: APP_URL,
+      agentCard: `${APP_URL}/.well-known/agent-card.json`,
       status: `${APP_URL}/api/status`,
       provenance: `${APP_URL}/api/provenance`,
       submissionCertificate: `${APP_URL}/api/submission/certificate`,

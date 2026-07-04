@@ -76,6 +76,7 @@ export async function buildPublicStatus() {
     checks,
     publicProofs: {
       dashboard: APP_URL,
+      agentCard: `${APP_URL}/.well-known/agent-card.json`,
       catalog: `${APP_URL}/api/catalog`,
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
@@ -163,6 +164,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/status": { get: { summary: "Public operations status and judge proof links." } },
       "/api/health": { get: { summary: "Small health check for uptime monitors." } },
       "/api/treasury": { get: { summary: "Gateway, toll, split, impact, and cash-out treasury proof." } },
+      "/api/agent-card": { get: { summary: "Kleos agent card with wallet, x402 schemes, services, tools, and proof links." } },
       "/api/catalog": { get: { summary: "Agent-readable priced content catalog." } },
       "/api/content/{id}": { get: { summary: "x402-protected content endpoint; unpaid requests return 402." } },
       "/api/registry/sources": { get: { summary: "Creator-scoped source registry records and split digests." } },
@@ -185,6 +187,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/mcp": { get: { summary: "MCP-style manifest for agent discovery and actions." } },
       "/api/mcp/rpc": { get: { summary: "MCP JSON-RPC endpoint metadata." }, post: { summary: "MCP JSON-RPC calls for tools/list, tools/call, resources/list, and resources/read." } },
       "/.well-known/mcp.json": { get: { summary: "Well-known MCP discovery document." } },
+      "/.well-known/agent-card.json": { get: { summary: "Well-known Kleos agent service card." } },
       "/api/publisher-kit": { get: { summary: "Publisher manifest and crawler payment policy." } },
       "/api/oss-kit": { get: { summary: "Reusable integration kit for builders." } },
       "/api/proof-pack": { get: { summary: "Single judge proof pack." } },

@@ -44,6 +44,7 @@ export function buildSubmissionReport() {
         "Encrypted content vault with public AES-GCM ciphertext and x402-gated key release.",
         "A2A paid research endpoint for agents that want to buy a grounded answer from Kleos over x402.",
         "A2A trust-event ledger plus a local bonded citation broker for ERC-8004-ready reputation.",
+        "Well-known agent card exposing Kleos wallet, x402 payment schemes, service endpoints, proof links, and ERC-8004-ready identity posture.",
         "Retroactive impact pool that allocates sponsor capital only after citations prove which sources changed an answer.",
         "Publisher kit for RSS/Ghost-style creators through /.well-known/kleos.json and crawler payment policy.",
         "MCP-style catalog manifest.",

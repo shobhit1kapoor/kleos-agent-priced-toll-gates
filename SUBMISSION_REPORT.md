@@ -72,6 +72,8 @@ Implemented:
   parseable traction evidence without custom instructions.
 - Public operations status, health, treasury, and OpenAPI endpoints so async
   judges can verify liveness and scope without clicking through the UI.
+- Well-known agent card exposing Kleos wallet, x402 payment schemes, MCP/A2A
+  endpoints, proof links, and ERC-8004-ready identity posture.
 - Creator-scoped source registry with IPFS-shaped metadata/content CIDs, split
   digests, and a deployable `contracts/SourceRegistry.sol` artifact.
 - Encrypted content vault with public AES-GCM ciphertext and x402-gated key
@@ -250,6 +252,8 @@ Target length: under 3 minutes.
 - `/api/catalog` works.
 - `/api/status`, `/api/health`, `/api/treasury`, and `/api/openapi` expose the
   public operations surface.
+- `/.well-known/agent-card.json` and `/api/agent-card` expose the public Kleos
+  agent service card.
 - `/api/registry/sources`, `/api/vault/:id`, `/api/vault/:id/key`, and
   `/api/a2a/ask` expose registry, encrypted vault, and A2A proof.
 - `/api/content/:id` returns 402 without payment.
