@@ -86,6 +86,9 @@ tiny toll.
   from GitHub so traction survives serverless cold starts and redeploys.
 - `.github/ISSUE_TEMPLATE/tester-attestation.md` - public tester issue template
   that makes external feedback parseable by `/api/traction/github`.
+- `POST /api/tester/one-click` - hosted tester flow that runs the no-wallet
+  settlement scenario, verifies a receipt, mints a proof hash, and returns the
+  prefilled GitHub issue URL without requiring a repo clone.
 - `GET /api/publisher-kit` - returns a `/.well-known/kleos.json` publisher
   manifest, crawler policy, and RSS/Ghost integration mapping.
 - `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
@@ -247,6 +250,16 @@ pass `--endpoint` to point it at a local or forked deployment.
 ## Tester Runner
 
 The fastest way for external testers to produce durable public traction evidence:
+
+Hosted, no clone:
+
+```bash
+curl -X POST https://kleos-agent-priced-toll-gates.vercel.app/api/tester/one-click \
+  -H "Content-Type: application/json" \
+  -d '{"testerName":"Your Name","testerRole":"builder","quote":"I ran the Kleos flow and inspected the proof trail."}'
+```
+
+Repo-based:
 
 ```powershell
 corepack pnpm tester:run -TesterName "Your Name" -Role builder -OpenIssue

@@ -86,6 +86,7 @@ Assert-True ($agentCard.agentWallet -eq $ledger.gatewayProof.agentWallet) "Agent
 Assert-True ($agentCard.services.mcpRpc -like "*/api/mcp/rpc") "Agent card is missing MCP RPC service."
 Assert-True ($agentCard.services.a2aAsk -like "*/api/a2a/ask") "Agent card is missing A2A service."
 Assert-True ($agentCard.services.provenance -like "*/api/provenance") "Agent card is missing provenance service."
+Assert-True ($agentCard.services.oneClickTester -like "*/api/tester/one-click") "Agent card is missing one-click tester service."
 Assert-True ($agentCard.erc8004Readiness.status -eq "adapter-ready") "Agent card ERC-8004 readiness is not adapter-ready."
 Assert-True (-not $agentCard.erc8004Readiness.onchainRegistrationClaimed) "Agent card falsely claims ERC-8004 onchain registration."
 Assert-True ($agentCardAlias.agentWallet -eq $agentCard.agentWallet) "Agent card API alias does not match well-known card."
@@ -124,6 +125,7 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /.well-known/agent-card.json"
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/agent-card") "Proof pack missing agent card API surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/provenance") "Proof pack missing provenance surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate") "Proof pack missing submission certificate surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/tester/one-click") "Proof pack missing one-click tester surface."
 Write-Host "Proof pack surfaces checked."
 
 Write-Step "Submission certificate invariants"
@@ -153,6 +155,12 @@ $quote = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"quote_source","arguments":{"itemId":"ci_arc_gateway_notes"}}}'
 Assert-True ($quote.result.structuredContent.id -eq "ci_arc_gateway_notes") "MCP quote_source did not return the requested source."
+$mcpTester = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"run_one_click_tester_flow","arguments":{"testerName":"MCP Tester","testerRole":"builder","quote":"MCP one-click tester flow verified."}}}'
+Assert-True ($mcpTester.result.structuredContent.githubIssueUrl -like "*github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new*") "MCP one-click tester flow did not return a GitHub issue URL."
 $bridgeOutput = node packages/kleos-mcp/bin/kleos-mcp.js --endpoint "$BaseUrl/api/mcp/rpc" --list-tools
 $bridge = $bridgeOutput | ConvertFrom-Json
 Assert-True ($bridge.result.tools.Count -ge 10) "kleos-mcp bridge returned too few tools."
@@ -163,6 +171,7 @@ Write-Host "MCP RPC and stdio bridge checked."
 Write-Step "Traction template invariants"
 $campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
 Assert-True ($campaign.links.githubIssueTemplate -like "*template=tester-attestation.md*") "Traction campaign is missing the GitHub issue template link."
+Assert-True ($campaign.links.oneClickTester -like "*/api/tester/one-click") "Traction campaign is missing the one-click tester endpoint."
 Assert-True (($campaign.successGates -join " ") -like "*5 public GitHub issues*") "Traction campaign does not describe the five-public-issue gate."
 Assert-True ($campaign.testerRunner.command -like "*scripts/tester-run.ps1*") "Traction campaign is missing the tester runner command."
 Write-Host "Traction template checked."
@@ -178,6 +187,17 @@ $runnerText = $runnerOutput -join " "
 Assert-True ($runnerText -like "*KLEOS_PROOF_HASH=0x*") "Tester runner did not print a machine-readable proof hash."
 Assert-True ($runnerText -like "*KLEOS_GITHUB_ISSUE_URL=https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new*") "Tester runner did not print a machine-readable GitHub issue URL."
 Write-Host "Tester runner checked."
+
+Write-Step "Hosted tester flow invariants"
+$oneClick = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/tester/one-click" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"testerName":"Hosted Invariant Tester","testerRole":"builder","quote":"Hosted one-click tester flow verified."}'
+Assert-True ($oneClick.attestation.proofHash -like "0x*") "Hosted one-click tester flow did not return a proof hash."
+Assert-True ($oneClick.githubIssueUrl -like "*github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new*") "Hosted one-click tester flow did not return a GitHub issue URL."
+Assert-True ($oneClick.trial.citationReceipts.Count -ge 1) "Hosted one-click tester flow created no citation receipts."
+Write-Host "Hosted tester flow checked."
 
 Write-Host ""
 Write-Host "Kleos invariant check passed." -ForegroundColor Green

@@ -77,6 +77,7 @@ export async function GET() {
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",
           "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
+          "Hosted one-click tester endpoint that produces a proof hash and GitHub issue URL without requiring a repo clone.",
           "One-command tester runner that executes the no-wallet scenario and prints the public GitHub issue URL.",
           "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",

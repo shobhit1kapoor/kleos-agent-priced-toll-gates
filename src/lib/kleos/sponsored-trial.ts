@@ -21,6 +21,7 @@ export function runSponsoredTrial(input?: {
   const research = runBuyerResearchAgent({
     task,
     budgetUsdc,
+    reservedCitationBudgetUsdc: citationBudgetUsdc,
     buyerWallet: KLEOS_AGENT_WALLET,
     buyerReputation: 88,
   });

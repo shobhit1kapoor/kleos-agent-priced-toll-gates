@@ -21,6 +21,7 @@ function scoreRelevance(task: string, tags: string[], text: string) {
 export function runBuyerResearchAgent(input: {
   task: string;
   budgetUsdc: number;
+  reservedCitationBudgetUsdc?: number;
   buyerWallet?: string;
   buyerReputation?: number;
 }) {
@@ -31,6 +32,9 @@ export function runBuyerResearchAgent(input: {
   const decisions: BuyerDecision[] = [];
   let spentUsdc = 0;
   const purchasedContent: string[] = [];
+  const readBudgetUsdc = Number(
+    Math.max(0, input.budgetUsdc - Math.max(0, input.reservedCitationBudgetUsdc ?? 0)).toFixed(6),
+  );
 
   const session: AgentSession = {
     id: sessionId,
@@ -63,7 +67,7 @@ export function runBuyerResearchAgent(input: {
     .slice(0, 6);
 
   for (const candidate of ranked) {
-    const remainingBudget = input.budgetUsdc - spentUsdc;
+    const remainingBudget = readBudgetUsdc - spentUsdc;
     const shouldBuy =
       candidate.relevanceScore >= 58 &&
       candidate.effectivePrice <= remainingBudget &&
@@ -72,7 +76,7 @@ export function runBuyerResearchAgent(input: {
     if (!shouldBuy) {
       const reason =
         candidate.effectivePrice > remainingBudget
-          ? `Skipped because the quoted toll exceeded the remaining $${remainingBudget.toFixed(4)} budget.`
+          ? `Skipped because the quoted toll exceeded the remaining $${remainingBudget.toFixed(4)} read budget.`
           : "Skipped because cheaper paid sources already covered the task.";
 
       store.purchaseAttempts.unshift({

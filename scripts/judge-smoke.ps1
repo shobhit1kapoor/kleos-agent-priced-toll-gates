@@ -171,6 +171,20 @@ if (-not $campaign.discordCopy -or -not $campaign.xCopy) {
 Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttestations)"
 Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
 
+Write-Step "Hosted one-click tester flow"
+$oneClick = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/tester/one-click" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"testerName":"Judge One Click Tester","testerRole":"builder","quote":"One-click tester flow verified the hosted traction path."}'
+if (-not $oneClick.attestation.proofHash -or -not $oneClick.githubIssueUrl) {
+  throw "One-click tester flow did not return a proof hash and GitHub issue URL."
+}
+if (-not $oneClick.trial.citationReceipts -or $oneClick.trial.citationReceipts.Count -lt 1) {
+  throw "One-click tester flow did not create citation receipts."
+}
+Write-Host "One-click proof: $($oneClick.attestation.proofHash)"
+
 Write-Step "Durable GitHub traction verifier"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if ($null -eq $githubTraction.reachable) {

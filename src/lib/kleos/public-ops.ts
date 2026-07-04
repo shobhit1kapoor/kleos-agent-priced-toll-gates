@@ -90,6 +90,7 @@ export async function buildPublicStatus() {
       submissionCertificate: `${APP_URL}/api/submission/certificate`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
       githubTraction: `${APP_URL}/api/traction/github`,
+      oneClickTester: `${APP_URL}/api/tester/one-click`,
       sponsoredTrial: `${APP_URL}/api/trial/sponsored`,
       liveX402Receipt: ledger.gatewayProof.liveX402Receipt.receiptId
         ? `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`
@@ -184,6 +185,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
+      "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },
       "/api/mcp": { get: { summary: "MCP-style manifest for agent discovery and actions." } },
       "/api/mcp/rpc": { get: { summary: "MCP JSON-RPC endpoint metadata." }, post: { summary: "MCP JSON-RPC calls for tools/list, tools/call, resources/list, and resources/read." } },
       "/.well-known/mcp.json": { get: { summary: "Well-known MCP discovery document." } },

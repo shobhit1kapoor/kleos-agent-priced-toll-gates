@@ -10,6 +10,7 @@ import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
 import { verifyCitationReceipt } from "./receipt-verifier";
 import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
+import { runOneClickTesterFlow } from "./tester-flow";
 import { buildTractionCampaign, createTesterAttestation } from "./traction";
 
 type JsonRpcRequest = {
@@ -168,6 +169,19 @@ export const mcpTools: ToolDefinition[] = [
     },
   },
   {
+    name: "run_one_click_tester_flow",
+    description: "Run the hosted tester flow: no-wallet scenario, receipt verification, proof hash, and GitHub issue URL.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        testerName: { type: "string" },
+        testerRole: { type: "string" },
+        quote: { type: "string" },
+        walletOrContact: { type: "string" },
+      },
+    },
+  },
+  {
     name: "get_traction_campaign",
     description: "Return tester asks, curl payloads, social copy, and 100/100 success gates.",
     inputSchema: { type: "object", properties: {} },
@@ -290,6 +304,16 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
           testerName: asString(args.testerName) || undefined,
           testerRole: asString(args.testerRole) as Parameters<typeof createTesterAttestation>[0]["testerRole"],
           quote: asString(args.quote) || undefined,
+          liveUrl: origin,
+        }),
+      );
+    case "run_one_click_tester_flow":
+      return toolResult(
+        runOneClickTesterFlow({
+          testerName: asString(args.testerName) || undefined,
+          testerRole: asString(args.testerRole) as Parameters<typeof runOneClickTesterFlow>[0]["testerRole"],
+          quote: asString(args.quote) || undefined,
+          walletOrContact: asString(args.walletOrContact) || undefined,
           liveUrl: origin,
         }),
       );

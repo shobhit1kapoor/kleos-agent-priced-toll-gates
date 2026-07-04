@@ -86,7 +86,7 @@ export function finalizeAnswerCitations(input: {
     (payment) => payment.sessionId === session.id && payment.kind === "read",
   );
   if (readPayments.length === 0) {
-    readPayments = recoverStatelessReadPayments(session, answer);
+    readPayments = recoverStatelessReadPayments(session, answer, Math.max(0, input.maxCitationSpendUsdc ?? 0));
   }
   const catalog = getCatalogItems();
   const purchased = readPayments
@@ -98,9 +98,9 @@ export function finalizeAnswerCitations(input: {
       Boolean(entry.item),
     );
 
-  const maxSpend =
-    input.maxCitationSpendUsdc ??
-    Math.max(0, Number((session.budgetUsdc - session.spentUsdc).toFixed(6)));
+  const remainingSessionBudgetUsdc = Math.max(0, Number((session.budgetUsdc - session.spentUsdc).toFixed(6)));
+  const requestedMaxSpendUsdc = input.maxCitationSpendUsdc ?? remainingSessionBudgetUsdc;
+  const maxSpend = Math.min(Math.max(0, requestedMaxSpendUsdc), remainingSessionBudgetUsdc);
   let spentCitationUsdc = 0;
   const receipts: CitationReceipt[] = [];
   const citationPayments: Payment[] = [];
@@ -246,7 +246,7 @@ function recoverStatelessSession(sessionId: string, answer?: string): AgentSessi
   return session;
 }
 
-function recoverStatelessReadPayments(session: AgentSession, answer: string) {
+function recoverStatelessReadPayments(session: AgentSession, answer: string, reservedCitationUsdc = 0) {
   const store = getStore();
   const catalog = getCatalogItems();
   const recoveredItems = catalog
@@ -259,8 +259,16 @@ function recoverStatelessReadPayments(session: AgentSession, answer: string) {
     .slice(0, 3);
   const recoveredPayments: Payment[] = [];
   let recoveredSpend = 0;
+  const readBudgetUsdc = Math.max(
+    0,
+    Number((session.budgetUsdc - session.spentUsdc - Math.max(0, reservedCitationUsdc)).toFixed(6)),
+  );
 
   for (const entry of recoveredItems) {
+    if (Number((recoveredSpend + entry.item.currentPriceUsdc).toFixed(6)) > readBudgetUsdc) {
+      continue;
+    }
+
     const result = settlePayment({
       itemId: entry.item.id,
       sessionId: session.id,

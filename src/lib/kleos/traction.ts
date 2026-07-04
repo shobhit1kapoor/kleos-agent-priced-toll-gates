@@ -187,6 +187,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     citationChallenge: `${origin}/api/citations/challenge`,
     competitivePositioning: `${origin}/api/competitive/positioning`,
     attestationEndpoint: `${origin}/api/traction/attest`,
+    oneClickTester: `${origin}/api/tester/one-click`,
     githubIssues: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues",
     githubIssueTemplate:
       "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new?template=tester-attestation.md&labels=tester-attestation",
@@ -216,13 +217,15 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       "At least 3 unique proof hashes copied from /api/traction/attest or the Attest button.",
     ],
     testerRunner: {
+      hostedEndpoint: `${origin}/api/tester/one-click`,
       command:
         'powershell -ExecutionPolicy Bypass -File scripts/tester-run.ps1 -TesterName "Your Name" -Role builder -OpenIssue',
       purpose:
-        "Runs the live no-wallet scenario, verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue URL.",
+        "Runs the live no-wallet scenario, verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue URL. Testers can use either the hosted endpoint or the local script.",
       roles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
     },
     testerFlow: [
+      "Fastest hosted path: POST your name and role to /api/tester/one-click, then submit the returned GitHub issue URL.",
       "Optional fastest path: clone the repo and run scripts/tester-run.ps1 with your name and role.",
       "Open the live app.",
       "Click Run scenario.",
