@@ -189,6 +189,33 @@ export async function GET() {
         },
       },
       {
+        name: "issue_agent_spend_permit",
+        description:
+          "Issue a budget-capped, tool-scoped, expiry-bound spend permit for an external agent.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            agentName: { type: "string" },
+            operatorContact: { type: "string" },
+            purpose: { type: "string" },
+            budgetUsdc: { type: "number" },
+            maxTollUsdc: { type: "number" },
+            expiresInMinutes: { type: "number" },
+            allowedTools: { type: "array", items: { type: "string" } },
+            allowedEndpoints: { type: "array", items: { type: "string" } },
+          },
+        },
+      },
+      {
+        name: "verify_agent_spend_permit",
+        description:
+          "Verify spend permit budget cap, per-toll cap, policy digest, expiry, and status.",
+        inputSchema: {
+          type: "object",
+          properties: { permitId: { type: "string" } },
+        },
+      },
+      {
         name: "verify_citation_receipt",
         description:
           "Independently verify receipt links, read and citation payments, split totals, and claim support.",

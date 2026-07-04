@@ -46,6 +46,8 @@ tiny toll.
   proof.
 - `POST /api/a2a/ask` and `POST /api/agent/ask` - x402-priced agent-to-agent
   grounded answer endpoint.
+- `GET|POST /api/agents/spend-permits` - issues and verifies budget-capped,
+  tool-scoped, expiry-bound spend permits for external agents.
 - `GET /.well-known/mcp.json` - MCP discovery document for agent clients.
 - `POST /api/mcp/rpc` - JSON-RPC MCP endpoint for `tools/list`,
   `tools/call`, `resources/list`, and `resources/read`.

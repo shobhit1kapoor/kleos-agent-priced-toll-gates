@@ -565,6 +565,7 @@ const initialStore = (): KleosStore => ({
       createdAt: now(),
     },
   ],
+  agentSpendPermits: [],
 });
 
 declare global {
@@ -583,6 +584,7 @@ function ensureStoreShape(store: KleosStore) {
   store.testerAttestations ??= [];
   store.receiptVerifications ??= [];
   store.citationChallenges ??= [];
+  store.agentSpendPermits ??= [];
 
   for (const creator of store.creators) {
     if (!store.creatorWebhooks.some((webhook) => webhook.creatorId === creator.id)) {

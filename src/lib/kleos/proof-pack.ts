@@ -3,6 +3,7 @@ import { buildPublisherKit } from "./publisher-kit";
 import { buildSubmissionReport } from "./submission";
 import { buildAnswerProof } from "./answer-proof";
 import { buildImpactGraph } from "./impact-graph";
+import { spendPermitSummary } from "./spend-permits";
 import { buildTractionCampaign } from "./traction";
 import { buildTransparencyLog } from "./transparency-log";
 
@@ -12,6 +13,7 @@ export function buildProofPack(origin?: string) {
   const publisherKit = buildPublisherKit(origin);
   const answerProof = buildAnswerProof(undefined, origin);
   const impactGraph = buildImpactGraph();
+  const spendPermits = spendPermitSummary();
   const tractionCampaign = buildTractionCampaign(origin);
   const transparencyLog = buildTransparencyLog();
 
@@ -47,6 +49,7 @@ export function buildProofPack(origin?: string) {
       "Encrypted content vault: public ciphertext plus x402-gated AES-GCM key release proves paid access can protect creator content beyond previews.",
       "A2A paid research: external agents can pay /api/a2a/ask over x402; Kleos then pays creators and returns answer-linked settlement proof.",
       "Agent card discovery: /.well-known/agent-card.json exposes Kleos' wallet, x402 schemes, service endpoints, proof links, and ERC-8004-ready identity posture.",
+      "Agent spend permits: /api/agents/spend-permits issues budget-capped, tool-scoped, expiry-bound permits so external agents cannot silently overspend while buying and citing sources.",
       "JSON-RPC MCP server: /.well-known/mcp.json and /api/mcp/rpc expose callable tools and resources for agent integration.",
       "Packaged MCP bridge: packages/kleos-mcp gives builders a dependency-light stdio connector that can be published as npx -y kleos-mcp.",
       "Economic invariant CI: budget caps, split totals, receipt links, registry records, vault gates, A2A gates, and score honesty are checked by scripts/invariant-check.ps1 and GitHub Actions.",
@@ -69,6 +72,7 @@ export function buildProofPack(origin?: string) {
       "POST /api/sources/import-rss",
       "POST /api/publishers/verify",
       "Open /api/reputation/passport",
+      "POST /api/agents/spend-permits to issue a bounded external-agent spend permit",
       "Open /api/vault/ci_arc_gateway_notes",
       "POST /api/a2a/ask",
       "POST /api/mcp/rpc tools/list and tools/call",
@@ -102,6 +106,7 @@ export function buildProofPack(origin?: string) {
     gatewayProof: ledger.gatewayProof,
     latestAnswerSettlement: ledger.answerSettlements[0] ?? null,
     latestAnswerProof: answerProof,
+    spendPermits,
     impactGraph: {
       graphHash: impactGraph.graphHash,
       summary: impactGraph.summary,
@@ -138,6 +143,8 @@ export function buildProofPack(origin?: string) {
       "POST /api/vault/:id/key",
       "POST /api/a2a/ask",
       "POST /api/agent/ask",
+      "GET /api/agents/spend-permits",
+      "POST /api/agents/spend-permits",
       "GET /.well-known/mcp.json",
       "GET /.well-known/agent-card.json",
       "GET /api/agent-card",

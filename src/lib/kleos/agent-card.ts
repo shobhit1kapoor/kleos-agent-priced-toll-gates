@@ -50,6 +50,7 @@ export function buildAgentCard(origin: string) {
       catalog: `${origin}/api/catalog`,
       publisherVerification: `${origin}/api/publishers/verify`,
       reputationPassport: `${origin}/api/reputation/passport`,
+      agentSpendPermits: `${origin}/api/agents/spend-permits`,
       answerProof: `${origin}/api/answers/proof`,
       receiptVerifier: `${origin}/api/receipts/verify`,
       impactGraph: `${origin}/api/impact/graph`,
@@ -90,6 +91,7 @@ export function buildAgentCard(origin: string) {
       citationReceipts: ledger.metrics.citationReceipts,
       answerSettlements: ledger.metrics.answerSettlements,
       totalUsdcMoved: ledger.metrics.totalUsdcMoved,
+      agentSpendPermits: ledger.metrics.agentSpendPermits,
     },
     proofLinks: {
       status: `${origin}/api/status`,
@@ -105,6 +107,7 @@ export function buildAgentCard(origin: string) {
       sourceRegistry: `${origin}/api/registry/sources`,
       publisherVerification: `${origin}/api/publishers/verify`,
       reputationPassport: `${origin}/api/reputation/passport`,
+      agentSpendPermits: `${origin}/api/agents/spend-permits`,
       liveX402Receipt: `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`,
     },
   };

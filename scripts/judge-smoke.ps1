@@ -404,6 +404,24 @@ if (-not $a2a.answerHash -or -not $a2a.citationReceipts -or $a2a.citationReceipt
 }
 Write-Host "A2A answer hash: $($a2a.answerHash)"
 
+Write-Step "Agent spend permits"
+$permit = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/agents/spend-permits" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"agentName":"Smoke external agent","budgetUsdc":0.025,"maxTollUsdc":0.006,"purpose":"Smoke-test bounded external agent spend."}'
+if (-not $permit.permit.permitHash -or $permit.verification.status -ne "active") {
+  throw "Spend permit was not issued as active."
+}
+if (($permit.verification.checks | Where-Object { $_.status -eq "fail" }).Count -gt 0) {
+  throw "Spend permit verification returned a failing check."
+}
+$permitList = Invoke-RestMethod "$BaseUrl/api/agents/spend-permits?permitId=$($permit.permit.id)"
+if ($permitList.verification.auditHash -notlike "0x*") {
+  throw "Spend permit verification did not return an audit hash."
+}
+Write-Host "Spend permit: $($permit.permit.bearerPreview)"
+
 Write-Step "Sponsored no-wallet trial"
 $trial = Invoke-RestMethod `
   -Uri "$BaseUrl/api/trial/sponsored" `

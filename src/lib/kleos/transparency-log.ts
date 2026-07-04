@@ -10,6 +10,7 @@ type TransparencyRecordType =
   | "creator_cashout"
   | "publisher_verification"
   | "agent_trust_event"
+  | "agent_spend_permit"
   | "receipt_verification"
   | "citation_challenge";
 
@@ -234,6 +235,23 @@ function buildRawEntries() {
         digest: event.digest,
         txHash: event.txHash,
         noteDigest: makeHash(event.note),
+      }),
+    ),
+    ...ledger.agentSpendPermits.map((permit) =>
+      entry("agent_spend_permit", permit.id, permit.issuedAt, permit.budgetUsdc, [
+        permit.agentName,
+      ], {
+        purposeDigest: makeHash(permit.purpose),
+        operatorDigest: permit.operatorContact ? makeHash(permit.operatorContact) : null,
+        maxTollUsdc: permit.maxTollUsdc,
+        spentUsdc: permit.spentUsdc,
+        remainingUsdc: permit.remainingUsdc,
+        allowedTools: permit.allowedTools,
+        allowedEndpoints: permit.allowedEndpoints,
+        status: permit.status,
+        expiresAt: permit.expiresAt,
+        permitHash: permit.permitHash,
+        policyDigest: permit.policyDigest,
       }),
     ),
     ...ledger.receiptVerifications.map((verification) =>

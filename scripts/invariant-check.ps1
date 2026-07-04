@@ -85,6 +85,7 @@ Assert-True ($agentCard.name -eq "Kleos") "Agent card name is not Kleos."
 Assert-True ($agentCard.agentWallet -eq $ledger.gatewayProof.agentWallet) "Agent card wallet does not match ledger gateway proof."
 Assert-True ($agentCard.services.mcpRpc -like "*/api/mcp/rpc") "Agent card is missing MCP RPC service."
 Assert-True ($agentCard.services.a2aAsk -like "*/api/a2a/ask") "Agent card is missing A2A service."
+Assert-True ($agentCard.services.agentSpendPermits -like "*/api/agents/spend-permits") "Agent card is missing spend permit service."
 Assert-True ($agentCard.services.provenance -like "*/api/provenance") "Agent card is missing provenance service."
 Assert-True ($agentCard.services.oneClickTester -like "*/api/tester/one-click") "Agent card is missing one-click tester service."
 Assert-True ($agentCard.erc8004Readiness.status -eq "adapter-ready") "Agent card ERC-8004 readiness is not adapter-ready."
@@ -105,6 +106,20 @@ try {
   Assert-True ($response -and [int]$response.StatusCode -eq 402) "A2A ask without payment did not return 402."
 }
 Write-Host "A2A payment gate checked."
+
+Write-Step "Spend permit invariants"
+$permit = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/agents/spend-permits" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"agentName":"Invariant external agent","budgetUsdc":0.025,"maxTollUsdc":0.006,"purpose":"Invariant-test bounded agent spend."}'
+Assert-True ($permit.permit.permitHash -like "0x*") "Spend permit did not return a permit hash."
+Assert-True ($permit.verification.status -eq "active") "Spend permit is not active."
+Assert-True (($permit.verification.checks | Where-Object { $_.status -eq "fail" }).Count -eq 0) "Spend permit verification has failing checks."
+$permitList = Invoke-RestMethod "$BaseUrl/api/agents/spend-permits?permitId=$($permit.permit.id)"
+Assert-True ($permitList.summary.totalPermits -ge 1) "Spend permit list did not include issued permit."
+Assert-True ($permitList.verification.auditHash -like "0x*") "Spend permit verification did not return audit hash."
+Write-Host "Spend permit checked: $($permit.permit.bearerPreview)."
 
 $positioning = Invoke-RestMethod "$BaseUrl/api/competitive/positioning"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
@@ -134,10 +149,12 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /api/publishers/verify") "Pro
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/publishers/verify") "Proof pack missing publisher verification surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/reputation/passport") "Proof pack missing reputation passport surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/reputation/passport") "Proof pack missing reputation attestation surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/agents/spend-permits") "Proof pack missing spend permit surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
 Assert-True ($proofPack.transparencyLog.totals.publisher_verification -ge 1) "Proof pack transparency log is missing publisher verification leaves."
 Assert-True ($proofPack.transparencyLog.totals.agent_trust_event -ge 1) "Proof pack transparency log is missing agent trust leaves."
+Assert-True ($proofPack.transparencyLog.totals.agent_spend_permit -ge 1) "Proof pack transparency log is missing spend permit leaves."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/impact/graph") "Proof pack missing impact graph surface."
 Assert-True ($proofPack.impactGraph.graphHash -like "0x*") "Proof pack missing impact graph hash."
 Write-Host "Proof pack surfaces checked."
@@ -169,12 +186,20 @@ $publisherTools = @($toolsList.result.tools | Where-Object { $_.name -eq "verify
 Assert-True ($publisherTools.Count -eq 1) "MCP tools/list is missing verify_publisher_ownership."
 $reputationTools = @($toolsList.result.tools | Where-Object { $_.name -eq "get_reputation_passport" })
 Assert-True ($reputationTools.Count -eq 1) "MCP tools/list is missing get_reputation_passport."
+$permitTools = @($toolsList.result.tools | Where-Object { $_.name -eq "issue_agent_spend_permit" })
+Assert-True ($permitTools.Count -eq 1) "MCP tools/list is missing issue_agent_spend_permit."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"quote_source","arguments":{"itemId":"ci_arc_gateway_notes"}}}'
 Assert-True ($quote.result.structuredContent.id -eq "ci_arc_gateway_notes") "MCP quote_source did not return the requested source."
+$mcpPermit = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":21,"method":"tools/call","params":{"name":"issue_agent_spend_permit","arguments":{"agentName":"MCP spend agent","budgetUsdc":0.02,"maxTollUsdc":0.005}}}'
+Assert-True ($mcpPermit.result.structuredContent.permit.permitHash -like "0x*") "MCP issue_agent_spend_permit did not return a permit hash."
 $mcpTransparency = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

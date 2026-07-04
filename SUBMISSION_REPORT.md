@@ -105,6 +105,8 @@ Implemented:
   release.
 - x402-priced A2A endpoint where external agents can buy a grounded answer from
   Kleos, after which Kleos pays creator sources and returns settlement proof.
+- Agent spend permits that issue budget-capped, tool-scoped, expiry-bound
+  policies for external agents before they buy, cite, or verify sources.
 - Callable JSON-RPC MCP endpoint and `/.well-known/mcp.json` discovery document
   so agent clients can list resources, quote sources, and call Kleos tools.
 - Publishable `packages/kleos-mcp` stdio bridge so agent clients can connect to
@@ -307,6 +309,7 @@ Target length: under 3 minutes.
 - `/api/publishers/verify` issues and verifies publisher ownership challenges.
 - `/api/reputation/passport` exposes local reputation passports and trust
   attestations.
+- `/api/agents/spend-permits` issues and verifies external-agent spend permits.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.

@@ -12,6 +12,7 @@ import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
 import { verifyCitationReceipt } from "./receipt-verifier";
 import { buildReputationPassport, createReputationAttestation } from "./reputation-passport";
 import { importRssFeed } from "./rss-import";
+import { issueAgentSpendPermit, listAgentSpendPermits, verifyAgentSpendPermit } from "./spend-permits";
 import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
 import { runOneClickTesterFlow } from "./tester-flow";
@@ -162,6 +163,31 @@ export const mcpTools: ToolDefinition[] = [
         budgetUsdc: { type: "number" },
         paymentSignature: { type: "string" },
       },
+    },
+  },
+  {
+    name: "issue_agent_spend_permit",
+    description: "Issue a budget-capped, tool-scoped spend permit for an external agent.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        agentName: { type: "string" },
+        operatorContact: { type: "string" },
+        purpose: { type: "string" },
+        budgetUsdc: { type: "number" },
+        maxTollUsdc: { type: "number" },
+        expiresInMinutes: { type: "number" },
+        allowedTools: { type: "array", items: { type: "string" } },
+        allowedEndpoints: { type: "array", items: { type: "string" } },
+      },
+    },
+  },
+  {
+    name: "verify_agent_spend_permit",
+    description: "Verify a spend permit budget cap, per-toll cap, policy digest, expiry, and status.",
+    inputSchema: {
+      type: "object",
+      properties: { permitId: { type: "string" } },
     },
   },
   {
@@ -398,6 +424,24 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
           budgetUsdc: asNumber(args.budgetUsdc),
         }),
       );
+    case "issue_agent_spend_permit":
+      return toolResult(
+        issueAgentSpendPermit({
+          agentName: asString(args.agentName) || undefined,
+          operatorContact: asString(args.operatorContact) || undefined,
+          purpose: asString(args.purpose) || undefined,
+          budgetUsdc: asNumber(args.budgetUsdc),
+          maxTollUsdc: asNumber(args.maxTollUsdc),
+          expiresInMinutes: asNumber(args.expiresInMinutes),
+          allowedTools: Array.isArray(args.allowedTools) ? (args.allowedTools as string[]) : undefined,
+          allowedEndpoints: Array.isArray(args.allowedEndpoints) ? (args.allowedEndpoints as string[]) : undefined,
+        }),
+      );
+    case "verify_agent_spend_permit":
+      return toolResult({
+        permits: listAgentSpendPermits(),
+        verification: verifyAgentSpendPermit(asString(args.permitId) || undefined),
+      });
     case "verify_citation_receipt":
       return toolResult(verifyCitationReceipt(asString(args.receiptId) || undefined));
     case "get_reputation_passport":

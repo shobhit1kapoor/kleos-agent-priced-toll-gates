@@ -264,6 +264,25 @@ export type CitationChallenge = {
   createdAt: string;
 };
 
+export type AgentSpendPermit = {
+  id: string;
+  agentName: string;
+  operatorContact?: string;
+  purpose: string;
+  budgetUsdc: number;
+  maxTollUsdc: number;
+  spentUsdc: number;
+  remainingUsdc: number;
+  allowedTools: string[];
+  allowedEndpoints: string[];
+  status: "active" | "exhausted" | "expired" | "revoked";
+  expiresAt: string;
+  issuedAt: string;
+  permitHash: string;
+  policyDigest: string;
+  bearerPreview: string;
+};
+
 export type KleosStore = {
   creators: Creator[];
   contentItems: ContentItem[];
@@ -285,6 +304,7 @@ export type KleosStore = {
   testerAttestations: TesterAttestation[];
   receiptVerifications: ReceiptVerification[];
   citationChallenges: CitationChallenge[];
+  agentSpendPermits: AgentSpendPermit[];
 };
 
 export type CatalogItem = ContentItem & {
