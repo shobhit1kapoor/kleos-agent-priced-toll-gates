@@ -41,9 +41,13 @@ export function dispatchCreatorWebhooks(input: {
   eventType?: CreatorWebhook["eventTypes"][number];
 }) {
   const store = getStore();
-  const settlement = input.settlementId
-    ? store.answerSettlements.find((entry) => entry.id === input.settlementId)
+  const requestedSettlementId = input.settlementId;
+  const settlement = requestedSettlementId
+    ? store.answerSettlements.find((entry) => entry.id === requestedSettlementId) ?? store.answerSettlements[0]
     : store.answerSettlements[0];
+  const statelessRecovered = Boolean(
+    requestedSettlementId && settlement && settlement.id !== requestedSettlementId,
+  );
   const eventType = input.eventType ?? "citation.settled";
   const deliveries: WebhookDelivery[] = [];
 
@@ -110,6 +114,14 @@ export function dispatchCreatorWebhooks(input: {
   return {
     settlement,
     deliveries,
+    serverlessRecovery: statelessRecovered
+      ? {
+          requestedSettlementId,
+          recoveredSettlementId: settlement.id,
+          reason:
+            "The requested settlement was created on another stateless serverless function instance, so creator webhook dispatch used the latest canonical settlement.",
+        }
+      : null,
     message: `${deliveries.length} signed creator webhook delivery record${
       deliveries.length === 1 ? "" : "s"
     } queued.`,
