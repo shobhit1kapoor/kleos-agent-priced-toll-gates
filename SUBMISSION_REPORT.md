@@ -1,0 +1,215 @@
+# Kleos Submission Report
+
+## Verdict
+
+Kleos is a prize-competitive hackathon idea because it sits directly on the strongest
+Lepton prompt: creator and publisher monetization. It is not another generic
+payment dashboard. It gives AI agents a reason to spend, gives creators a reason
+to onboard, and turns grounded AI answers into settlement events that prove which
+creator work was inspected, cited, paid, and split.
+
+The current build is strong enough to submit as a polished prototype and now has
+the category-defining primitive: answer-linked citation settlement. It also has a
+real Circle CLI x402 paid request against a public endpoint. The remaining gaps
+that matter most are:
+
+1. Move from temporary public tunnel to a stable hosted URL.
+2. Collect real tester/creator usage before the deadline.
+
+If those two gaps are closed, Kleos becomes a strong top-submission contender.
+
+## Hackathon Fit
+
+Primary lane:
+
+- RFB 6 - Creator & Publisher Monetization
+
+Supporting lanes:
+
+- RFB 1 - Autonomous Paying Agents
+- RFB 3 - Agent-to-Agent Nanopayment Networks
+- RFB 5 - Nanopayment Infrastructure & Tooling
+
+Why this is the right idea:
+
+- The hackathon leans toward creators and publishers.
+- Kleos prices one content access at a time instead of forcing subscriptions.
+- The buyer is an AI agent, not a human checkout flow.
+- The seller side is agentic through dynamic pricing.
+- Revenue splits are a first-class settlement output, not a spreadsheet after
+  the fact.
+
+## Current Product
+
+Implemented:
+
+- Charon Gateway endpoint that returns `402 Payment Required` for unpaid content.
+- x402-style payment challenge with price, network, destination, Gateway, and
+  accepted header.
+- Base64 `PAYMENT-REQUIRED` header with GatewayWalletBatched metadata.
+- Budgeted buyer research agent.
+- Citation-aware seller pricing agent.
+- Creator source registration.
+- Two-stage read tolls and citation tolls.
+- Answer finalization that cites only a subset of purchased sources.
+- Citation receipts with answer hash, support span, read payment, citation
+  payment, confidence, and split outcomes.
+- Shareable answer proof endpoint with covered, partial, and unsupported
+  claim-level support traces.
+- Signed creator webhook records for citation, impact, and cash-out events.
+- Creator cash-out ledger that aggregates read tolls, citation tolls, and impact
+  grants into Arc-ready settlement records.
+- Tester attestation endpoint and dashboard action that mint a proof hash plus
+  prefilled GitHub issue URL for external feedback.
+- A2A trust-event ledger with signed/bound proof plus a bonded citation broker.
+- Live `@circle-fin/x402-batching` seller-side verifier for real Gateway x402
+  payment payloads.
+- Priced source catalog for agents.
+- MCP-style catalog manifest.
+- Dashboard ledger for payments, answer settlements, pricing events, decisions,
+  citation receipts, and payouts.
+- RoyaltySplitter smart contract.
+- Arc Testnet Gateway funding proof:
+  - Agent wallet: `0x3a074d1050340eea8022df3359bc517431303e58`
+  - Gateway balance: `0.5` testnet USDC
+  - Approval tx:
+    `0x9392311878c7cb59f46786a83497afc8d12518563c8d3f00dd2dea5c31035d63`
+  - Deposit tx:
+    `0x46340b714c1cd406db8dafede42f8c10de08b5532905e301bae1ea9d4e599f31`
+  - Live Circle CLI x402 paid request:
+    - Amount: `0.004` testnet USDC
+    - Scheme: `GatewayWalletBatched`
+    - Payer: `0x44557bc24c1c475b7b251c3fa8efae7527d96bf7`
+    - Gateway transfer id: `0b795e06-3f01-4eff-b4f2-7fa9240781b1`
+    - Arc explorer:
+      `https://testnet.arcscan.app/tx/0b795e06-3f01-4eff-b4f2-7fa9240781b1`
+
+## Rubric Mapping
+
+### Agentic Sophistication - 30%
+
+Current strength: high.
+
+Kleos has three active agent loops:
+
+- Buyer agent: ranks sources by task relevance, source trust, toll price,
+  remaining budget, and buyer reputation discount, then separately finalizes
+  which purchased sources deserve citation tolls.
+- Seller agent: adjusts prices within bounds based on paid reads, skipped reads,
+  402 challenge demand, citation rate, citation confidence, and purchased-but-
+  uncited signals.
+- Evidence loop: finalized answers become citation receipts tied to answer
+  hashes, support spans, read payments, citation payments, and split payouts.
+- Proof loop: finalized answers expose claim-level support traces so judges can
+  see which claims are covered, partial, or unsupported.
+
+Full-mark move:
+
+- Add more run history from external testers and show read-to-citation conversion
+  plus cost per completed research task.
+
+### Traction - 30%
+
+Current strength: medium until deployment and testers.
+
+The product measures the right traction metrics:
+
+- Buyer-agent runs
+- Paid source reads
+- Answer settlements
+- Citation receipts
+- Citation toll volume
+- Testnet USDC moved
+- Average toll
+- Creators onboarded
+- Creators paid through split records
+- Creator-registered and RSS-imported sources
+- Signed creator webhook deliveries
+- Creator cash-out records
+- Tester attestations
+- Agent-to-agent proof events
+- Catalog size
+
+Full-mark move:
+
+- Deploy the app, ask 3-5 people to run the buyer agent, record their feedback,
+  and include exact counts in the submission form.
+
+### Circle Tool Usage - 20%
+
+Current strength: strong implementation surface with a real live receipt.
+
+Implemented today:
+
+- Arc Testnet funded wallet proof.
+- Gateway approval and deposit transactions.
+- x402-shaped 402 challenge flow with base64 `PAYMENT-REQUIRED`.
+- `BatchFacilitatorClient` live verification and settlement adapter.
+- USDC-denominated read and citation tolls.
+- Royalty split contract.
+- Gateway-shaped read/citation settlement ledger.
+
+Full-mark move:
+
+- Repeat the real `circle services pay` request on the final stable deployment
+  URL and include the resulting receipt in the demo.
+
+### Innovation - 20%
+
+Current strength: high.
+
+Kleos is differentiated because the price is set by a seller agent, the buyer is
+an autonomous budgeted agent, only cited purchased sources receive a second
+payment, every payment fans out to collaborators, each final answer becomes a
+shareable proof object, and creator operations continue through signed webhooks
+and cash-out records. The tester attestation flow converts external review into
+verifiable proof hashes and public GitHub feedback links.
+Competitors may build x402 endpoints or agent wallets; Kleos connects them into a
+creator economy workflow judges can understand.
+
+Full-mark move:
+
+- In the video, show the price changing after citation signals. That makes the
+  project feel alive rather than static.
+
+## Submission Demo Script
+
+Target length: under 3 minutes.
+
+1. Problem: AI agents consume creator work, but creators do not get paid when
+   agents read, cite, or transform it.
+2. Product: Kleos turns grounded answers into settlement events: agents pay to
+   inspect sources, pay again only when they cite them, and every toll splits to
+   collaborators.
+3. Show the catalog: priced sources, previews, splits, and toll ranges.
+4. Run the buyer agent with a fixed budget.
+5. Show paid versus skipped decisions, then finalize citations.
+6. Show read tolls, citation tolls, answer-linked receipt hashes, x402 settlement
+   records, and split payouts.
+7. Open the answer proof and creator operations endpoints.
+8. Trigger repricing and show seller-agent price movement.
+9. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+   creators onboarded, and next deployment plan.
+
+## Final Checklist
+
+- Public GitHub repo.
+- Live deployment.
+- `corepack pnpm lint` passes.
+- `corepack pnpm build` passes.
+- `/api/catalog` works.
+- `/api/content/:id` returns 402 without payment.
+- `/api/agent/research` runs and respects budget.
+- `/api/citations/finalize` creates answer-linked citation tolls.
+- `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
+- `/api/submission/report` returns the judge-facing summary.
+- Video demo under 3 minutes.
+- Submission form includes exact user/creator/payment counts.
+
+## Best Next Moves
+
+1. Deploy the current app to a stable host so testers and judges can click it.
+2. Repeat the real Circle CLI paid request on the stable hosted app.
+3. Ask 3-5 testers to run the buyer agent and send one sentence of feedback.
+4. Add final traction numbers to the README and submission form.
+5. Record the video only after the stable live URL and metrics are ready.
