@@ -219,6 +219,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/creators/cashout": { post: { summary: "Queue Arc-ready creator cash-out batches." } },
       "/creators": { get: { summary: "Public creator earnings ledger for read tolls, citation tolls, impact grants, and cash-outs." } },
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },
+      "/api/sources/import-rss": { post: { summary: "Import recent RSS/Atom entries as x402-priced creator sources." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },

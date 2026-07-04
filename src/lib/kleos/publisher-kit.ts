@@ -15,6 +15,7 @@ export function buildPublisherKit(origin?: string) {
       publisher: "Example Publisher",
       pricingAgent: `${baseUrl}/api/pricing/recompute`,
       catalog: `${baseUrl}/api/catalog`,
+      rssImport: `${baseUrl}/api/sources/import-rss`,
       mcp: `${baseUrl}/api/mcp`,
       contentGateway: `${baseUrl}/api/content/{itemId}`,
       sourceRegistry: `${baseUrl}/api/registry/sources`,
@@ -43,6 +44,7 @@ export function buildPublisherKit(origin?: string) {
         "Publishers can expose encrypted content CIDs publicly while releasing AES-GCM keys only after x402 settlement.",
     },
     rssGhostMapping: {
+      importEndpoint: `${baseUrl}/api/sources/import-rss`,
       title: "item.title",
       sourceUrl: "item.link",
       preview: "item.description or excerpt",
@@ -52,6 +54,7 @@ export function buildPublisherKit(origin?: string) {
     },
     judgeCurl: [
       `curl ${baseUrl}/api/catalog`,
+      `curl -X POST ${baseUrl}/api/sources/import-rss -H "Content-Type: application/json" -d "{\\"feedUrl\\":\\"https://example.com/feed.xml\\",\\"creatorName\\":\\"Example Publisher\\",\\"limit\\":1}"`,
       `curl -i ${baseUrl}/api/content/${sample?.id ?? "ci_arc_gateway_notes"}`,
       `curl ${baseUrl}/api/registry/sources`,
       `curl ${baseUrl}/api/vault/${sample?.id ?? "ci_arc_gateway_notes"}`,

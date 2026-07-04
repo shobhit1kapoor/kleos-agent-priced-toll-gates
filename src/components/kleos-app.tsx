@@ -322,6 +322,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
       "A creator-owned explainer with two reporters and a graphics editor; ideal for testing source-level tolls and split payouts.",
     priceUsdc: "0.0045",
     creatorName: "Independent Climate Desk",
+    feedUrl: "https://www.circle.com/blog/rss.xml",
   });
 
   async function refreshLedger() {
@@ -513,25 +514,27 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
 
   async function importFeed() {
     setBusy("feed");
-    setStatusMessage("Importing RSS/Ghost-style source...");
+    setStatusMessage("Importing live RSS/Atom feed...");
     try {
-      const response = await fetch("/api/sources/register", {
+      const response = await fetch("/api/sources/import-rss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: "Ghost/RSS import: neighborhood climate brief",
-          sourceUrl: "https://ghost.example.com/rss/",
-          preview:
-            "Imported feed item proving Kleos can attach creator tolls to RSS/Ghost-style publishing surfaces.",
-          priceUsdc: 0.0039,
-          creatorName: "Ghost Climate Collective",
+          feedUrl: sourceForm.feedUrl,
+          priceUsdc: Number(sourceForm.priceUsdc),
+          creatorName: sourceForm.creatorName,
+          limit: 2,
         }),
       });
       if (!response.ok) {
-        throw new Error(`Feed import failed with ${response.status}.`);
+        const errorBody = (await response.json().catch(() => ({}))) as { error?: string };
+        throw new Error(errorBody.error ?? `Feed import failed with ${response.status}.`);
       }
+      const data = (await response.json()) as { imported?: unknown[]; feed?: { mode?: string } };
       await refreshLedger();
-      setStatusMessage("RSS/Ghost-style source imported into the priced catalog.");
+      setStatusMessage(
+        `RSS/Atom import complete: ${data.imported?.length ?? 0} source(s) added in ${data.feed?.mode ?? "live"} mode.`,
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : "Feed import failed.";
       setStatusMessage(message);
@@ -1053,6 +1056,16 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                     value={sourceForm.sourceUrl}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, sourceUrl: event.target.value }))
+                    }
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                  />
+                </label>
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386] md:col-span-2">
+                  RSS / Atom feed URL
+                  <input
+                    value={sourceForm.feedUrl}
+                    onChange={(event) =>
+                      setSourceForm((current) => ({ ...current, feedUrl: event.target.value }))
                     }
                     className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
                   />

@@ -81,6 +81,8 @@ Implemented:
 - Public `/creators` creator earnings ledger showing read toll splits, citation
   toll splits, impact rewards, source split policies, wallets, and Arc-ready
   cash-out records for each creator.
+- Live RSS/Atom importer that lets a creator or publisher paste a feed URL and
+  register recent entries as x402-priced sources.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -293,6 +295,8 @@ Target length: under 3 minutes.
 - `/test` exposes the same flow as a browser-first tester page.
 - `/proof` exposes the reviewer-readable proof explorer.
 - `/creators` exposes the creator earnings ledger.
+- `/api/sources/import-rss` imports recent RSS/Atom entries into the priced
+  source catalog.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.

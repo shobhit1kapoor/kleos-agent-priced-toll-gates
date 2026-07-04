@@ -9,6 +9,7 @@ import { settleImpactPool } from "./impact-pool";
 import { getLedgerSnapshot } from "./ledger";
 import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
 import { verifyCitationReceipt } from "./receipt-verifier";
+import { importRssFeed } from "./rss-import";
 import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
 import { runOneClickTesterFlow } from "./tester-flow";
@@ -88,6 +89,21 @@ export const mcpTools: ToolDefinition[] = [
     name: "list_source_registry",
     description: "Return creator-scoped source registry records and split digests.",
     inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "import_rss_feed",
+    description: "Fetch an RSS/Atom feed and register recent entries as x402-priced creator sources.",
+    inputSchema: {
+      type: "object",
+      required: ["feedUrl"],
+      properties: {
+        feedUrl: { type: "string" },
+        creatorName: { type: "string" },
+        creatorWallet: { type: "string" },
+        priceUsdc: { type: "number" },
+        limit: { type: "number" },
+      },
+    },
   },
   {
     name: "get_encrypted_vault_item",
@@ -278,6 +294,16 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       return toolResult(buildAnswerProof(asString(args.settlementId) || undefined, origin));
     case "list_source_registry":
       return toolResult(buildSourceRegistry());
+    case "import_rss_feed":
+      return toolResult(
+        await importRssFeed({
+          feedUrl: asString(args.feedUrl),
+          creatorName: asString(args.creatorName) || undefined,
+          creatorWallet: asString(args.creatorWallet) || undefined,
+          priceUsdc: asNumber(args.priceUsdc),
+          limit: asNumber(args.limit),
+        }),
+      );
     case "get_encrypted_vault_item": {
       const item = getEncryptedVaultItem(asString(args.itemId), origin);
       if (!item) {

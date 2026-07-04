@@ -129,6 +129,7 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate")
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/tester/one-click") "Proof pack missing one-click tester surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /proof") "Proof pack missing public proof explorer surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /creators") "Proof pack missing public creator earnings surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/sources/import-rss") "Proof pack missing RSS import surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/impact/graph") "Proof pack missing impact graph surface."
@@ -156,6 +157,8 @@ $toolsList = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 Assert-True ($toolsList.result.tools.Count -ge 10) "MCP tools/list returned too few tools."
+$rssTools = @($toolsList.result.tools | Where-Object { $_.name -eq "import_rss_feed" })
+Assert-True ($rssTools.Count -eq 1) "MCP tools/list is missing import_rss_feed."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

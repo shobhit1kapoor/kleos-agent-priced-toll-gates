@@ -100,6 +100,22 @@ export async function GET() {
         inputSchema: { type: "object", properties: {} },
       },
       {
+        name: "import_rss_feed",
+        description:
+          "Fetch an RSS/Atom feed and register recent entries as x402-priced creator sources.",
+        inputSchema: {
+          type: "object",
+          required: ["feedUrl"],
+          properties: {
+            feedUrl: { type: "string" },
+            creatorName: { type: "string" },
+            creatorWallet: { type: "string" },
+            priceUsdc: { type: "number" },
+            limit: { type: "number" },
+          },
+        },
+      },
+      {
         name: "get_encrypted_vault_item",
         description:
           "Return public ciphertext and x402-gated key-release policy for a paid creator source.",

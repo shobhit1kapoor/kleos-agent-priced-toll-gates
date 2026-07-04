@@ -646,6 +646,11 @@ export function registerContentSource(input: {
   creatorName: string;
   creatorWallet?: string;
   role?: CreatorRole;
+  rssRoute?: string;
+  fullContent?: string;
+  tags?: string[];
+  freshnessScore?: number;
+  credibilityScore?: number;
 }) {
   const store = getStore();
   const price = Number(input.priceUsdc.toFixed(6));
@@ -666,17 +671,18 @@ export function registerContentSource(input: {
     id: itemId,
     title: input.title.trim(),
     sourceUrl: input.sourceUrl.trim(),
-    rssRoute: `/rsshub/kleos/registered/${itemId}`,
+    rssRoute: input.rssRoute?.trim() || `/rsshub/kleos/registered/${itemId}`,
     preview: input.preview.trim(),
     fullContent:
+      input.fullContent?.trim() ||
       `Kleos registered source memo: ${input.title.trim()} was added through the creator intake flow. Buyer agents can quote the preview, pay the x402 toll, and attach citation receipts when this source grounds an answer.`,
     currentPriceUsdc: Math.max(0.000001, price),
     citationPriceUsdc: Math.max(0.000001, Number((price * 0.35).toFixed(6))),
     minPriceUsdc: Math.max(0.000001, Number((price * 0.5).toFixed(6))),
     maxPriceUsdc: Math.max(0.000002, Number((price * 4).toFixed(6))),
-    freshnessScore: 82,
-    credibilityScore: 76,
-    tags: ["registered-source", "creator", "citation"],
+    freshnessScore: input.freshnessScore ?? 82,
+    credibilityScore: input.credibilityScore ?? 76,
+    tags: input.tags ?? ["registered-source", "creator", "citation"],
   });
 
   store.collaborators.unshift({

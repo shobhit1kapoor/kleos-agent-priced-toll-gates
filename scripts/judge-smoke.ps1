@@ -50,6 +50,17 @@ $registered = Invoke-RestMethod `
   -Body '{"title":"Judge smoke source","sourceUrl":"https://example.com/judge-smoke","preview":"A creator source registered by the judge smoke script.","priceUsdc":0.003,"creatorName":"Judge Smoke Creator"}'
 Write-Host "Registered: $($registered.item.title)"
 
+Write-Step "RSS publisher import"
+$rssImport = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/sources/import-rss" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"feedUrl":"https://example.com/kleos-smoke-feed.xml","priceUsdc":0.0039,"creatorName":"Judge RSS Publisher","limit":1}'
+if (-not $rssImport.imported -or $rssImport.imported.Count -lt 1) {
+  throw "RSS import did not create a priced source."
+}
+Write-Host "RSS imported: $($rssImport.imported.Count) source(s) in $($rssImport.feed.mode) mode"
+
 Write-Step "Budgeted buyer agent"
 $run = Invoke-RestMethod `
   -Uri "$BaseUrl/api/agent/research" `
@@ -263,6 +274,9 @@ Write-Step "OpenAPI manifest"
 $openApi = Invoke-RestMethod "$BaseUrl/api/openapi"
 if (-not $openApi.paths."/api/trial/sponsored") {
   throw "OpenAPI manifest is missing sponsored trial route."
+}
+if (-not $openApi.paths."/api/sources/import-rss") {
+  throw "OpenAPI manifest is missing RSS import route."
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 

@@ -15,6 +15,7 @@ export async function GET(request: Request) {
         catalog: `${origin}/api/catalog`,
         mcpManifest: `${origin}/api/mcp`,
         publisherManifest: `${origin}/api/publisher-kit`,
+        rssImport: `${origin}/api/sources/import-rss`,
         sourceRegistry: `${origin}/api/registry/sources`,
         encryptedVault: `${origin}/api/vault/ci_arc_gateway_notes`,
         a2aAsk: `${origin}/api/a2a/ask`,
@@ -24,6 +25,7 @@ export async function GET(request: Request) {
       },
       agentFlow: [
         "GET /api/catalog to discover previews, prices, citation tolls, and splits.",
+        "POST /api/sources/import-rss to turn a publisher RSS/Atom feed into priced creator sources.",
         "GET /api/content/:id without payment to receive a 402 challenge.",
         "Retry with PAYMENT-SIGNATURE after Circle Gateway authorization.",
         "GET /api/vault/:id to inspect public encrypted content, then POST /api/vault/:id/key after payment proof.",
@@ -38,6 +40,7 @@ export async function GET(request: Request) {
         catalog: `curl ${origin}/api/catalog`,
         challenge: `curl -i ${origin}/api/content/ci_arc_gateway_notes`,
         localProof: `curl -H "PAYMENT-SIGNATURE: kleos-payment-proof:ci_arc_gateway_notes:oss-kit" ${origin}/api/content/ci_arc_gateway_notes`,
+        rssImport: `curl -X POST ${origin}/api/sources/import-rss -H "Content-Type: application/json" -d "{\\"feedUrl\\":\\"https://example.com/feed.xml\\",\\"creatorName\\":\\"Example Publisher\\",\\"limit\\":1}"`,
         registry: `curl ${origin}/api/registry/sources`,
         vault: `curl ${origin}/api/vault/ci_arc_gateway_notes`,
         vaultKey: `curl -X POST -H "PAYMENT-SIGNATURE: kleos-payment-proof:ci_arc_gateway_notes:oss-kit" ${origin}/api/vault/ci_arc_gateway_notes/key`,

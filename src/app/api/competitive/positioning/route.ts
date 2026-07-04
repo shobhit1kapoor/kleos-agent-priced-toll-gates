@@ -75,6 +75,7 @@ export async function GET() {
           "Signed creator webhook delivery records.",
           "Creator cash-out ledger.",
           "Public creator earnings ledger for read toll splits, citation toll splits, impact rewards, sources, wallets, and cash-out records.",
+          "Live RSS/Atom importer that turns a publisher feed URL into x402-priced creator sources.",
           "Independent receipt verifier and adversarial citation challenge flow.",
           "Dynamic value-of-information repricing.",
           "Publisher kit and OSS integration kit.",

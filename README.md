@@ -115,6 +115,8 @@ tiny toll.
   current metrics, Gateway proof, and submission checklist.
 - `POST /api/sources/register` - creator source intake that adds a priced source
   to the catalog with a default 100% creator split.
+- `POST /api/sources/import-rss` - fetches an RSS/Atom feed and imports recent
+  entries as x402-priced creator sources.
 
 ## Judging strategy
 
@@ -206,7 +208,8 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 ## Judge path
 
 1. Open the app and inspect the rubric scorecard.
-2. Register a creator source or inspect the existing catalog.
+2. Register a creator source, import an RSS/Atom feed, or inspect the existing
+   catalog.
 3. Click **Run scenario** or **Run agent** to execute a budgeted buyer-agent run.
 4. Click **Finalize citations** to settle citation tolls only for sources used
    in the final answer.
@@ -237,6 +240,7 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 18. Click **Reprice sources** to run the citation-aware seller pricing agent.
 19. Open `/proof` for the reviewer-readable proof explorer.
 20. Open `/creators` for the creator earnings ledger.
+21. POST `/api/sources/import-rss` to show live publisher feed onboarding.
 21. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 22. Open `/api/provenance` or `/api/submission/certificate` to verify the live
