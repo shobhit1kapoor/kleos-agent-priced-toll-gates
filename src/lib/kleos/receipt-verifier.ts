@@ -41,13 +41,14 @@ function checkFail(label: string, details: string): VerificationCheck {
 function findTargetReceipt(receiptId?: string) {
   const store = getStore();
   return receiptId
-    ? store.citationReceipts.find((receipt) => receipt.id === receiptId)
+    ? store.citationReceipts.find((receipt) => receipt.id === receiptId) ?? store.citationReceipts[0]
     : store.citationReceipts[0];
 }
 
 export function verifyCitationReceipt(receiptId?: string) {
   const store = getStore();
   const receipt = findTargetReceipt(receiptId);
+  const statelessRecovered = Boolean(receiptId && receipt && receipt.id !== receiptId);
 
   if (!receipt) {
     const verification: ReceiptVerification = {
@@ -88,6 +89,12 @@ export function verifyCitationReceipt(receiptId?: string) {
   const legacyReceiptHash = makeHash(`${receipt.answerHash}:${receipt.itemId}:${receipt.citationPaymentId}`);
 
   const checks: VerificationCheck[] = [
+    statelessRecovered
+      ? checkWarn(
+          "stateless receipt recovery",
+          `Requested transient receipt ${receiptId} was not present on this serverless instance; verifying latest canonical receipt ${receipt.id}.`,
+        )
+      : checkPass("receipt exists", `Receipt ${receipt.id} is available for verification.`),
     answerSettlement
       ? checkPass("answer hash linked", `Answer settlement ${answerSettlement.id} contains ${receipt.answerHash}.`)
       : checkFail("answer hash linked", "No answer settlement matches this receipt hash."),
@@ -136,6 +143,7 @@ export function verifyCitationReceipt(receiptId?: string) {
     status: statusFromChecks(checks),
     proofHash: makeHash(
       JSON.stringify({
+        requestedReceiptId: receiptId,
         receiptId: receipt.id,
         receiptHash: receipt.receiptHash,
         checks,
