@@ -1,10 +1,12 @@
 import type {
   CatalogItem,
+  CitationChallenge,
   Collaborator,
   ContentItem,
   Creator,
   CreatorRole,
   KleosStore,
+  ReceiptVerification,
 } from "./types";
 import {
   arcExplorerTxUrl,
@@ -209,6 +211,62 @@ const seedAnswer =
 const seedAnswerHash = makeShapeHash(`seed:${seedAnswer}`);
 const seedReceiptHash = makeShapeHash(`${seedAnswerHash}:ci_arc_gateway_notes:pay_seed_citation_gateway`);
 const seedSettlementHash = makeShapeHash(`${seedAnswerHash}:ci_arc_gateway_notes:0.0014`);
+const seedReceiptVerification: ReceiptVerification = {
+  id: "verify_seed_gateway",
+  targetType: "citation_receipt",
+  targetId: "cite_seed_gateway",
+  status: "valid",
+  proofHash: makeShapeHash(`verify:${seedReceiptHash}:${LIVE_X402_RECEIPT_ID}`),
+  checks: [
+    {
+      label: "answer hash linked",
+      status: "pass",
+      details: "Seed answer settlement contains the cited answer hash.",
+    },
+    {
+      label: "read payment exists",
+      status: "pass",
+      details: "Live Circle CLI x402 read payment unlocked the source first.",
+    },
+    {
+      label: "citation payment exists",
+      status: "pass",
+      details: "Citation payment settled a second-stage citation toll.",
+    },
+    {
+      label: "collaborator basis points",
+      status: "pass",
+      details: "Collaborator splits sum to 10,000 basis points.",
+    },
+    {
+      label: "citation split total",
+      status: "pass",
+      details: "Citation split total matches the citation payment amount.",
+    },
+    {
+      label: "claim trace",
+      status: "pass",
+      details: "Claim trace marks the Gateway citation as covered.",
+    },
+  ],
+  createdAt: now(),
+};
+const seedCitationChallenge: CitationChallenge = {
+  id: "challenge_seed_gateway",
+  receiptId: "cite_seed_gateway",
+  sessionId: "sess_seed_live_gateway",
+  itemId: "ci_arc_gateway_notes",
+  challenger: "seeded-verifier-agent",
+  challengeReason: "Cold-start proof that strong citations survive adversarial review.",
+  claimedWeakness: "weak_support_span",
+  status: "rejected",
+  bondImpactUsdc: 0,
+  buyerReputationDelta: 1,
+  evaluatorRationale:
+    "Challenge rejected: the live Gateway read payment, citation receipt, split totals, and claim trace all verify.",
+  proofHash: makeShapeHash(`challenge:${seedReceiptHash}:rejected`),
+  createdAt: now(),
+};
 
 const initialStore = (): KleosStore => ({
   creators,
@@ -226,7 +284,7 @@ const initialStore = (): KleosStore => ({
       answerHash: seedAnswerHash,
       citationFinalizedAt: now(),
       brokerBondUsdc: 0.0025,
-      bondStatus: "posted",
+      bondStatus: "released",
       createdAt: now(),
     },
   ],
@@ -388,7 +446,7 @@ const initialStore = (): KleosStore => ({
       skippedPurchasedItemIds: ["ci_rss_creator_tolls"],
       remainingBudgetUsdc: Number((0.018 - LIVE_X402_AMOUNT_USDC - 0.0014).toFixed(6)),
       brokerBondUsdc: 0.0025,
-      bondStatus: "posted",
+      bondStatus: "released",
       receiptHash: seedSettlementHash,
       createdAt: now(),
     },
@@ -472,8 +530,8 @@ const initialStore = (): KleosStore => ({
     },
   ],
   testerAttestations: [],
-  receiptVerifications: [],
-  citationChallenges: [],
+  receiptVerifications: [seedReceiptVerification],
+  citationChallenges: [seedCitationChallenge],
   agentTrustEvents: [
     {
       id: "ate_shadow_float_v2",
