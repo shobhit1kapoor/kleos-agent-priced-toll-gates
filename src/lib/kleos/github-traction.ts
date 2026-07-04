@@ -2,6 +2,7 @@ const REPO_OWNER = "shobhit1kapoor";
 const REPO_NAME = "kleos-agent-priced-toll-gates";
 const LABEL = "tester-attestation";
 const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues?state=all&labels=${LABEL}&per_page=100`;
+const ISSUE_CREATION_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/new?template=tester-attestation.md&labels=${LABEL}`;
 
 type GithubIssue = {
   number: number;
@@ -75,6 +76,7 @@ export async function getGithubTractionSnapshot() {
         issues: [],
         totals: emptyTotals(),
         successGates: gatesFromTotals(emptyTotals()),
+        issueCreationUrl: ISSUE_CREATION_URL,
       };
     }
 
@@ -115,7 +117,7 @@ export async function getGithubTractionSnapshot() {
       issues,
       totals,
       successGates: gatesFromTotals(totals),
-      issueCreationUrl: `https://github.com/${REPO_OWNER}/${REPO_NAME}/issues/new?template=tester-attestation.md&labels=${LABEL}`,
+      issueCreationUrl: ISSUE_CREATION_URL,
     };
   } catch (error) {
     return {
@@ -127,6 +129,7 @@ export async function getGithubTractionSnapshot() {
       issues: [],
       totals: emptyTotals(),
       successGates: gatesFromTotals(emptyTotals()),
+      issueCreationUrl: ISSUE_CREATION_URL,
     };
   }
 }
