@@ -226,6 +226,7 @@ export async function buildSubmissionCertificate() {
     judgeProofLinks: {
       dashboard: APP_URL,
       proofExplorer: `${APP_URL}/proof`,
+      creatorEarnings: `${APP_URL}/creators`,
       testerPage: `${APP_URL}/test`,
       agentCard: `${APP_URL}/.well-known/agent-card.json`,
       status: `${APP_URL}/api/status`,

@@ -93,6 +93,7 @@ export async function buildPublicStatus() {
     publicProofs: {
       dashboard: APP_URL,
       proofExplorer: `${APP_URL}/proof`,
+      creatorEarnings: `${APP_URL}/creators`,
       testerPage: `${APP_URL}/test`,
       agentCard: `${APP_URL}/.well-known/agent-card.json`,
       catalog: `${APP_URL}/api/catalog`,
@@ -216,6 +217,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/impact/graph": { get: { summary: "Source-to-answer-to-creator impact graph with value-flow edges and proof hashes." } },
       "/api/webhooks/dispatch": { post: { summary: "Create signed creator webhook delivery records." } },
       "/api/creators/cashout": { post: { summary: "Queue Arc-ready creator cash-out batches." } },
+      "/creators": { get: { summary: "Public creator earnings ledger for read tolls, citation tolls, impact grants, and cash-outs." } },
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },

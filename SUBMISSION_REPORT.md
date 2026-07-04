@@ -78,6 +78,9 @@ Implemented:
 - Public `/proof` proof explorer that presents the live x402 receipt, submission
   certificate, transparency root, impact graph, proof links, and honest traction
   gates in one reviewer-readable page.
+- Public `/creators` creator earnings ledger showing read toll splits, citation
+  toll splits, impact rewards, source split policies, wallets, and Arc-ready
+  cash-out records for each creator.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -253,8 +256,10 @@ Target length: under 3 minutes.
 14. Open the GitHub traction verifier to show durable public feedback evidence.
 15. Open `/proof` to show the proof explorer: x402 receipt, transparency root,
    impact graph, and score-honesty gate.
-16. Trigger repricing and show seller-agent price movement.
-17. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+16. Open `/creators` to show creator earnings, split policies, wallets, and
+   cash-out records.
+17. Trigger repricing and show seller-agent price movement.
+18. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and public tester-attestation progress.
 
 ## Final Checklist
@@ -287,6 +292,7 @@ Target length: under 3 minutes.
   issue URL from the hosted deployment.
 - `/test` exposes the same flow as a browser-first tester page.
 - `/proof` exposes the reviewer-readable proof explorer.
+- `/creators` exposes the creator earnings ledger.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.

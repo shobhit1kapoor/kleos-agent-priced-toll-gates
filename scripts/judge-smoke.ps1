@@ -223,6 +223,16 @@ if ($proofExplorer.Content -notlike "*Transparency root*") {
 }
 Write-Host "Proof explorer rendered."
 
+Write-Step "Creator earnings page"
+$creatorPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/creators"
+if ($creatorPage.Content -notlike "*Creator Earnings Ledger*") {
+  throw "Creator earnings page did not render expected content."
+}
+if ($creatorPage.Content -notlike "*Read toll splits*") {
+  throw "Creator earnings page is missing read toll split content."
+}
+Write-Host "Creator earnings rendered."
+
 Write-Step "Durable GitHub traction verifier"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if ($null -eq $githubTraction.reachable) {

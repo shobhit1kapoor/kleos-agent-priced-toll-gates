@@ -54,6 +54,7 @@ export function buildAgentCard(origin: string) {
       transparencyLog: `${origin}/api/transparency/log`,
       provenance: `${origin}/api/provenance`,
       proofExplorer: `${origin}/proof`,
+      creatorEarnings: `${origin}/creators`,
       tractionVerifier: `${origin}/api/traction/github`,
       testerPage: `${origin}/test`,
       oneClickTester: `${origin}/api/tester/one-click`,
@@ -90,6 +91,7 @@ export function buildAgentCard(origin: string) {
     proofLinks: {
       status: `${origin}/api/status`,
       proofExplorer: `${origin}/proof`,
+      creatorEarnings: `${origin}/creators`,
       testerPage: `${origin}/test`,
       treasury: `${origin}/api/treasury`,
       impactGraph: `${origin}/api/impact/graph`,
