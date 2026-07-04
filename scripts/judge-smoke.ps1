@@ -204,6 +204,55 @@ if (-not $openApi.paths."/api/trial/sponsored") {
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 
+Write-Step "Source registry"
+$registry = Invoke-RestMethod "$BaseUrl/api/registry/sources"
+if (-not $registry.records -or $registry.records.Count -lt 1) {
+  throw "Source registry returned no records."
+}
+if (-not $registry.contract.sourceFile) {
+  throw "Source registry is missing contract artifact reference."
+}
+Write-Host "Registry records: $($registry.records.Count)"
+
+Write-Step "Encrypted content vault"
+$vault = Invoke-RestMethod "$BaseUrl/api/vault/$first"
+if (-not $vault.encrypted.ciphertext -or -not $vault.keyRelease.endpoint) {
+  throw "Vault is missing encrypted content or key release policy."
+}
+$keyRelease = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/vault/$first/key" `
+  -Method Post `
+  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:$first:vault-smoke" }
+if (-not $keyRelease.key -or -not $keyRelease.releaseProof) {
+  throw "Vault key release did not return a key and proof."
+}
+Write-Host "Vault proof: $($keyRelease.releaseProof)"
+
+Write-Step "Agent-to-agent paid ask"
+try {
+  Invoke-RestMethod `
+    -Uri "$BaseUrl/api/a2a/ask" `
+    -Method Post `
+    -ContentType "application/json" `
+    -Body '{"question":"How should agents pay creators for grounded answers?"}' | Out-Null
+  throw "A2A ask unexpectedly ran without payment."
+} catch {
+  $response = $_.Exception.Response
+  if (-not $response -or [int]$response.StatusCode -ne 402) {
+    throw
+  }
+}
+$a2a = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/a2a/ask" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:a2a:judge-smoke" } `
+  -Body '{"question":"How should agents pay creators for grounded answers?","budgetUsdc":0.018}'
+if (-not $a2a.answerHash -or -not $a2a.citationReceipts -or $a2a.citationReceipts.Count -lt 1) {
+  throw "A2A paid ask did not produce answer settlement proof."
+}
+Write-Host "A2A answer hash: $($a2a.answerHash)"
+
 Write-Step "Sponsored no-wallet trial"
 $trial = Invoke-RestMethod `
   -Uri "$BaseUrl/api/trial/sponsored" `

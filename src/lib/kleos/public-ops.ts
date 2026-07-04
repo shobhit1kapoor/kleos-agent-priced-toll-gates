@@ -1,5 +1,6 @@
 import { getGithubTractionSnapshot } from "./github-traction";
 import { getLedgerSnapshot } from "./ledger";
+import { buildSourceRegistry } from "./source-registry";
 
 const APP_URL = "https://kleos-agent-priced-toll-gates.vercel.app";
 const GITHUB_URL = "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates";
@@ -7,6 +8,7 @@ const GITHUB_URL = "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-ga
 export async function buildPublicStatus() {
   const ledger = getLedgerSnapshot();
   const githubTraction = await getGithubTractionSnapshot();
+  const sourceRegistry = buildSourceRegistry();
 
   const checks = [
     {
@@ -42,6 +44,12 @@ export async function buildPublicStatus() {
       detail: `${ledger.metrics.validReceiptVerifications} valid verification(s), ${ledger.metrics.citationChallenges} challenge(s).`,
     },
     {
+      id: "source-registry",
+      label: "Source registry",
+      status: sourceRegistry.records.length >= ledger.catalog.length ? "pass" : "warn",
+      detail: `${sourceRegistry.records.length} creator-scoped source record(s), ${sourceRegistry.totals.multiAuthorSources} multi-author source(s).`,
+    },
+    {
       id: "public-traction",
       label: "Public tester traction",
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
@@ -71,6 +79,9 @@ export async function buildPublicStatus() {
       catalog: `${APP_URL}/api/catalog`,
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
+      sourceRegistry: `${APP_URL}/api/registry/sources`,
+      encryptedVault: `${APP_URL}/api/vault/ci_arc_gateway_notes`,
+      a2aAsk: `${APP_URL}/api/a2a/ask`,
       proofPack: `${APP_URL}/api/proof-pack`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
       githubTraction: `${APP_URL}/api/traction/github`,
@@ -84,6 +95,11 @@ export async function buildPublicStatus() {
       reachable: githubTraction.reachable,
       totals: githubTraction.totals,
       successGates: githubTraction.successGates,
+    },
+    sourceRegistry: {
+      mode: sourceRegistry.mode,
+      contract: sourceRegistry.contract,
+      totals: sourceRegistry.totals,
     },
   };
 }
@@ -145,6 +161,11 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/treasury": { get: { summary: "Gateway, toll, split, impact, and cash-out treasury proof." } },
       "/api/catalog": { get: { summary: "Agent-readable priced content catalog." } },
       "/api/content/{id}": { get: { summary: "x402-protected content endpoint; unpaid requests return 402." } },
+      "/api/registry/sources": { get: { summary: "Creator-scoped source registry records and split digests." } },
+      "/api/vault/{id}": { get: { summary: "Encrypted content vault record with public ciphertext and post-payment key policy." } },
+      "/api/vault/{id}/key": { post: { summary: "Release an encrypted content key after x402 payment proof." } },
+      "/api/a2a/ask": { post: { summary: "x402-priced agent-to-agent grounded-answer run." } },
+      "/api/agent/ask": { post: { summary: "Alias for x402-priced agent-to-agent grounded-answer runs." } },
       "/api/trial/sponsored": { post: { summary: "No-wallet sponsored trial that runs the inspect, cite, reward, reprice loop." } },
       "/api/agent/research": { post: { summary: "Budgeted buyer research agent." } },
       "/api/citations/finalize": { post: { summary: "Finalize an answer and settle citation tolls." } },

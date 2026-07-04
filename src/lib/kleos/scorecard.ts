@@ -46,7 +46,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
     weightPct: 20,
     coverage: "Strong",
     evidence:
-      "Combines two-stage creator citation tolls, answer-linked receipt hashes, claim-level proof traces, independent receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-out aggregation, dynamic value-of-information pricing, autonomous buyer budgets, collaborator royalties, MCP discovery, publisher manifests, retroactive impact rewards, no-wallet sponsored trials, public ops proof, treasury proof, OpenAPI discoverability, and a bonded ERC-8004-ready citation broker.",
+      "Combines two-stage creator citation tolls, answer-linked receipt hashes, claim-level proof traces, independent receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-out aggregation, dynamic value-of-information pricing, autonomous buyer budgets, collaborator royalties, MCP discovery, publisher manifests, retroactive impact rewards, no-wallet sponsored trials, public ops proof, treasury proof, OpenAPI discoverability, creator-scoped source registry, encrypted content vault, x402-priced A2A research, and a bonded ERC-8004-ready citation broker.",
     fullMarksMove:
       "Use the demo to show emergent price movement after demand changes instead of presenting static paywall pricing.",
   },

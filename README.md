@@ -35,6 +35,14 @@ tiny toll.
 - `GET /api/openapi` - OpenAPI-style index of the public Kleos API surface.
 - `GET /api/content/:id` - Charon Gateway content endpoint. Returns `402
   Payment Required` unless a valid `PAYMENT-SIGNATURE` is supplied.
+- `GET /api/registry/sources` - creator-scoped source registry with IPFS-shaped
+  metadata/content CIDs, split digests, and Arc contract artifact mapping.
+- `GET /api/vault/:id` - encrypted content vault record with public AES-GCM
+  ciphertext and post-payment key release policy.
+- `POST /api/vault/:id/key` - releases the AES-GCM key only after a payment
+  proof.
+- `POST /api/a2a/ask` and `POST /api/agent/ask` - x402-priced agent-to-agent
+  grounded answer endpoint.
 - `POST /api/trial/sponsored` - no-wallet sponsored trial that runs the full
   inspect, buy, cite, impact, and reprice loop under bounded spend caps.
 - `POST /api/agent/research` - runs the buyer research agent with a task and
@@ -99,7 +107,9 @@ Kleos is designed around the hackathon scoring surface:
   cash-out aggregation, tester attestations, value-of-information pricing,
   autonomous buyer budgets, MCP discovery, publisher manifests, retroactive
   impact rewards, bonded broker proof, collaborator royalties, no-wallet
-  sponsored trials, public status, treasury proof, and OpenAPI discoverability.
+  sponsored trials, public status, treasury proof, OpenAPI discoverability,
+  source registry records, encrypted content vaults, and x402-priced A2A
+  research.
 
 The dashboard includes a rubric scorecard so reviewers can see the judge case
 and the remaining full-mark moves without needing a guided live demo.
@@ -176,14 +186,18 @@ route calls it from `src/app/api/content/[id]/route.ts`.
     submission-ready traction wording.
 11. Open `/api/traction/github` to verify public tester issues once testers submit
     the generated GitHub feedback links.
-12. Open `/api/status`, `/api/treasury`, and `/api/openapi` to inspect the
-    operational proof surface.
-13. POST `/api/trial/sponsored` to run the no-wallet trial path from a single
+12. Open `/api/status`, `/api/treasury`, `/api/openapi`, and
+    `/api/registry/sources` to inspect the operational proof surface.
+13. Open `/api/vault/ci_arc_gateway_notes`, then POST
+    `/api/vault/ci_arc_gateway_notes/key` with a local payment proof to see
+    x402-gated encrypted content key release.
+14. POST `/api/a2a/ask` to run paid agent-to-agent research.
+15. POST `/api/trial/sponsored` to run the no-wallet trial path from a single
     endpoint.
-14. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
+16. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
    x402 settlement records, and collaborator split payouts.
-15. Click **Reprice sources** to run the citation-aware seller pricing agent.
-16. Open `/api/proof-pack` and `/api/submission/report` for the structured
+17. Click **Reprice sources** to run the citation-aware seller pricing agent.
+18. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 
 ## Citation receipt schema
@@ -211,6 +225,18 @@ function splitPayment(
 
 It validates that splits sum to 10,000 basis points, transfers ERC-20 amounts
 from the payer, and emits one `RoyaltySplit` event per collaborator.
+
+## Source registry
+
+`contracts/SourceRegistry.sol` exposes creator-scoped source records:
+
+- `sourceId`, `creatorScopedId`, owner wallet
+- metadata CID and encrypted content CID
+- split digest derived from collaborator recipients and basis points
+- `SourceRegistered` and `SourceDeactivated` events
+
+The live API mirrors that schema at `/api/registry/sources` so judges can inspect
+the registry shape before contract deployment.
 
 ## Local setup
 

@@ -17,6 +17,10 @@ export function buildPublisherKit(origin?: string) {
       catalog: `${baseUrl}/api/catalog`,
       mcp: `${baseUrl}/api/mcp`,
       contentGateway: `${baseUrl}/api/content/{itemId}`,
+      sourceRegistry: `${baseUrl}/api/registry/sources`,
+      encryptedVault: `${baseUrl}/api/vault/{itemId}`,
+      vaultKeyRelease: `${baseUrl}/api/vault/{itemId}/key`,
+      agentToAgentAsk: `${baseUrl}/api/a2a/ask`,
       answerProof: `${baseUrl}/api/answers/proof?settlementId={settlementId}`,
       webhookDispatch: `${baseUrl}/api/webhooks/dispatch`,
       creatorCashout: `${baseUrl}/api/creators/cashout`,
@@ -35,6 +39,8 @@ export function buildPublisherKit(origin?: string) {
         "Read toll, citation toll, and impact-pool balances are aggregated into Arc-ready creator cash-out records.",
       crawlerPolicy:
         "AI agents may quote previews for free; full content requires x402 payment; final answers that cite the source must call /api/citations/finalize.",
+      vaultPolicy:
+        "Publishers can expose encrypted content CIDs publicly while releasing AES-GCM keys only after x402 settlement.",
     },
     rssGhostMapping: {
       title: "item.title",
@@ -47,6 +53,8 @@ export function buildPublisherKit(origin?: string) {
     judgeCurl: [
       `curl ${baseUrl}/api/catalog`,
       `curl -i ${baseUrl}/api/content/${sample?.id ?? "ci_arc_gateway_notes"}`,
+      `curl ${baseUrl}/api/registry/sources`,
+      `curl ${baseUrl}/api/vault/${sample?.id ?? "ci_arc_gateway_notes"}`,
       `curl -H "PAYMENT-SIGNATURE: kleos-payment-proof:${sample?.id ?? "ci_arc_gateway_notes"}:publisher-kit" ${baseUrl}/api/content/${sample?.id ?? "ci_arc_gateway_notes"}`,
       `curl ${baseUrl}/api/answers/proof`,
       `curl -X POST ${baseUrl}/api/webhooks/dispatch`,

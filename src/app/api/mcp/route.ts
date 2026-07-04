@@ -92,6 +92,49 @@ export async function GET() {
         inputSchema: { type: "object", properties: {} },
       },
       {
+        name: "list_source_registry",
+        description:
+          "Return creator-scoped source registry records, metadata/content CIDs, split digests, and Arc contract artifact mapping.",
+        inputSchema: { type: "object", properties: {} },
+      },
+      {
+        name: "get_encrypted_vault_item",
+        description:
+          "Return public ciphertext and x402-gated key-release policy for a paid creator source.",
+        inputSchema: {
+          type: "object",
+          required: ["itemId"],
+          properties: { itemId: { type: "string" } },
+        },
+      },
+      {
+        name: "release_vault_key",
+        description:
+          "Release an encrypted content key after the caller provides an x402 payment proof.",
+        inputSchema: {
+          type: "object",
+          required: ["itemId", "paymentSignature"],
+          properties: {
+            itemId: { type: "string" },
+            paymentSignature: { type: "string" },
+          },
+        },
+      },
+      {
+        name: "ask_kleos_agent",
+        description:
+          "Pay Kleos over x402 for an agent-to-agent grounded-answer run that settles creator reads and citations.",
+        inputSchema: {
+          type: "object",
+          required: ["question", "paymentSignature"],
+          properties: {
+            question: { type: "string" },
+            budgetUsdc: { type: "number" },
+            paymentSignature: { type: "string" },
+          },
+        },
+      },
+      {
         name: "get_answer_proof",
         description:
           "Return a shareable proof package with claim traces, citation receipts, creator payouts, webhooks, and live x402 proof.",
@@ -199,6 +242,7 @@ export async function GET() {
       receiptVerifications: store.receiptVerifications.slice(0, 5),
       citationChallenges: store.citationChallenges.slice(0, 5),
       testerAttestations: store.testerAttestations.slice(0, 5),
+      agentTrustEvents: store.agentTrustEvents.slice(0, 5),
     },
   });
 }

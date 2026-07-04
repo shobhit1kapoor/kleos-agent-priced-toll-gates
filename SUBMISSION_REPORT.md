@@ -70,6 +70,12 @@ Implemented:
   durable external proof across redeploys and serverless cold starts.
 - Public operations status, health, treasury, and OpenAPI endpoints so async
   judges can verify liveness and scope without clicking through the UI.
+- Creator-scoped source registry with IPFS-shaped metadata/content CIDs, split
+  digests, and a deployable `contracts/SourceRegistry.sol` artifact.
+- Encrypted content vault with public AES-GCM ciphertext and x402-gated key
+  release.
+- x402-priced A2A endpoint where external agents can buy a grounded answer from
+  Kleos, after which Kleos pays creator sources and returns settlement proof.
 - Sponsored no-wallet trial endpoint that runs inspect, read toll settlement,
   citation settlement, impact allocation, and repricing from a bounded sponsor
   budget.
@@ -147,6 +153,8 @@ The product measures the right traction metrics:
 - Durable GitHub issue attestations
 - Public ops status checks
 - Sponsored trial completions through `/api/trial/sponsored`
+- Source registry and encrypted vault access
+- A2A paid research requests
 - Agent-to-agent proof events
 - Catalog size
 
@@ -211,12 +219,14 @@ Target length: under 3 minutes.
 7. Open the answer proof, verify a receipt, and challenge one citation to show
    the bond/reputation audit path.
 8. Open the creator operations endpoints.
-9. Open public status, treasury, and OpenAPI endpoints.
-10. Trigger the sponsored no-wallet trial endpoint.
-11. Open the traction campaign endpoint and show the tester success gates.
-12. Open the GitHub traction verifier to show durable public feedback evidence.
-13. Trigger repricing and show seller-agent price movement.
-14. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+9. Open public status, treasury, OpenAPI, and source registry endpoints.
+10. Open encrypted vault ciphertext and release the key after payment proof.
+11. Trigger the A2A paid research endpoint.
+12. Trigger the sponsored no-wallet trial endpoint.
+13. Open the traction campaign endpoint and show the tester success gates.
+14. Open the GitHub traction verifier to show durable public feedback evidence.
+15. Trigger repricing and show seller-agent price movement.
+16. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and public tester-attestation progress.
 
 ## Final Checklist
@@ -228,6 +238,8 @@ Target length: under 3 minutes.
 - `/api/catalog` works.
 - `/api/status`, `/api/health`, `/api/treasury`, and `/api/openapi` expose the
   public operations surface.
+- `/api/registry/sources`, `/api/vault/:id`, `/api/vault/:id/key`, and
+  `/api/a2a/ask` expose registry, encrypted vault, and A2A proof.
 - `/api/content/:id` returns 402 without payment.
 - `/api/trial/sponsored` runs the no-wallet inspect/cite/reward/reprice loop.
 - `/api/agent/research` runs and respects budget.
