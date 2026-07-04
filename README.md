@@ -78,6 +78,8 @@ tiny toll.
 - `scripts/tester-run.ps1` - one-command tester runner that checks the live app,
   runs the no-wallet settlement scenario, mints a proof hash, and prints the
   prefilled GitHub attestation issue URL.
+- `GET /test` - public tester page that lets nontechnical testers run the hosted
+  scenario and open the prefilled GitHub issue from a browser.
 - `POST /api/traction/attest` - mints a signed tester proof hash and prefilled
   GitHub issue URL after someone runs the public scenario.
 - `GET /api/traction/campaign` - returns role-specific tester asks, curl
@@ -250,6 +252,12 @@ pass `--endpoint` to point it at a local or forked deployment.
 ## Tester Runner
 
 The fastest way for external testers to produce durable public traction evidence:
+
+Browser path:
+
+1. Open https://kleos-agent-priced-toll-gates.vercel.app/test
+2. Run the tester flow.
+3. Open the generated GitHub issue URL and submit it publicly.
 
 Hosted, no clone:
 

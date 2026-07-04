@@ -52,6 +52,7 @@ export function buildAgentCard(origin: string) {
       receiptVerifier: `${origin}/api/receipts/verify`,
       provenance: `${origin}/api/provenance`,
       tractionVerifier: `${origin}/api/traction/github`,
+      testerPage: `${origin}/test`,
       oneClickTester: `${origin}/api/tester/one-click`,
     },
     tools: mcpTools.map((tool) => ({
@@ -85,6 +86,7 @@ export function buildAgentCard(origin: string) {
     },
     proofLinks: {
       status: `${origin}/api/status`,
+      testerPage: `${origin}/test`,
       treasury: `${origin}/api/treasury`,
       proofPack: `${origin}/api/proof-pack`,
       submissionCertificate: `${origin}/api/submission/certificate`,

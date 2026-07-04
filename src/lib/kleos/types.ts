@@ -205,7 +205,7 @@ export type ClaimTrace = {
 export type TesterAttestation = {
   id: string;
   testerName: string;
-  testerRole: "judge" | "creator" | "builder" | "agent-operator" | "other";
+  testerRole: "judge" | "creator" | "publisher" | "builder" | "agent-operator" | "other";
   scenarioRun: boolean;
   useful: boolean;
   quote: string;

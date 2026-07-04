@@ -97,7 +97,7 @@ export function getTractionSnapshot() {
       scenarioRunsAttested: store.testerAttestations.filter((entry) => entry.scenarioRun).length,
       usefulVotes: store.testerAttestations.filter((entry) => entry.useful).length,
       creatorOrBuilderAttestations: store.testerAttestations.filter((entry) =>
-        ["creator", "builder", "agent-operator"].includes(entry.testerRole),
+        ["creator", "publisher", "builder", "agent-operator"].includes(entry.testerRole),
       ).length,
     },
     testerInstructions: [
@@ -181,6 +181,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
 
   const links = {
     app: origin,
+    testerPage: `${origin}/test`,
     proofPack: `${origin}/api/proof-pack`,
     answerProof: `${origin}/api/answers/proof`,
     receiptVerifier: `${origin}/api/receipts/verify?latest=true`,
@@ -218,6 +219,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     ],
     testerRunner: {
       hostedEndpoint: `${origin}/api/tester/one-click`,
+      hostedPage: `${origin}/test`,
       command:
         'powershell -ExecutionPolicy Bypass -File scripts/tester-run.ps1 -TesterName "Your Name" -Role builder -OpenIssue',
       purpose:
@@ -225,6 +227,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       roles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
     },
     testerFlow: [
+      "Fastest browser path: open /test, run the tester flow, then submit the generated GitHub issue.",
       "Fastest hosted path: POST your name and role to /api/tester/one-click, then submit the returned GitHub issue URL.",
       "Optional fastest path: clone the repo and run scripts/tester-run.ps1 with your name and role.",
       "Open the live app.",

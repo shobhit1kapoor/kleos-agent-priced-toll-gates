@@ -119,6 +119,7 @@ Write-Step "Proof surface invariants"
 $proofPack = Invoke-RestMethod "$BaseUrl/api/proof-pack"
 Assert-True ($proofPack.strongestDifferentiators.Count -ge 16) "Proof pack is missing differentiators."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/a2a/ask") "Proof pack missing A2A surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /test") "Proof pack missing public tester page surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/registry/sources") "Proof pack missing registry surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/vault/:id") "Proof pack missing vault surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /.well-known/agent-card.json") "Proof pack missing agent card well-known surface."
@@ -171,6 +172,7 @@ Write-Host "MCP RPC and stdio bridge checked."
 Write-Step "Traction template invariants"
 $campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
 Assert-True ($campaign.links.githubIssueTemplate -like "*template=tester-attestation.md*") "Traction campaign is missing the GitHub issue template link."
+Assert-True ($campaign.links.testerPage -like "*/test") "Traction campaign is missing the public tester page."
 Assert-True ($campaign.links.oneClickTester -like "*/api/tester/one-click") "Traction campaign is missing the one-click tester endpoint."
 Assert-True (($campaign.successGates -join " ") -like "*5 public GitHub issues*") "Traction campaign does not describe the five-public-issue gate."
 Assert-True ($campaign.testerRunner.command -like "*scripts/tester-run.ps1*") "Traction campaign is missing the tester runner command."
@@ -189,6 +191,8 @@ Assert-True ($runnerText -like "*KLEOS_GITHUB_ISSUE_URL=https://github.com/shobh
 Write-Host "Tester runner checked."
 
 Write-Step "Hosted tester flow invariants"
+$testerPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/test"
+Assert-True ($testerPage.Content -like "*Create a public Kleos proof hash*") "Public tester page did not render expected copy."
 $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `

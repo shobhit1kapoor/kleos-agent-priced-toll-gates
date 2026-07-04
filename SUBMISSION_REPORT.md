@@ -68,6 +68,8 @@ Implemented:
   settlement scenario, mints a proof hash, and prints/opens the GitHub issue URL.
 - Hosted `/api/tester/one-click` endpoint that does the same flow without a repo
   clone and returns the prefilled public GitHub issue URL.
+- Public `/test` tester page that makes the same proof-hash and GitHub-issue
+  flow usable from a browser.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -270,6 +272,7 @@ Target length: under 3 minutes.
 - `/api/traction/github` verifies public tester issue evidence.
 - `/api/tester/one-click` lets external testers create a proof hash and GitHub
   issue URL from the hosted deployment.
+- `/test` exposes the same flow as a browser-first tester page.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.

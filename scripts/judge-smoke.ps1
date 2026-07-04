@@ -172,6 +172,10 @@ Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttest
 Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
 
 Write-Step "Hosted one-click tester flow"
+$testerPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/test"
+if ($testerPage.Content -notlike "*Create a public Kleos proof hash*") {
+  throw "Public tester page did not render expected content."
+}
 $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `

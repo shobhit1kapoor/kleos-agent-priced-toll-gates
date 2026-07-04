@@ -290,6 +290,7 @@ const navItems = [
   { label: "Agent runs", icon: Bot, href: "#agent" },
   { label: "Payments", icon: ReceiptText, href: "#ledger" },
   { label: "Gateway", icon: Landmark, href: "#gateway" },
+  { label: "Tester page", icon: FileText, href: "/test" },
 ];
 
 function itemTitle(ledger: Ledger | null, itemId: string) {
@@ -717,6 +718,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 "POST /api/traction/attest",
                 "GET /api/traction/campaign",
                 "GET /api/traction/github",
+                "GET /test",
                 "POST /api/impact/settle",
                 "GET /api/mcp",
               ].map((endpoint) => (
