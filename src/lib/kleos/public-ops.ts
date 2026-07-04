@@ -85,6 +85,8 @@ export async function buildPublicStatus() {
       mcpRpc: `${APP_URL}/api/mcp/rpc`,
       mcpDiscovery: `${APP_URL}/.well-known/mcp.json`,
       proofPack: `${APP_URL}/api/proof-pack`,
+      provenance: `${APP_URL}/api/provenance`,
+      submissionCertificate: `${APP_URL}/api/submission/certificate`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
       githubTraction: `${APP_URL}/api/traction/github`,
       sponsoredTrial: `${APP_URL}/api/trial/sponsored`,
@@ -186,6 +188,8 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/publisher-kit": { get: { summary: "Publisher manifest and crawler payment policy." } },
       "/api/oss-kit": { get: { summary: "Reusable integration kit for builders." } },
       "/api/proof-pack": { get: { summary: "Single judge proof pack." } },
+      "/api/provenance": { get: { summary: "Submission certificate with deployment, CI, x402, score, and traction gates." } },
+      "/api/submission/certificate": { get: { summary: "Judge-facing submission certificate alias for /api/provenance." } },
       "/api/competitive/positioning": { get: { summary: "Rubric score estimate with honest traction gates." } },
     },
   };

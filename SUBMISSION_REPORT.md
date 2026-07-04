@@ -259,6 +259,8 @@ Target length: under 3 minutes.
 - `/api/traction/campaign` returns tester asks and success gates.
 - `/api/traction/github` verifies public tester issue evidence.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
+- `/api/provenance` and `/api/submission/certificate` bind deployment, repo, CI,
+  live x402 proof, score honesty, and public traction gates into one verifier.
 - `/api/submission/report` returns the judge-facing summary.
 - Video demo under 3 minutes.
 - Submission form includes exact user/creator/payment counts.

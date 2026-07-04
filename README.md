@@ -82,6 +82,9 @@ tiny toll.
   manifest, crawler policy, and RSS/Ghost integration mapping.
 - `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
   Gateway proof, receipts, impact grants, and remaining submission items.
+- `GET /api/provenance` and `GET /api/submission/certificate` - machine-readable
+  submission certificate binding the live deployment, public repo, CI status,
+  Circle x402 receipt, score estimate, and public traction gates.
 - `GET /api/submission/report` - judge-facing project summary, rubric mapping,
   current metrics, Gateway proof, and submission checklist.
 - `POST /api/sources/register` - creator source intake that adds a priced source
@@ -206,6 +209,9 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 17. Click **Reprice sources** to run the citation-aware seller pricing agent.
 18. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
+19. Open `/api/provenance` or `/api/submission/certificate` to verify the live
+   deployment, repo, CI, x402 receipt, score honesty, and remaining traction
+   gate in one object.
 
 ## Citation receipt schema
 

@@ -107,7 +107,21 @@ Assert-True ($proofPack.strongestDifferentiators.Count -ge 16) "Proof pack is mi
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/a2a/ask") "Proof pack missing A2A surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/registry/sources") "Proof pack missing registry surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/vault/:id") "Proof pack missing vault surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/provenance") "Proof pack missing provenance surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate") "Proof pack missing submission certificate surface."
 Write-Host "Proof pack surfaces checked."
+
+Write-Step "Submission certificate invariants"
+$certificate = Invoke-RestMethod "$BaseUrl/api/provenance"
+Assert-True ($certificate.project.name -eq "Kleos") "Submission certificate project name is wrong."
+Assert-True ($certificate.circleArcProof.liveX402Receipt.receiptId -eq $ledger.gatewayProof.liveX402Receipt.receiptId) "Submission certificate live x402 receipt does not match ledger."
+Assert-True ($certificate.judgeProofLinks.submissionCertificate -like "*/api/submission/certificate") "Submission certificate is missing judge alias link."
+Assert-True ($certificate.checks.Count -ge 8) "Submission certificate has too few checks."
+if (-not $githubTraction.successGates.allPassed) {
+  Assert-True ($certificate.rubricScoreEstimate.total -lt 100) "Submission certificate reached 100 without public GitHub traction gates."
+  Assert-True ($certificate.remaining100PointGate -like "*5 public tester-attestation*") "Submission certificate does not explain the remaining public traction gate."
+}
+Write-Host "Submission certificate checked: $($certificate.status), $($certificate.rubricScoreEstimate.total)/100."
 
 Write-Step "MCP RPC invariants"
 $mcpDiscovery = Invoke-RestMethod "$BaseUrl/.well-known/mcp.json"

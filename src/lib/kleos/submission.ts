@@ -25,6 +25,7 @@ export function buildSubmissionReport() {
       "Open x402 settlement records and collaborator split payouts for both read tolls and citation tolls.",
       "Click Reprice sources to see the seller pricing agent react to demand.",
       "Inspect /api/catalog, /api/content/:id, /api/citations/finalize, /api/answers/proof, /api/webhooks/dispatch, /api/creators/cashout, /api/dashboard/ledger, /api/mcp, and /api/submission/report.",
+      "Open /api/provenance or /api/submission/certificate to verify deployment, CI, live x402, score honesty, and remaining traction gates in one object.",
     ],
     implementation: {
       surfaces: [
@@ -46,6 +47,7 @@ export function buildSubmissionReport() {
         "Retroactive impact pool that allocates sponsor capital only after citations prove which sources changed an answer.",
         "Publisher kit for RSS/Ghost-style creators through /.well-known/kleos.json and crawler payment policy.",
         "MCP-style catalog manifest.",
+        "Submission certificate endpoint that binds the stable deployment, GitHub repo, CI status, live x402 receipt, rubric score, and public traction gates.",
         "RoyaltySplitter smart contract.",
         "Judge dashboard and ledger APIs.",
       ],
