@@ -284,6 +284,32 @@ const seedPublisherVerification: PublisherVerification = {
   createdAt: now(),
 };
 
+const seedSpendPermitPolicy = {
+  agentName: "Judge external agent",
+  purpose:
+    "Bounded inspection, citation settlement, and receipt verification for the Lepton judge path.",
+  budgetUsdc: 0.025,
+  maxTollUsdc: 0.006,
+  expiresAt: "2026-07-06T23:59:00.000Z",
+  allowedTools: [
+    "list_paid_sources",
+    "quote_source",
+    "buy_source",
+    "get_answer_proof",
+    "verify_citation_receipt",
+    "ask_kleos_agent",
+  ],
+  allowedEndpoints: [
+    "/api/catalog",
+    "/api/content/:id",
+    "/api/agent/research",
+    "/api/citations/finalize",
+    "/api/receipts/verify",
+    "/api/a2a/ask",
+  ],
+};
+const seedSpendPermitPolicyDigest = makeShapeHash(JSON.stringify(seedSpendPermitPolicy));
+
 const initialStore = (): KleosStore => ({
   creators,
   contentItems,
@@ -565,7 +591,27 @@ const initialStore = (): KleosStore => ({
       createdAt: now(),
     },
   ],
-  agentSpendPermits: [],
+  agentSpendPermits: [
+    {
+      id: "permit_seed_judge_agent",
+      agentName: seedSpendPermitPolicy.agentName,
+      purpose: seedSpendPermitPolicy.purpose,
+      budgetUsdc: seedSpendPermitPolicy.budgetUsdc,
+      maxTollUsdc: seedSpendPermitPolicy.maxTollUsdc,
+      spentUsdc: 0,
+      remainingUsdc: seedSpendPermitPolicy.budgetUsdc,
+      allowedTools: seedSpendPermitPolicy.allowedTools,
+      allowedEndpoints: seedSpendPermitPolicy.allowedEndpoints,
+      status: "active",
+      expiresAt: seedSpendPermitPolicy.expiresAt,
+      issuedAt: "2026-07-04T20:00:00.000Z",
+      permitHash: makeShapeHash(
+        `permit_seed_judge_agent:${seedSpendPermitPolicyDigest}:2026-07-04T20:00:00.000Z`,
+      ),
+      policyDigest: seedSpendPermitPolicyDigest,
+      bearerPreview: `${seedSpendPermitPolicyDigest.slice(0, 12)}...${seedSpendPermitPolicyDigest.slice(-8)}`,
+    },
+  ],
 });
 
 declare global {
