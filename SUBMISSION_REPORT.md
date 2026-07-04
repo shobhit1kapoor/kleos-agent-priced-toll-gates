@@ -89,6 +89,8 @@ Implemented:
   verified publishers, and challenge outcomes into portable trust evidence.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
+- Tester invite endpoint that emits a role-specific `/test` URL, short DM,
+  Discord/X copy, API curl, and the remaining GitHub traction roles needed.
 - GitHub traction verifier that counts public `tester-attestation` issues as
   durable external proof across redeploys and serverless cold starts.
 - Public GitHub tester-attestation issue template so external testers can submit
@@ -293,6 +295,7 @@ Target length: under 3 minutes.
 - `/api/impact/graph` exposes the source-to-answer-to-creator value graph.
 - `/api/citations/challenge` records citation challenge outcomes.
 - `/api/traction/campaign` returns tester asks and success gates.
+- `/api/traction/invite` returns role-specific tester invite links and copy.
 - `/api/traction/github` verifies public tester issue evidence.
 - `/api/tester/one-click` lets external testers create a proof hash and GitHub
   issue URL from the hosted deployment.
@@ -315,7 +318,8 @@ Target length: under 3 minutes.
 
 ## Best Next Moves
 
-1. Ask 3-5 testers to run the buyer agent and submit the generated GitHub
-   tester-attestation issue.
+1. Send `/api/traction/invite?role=creator`, `/api/traction/invite?role=builder`,
+   and `/api/traction/invite?role=agent-operator` links to 3-5 real testers,
+   then ask them to submit the generated GitHub tester-attestation issue.
 2. Add final traction numbers to the README and submission form.
 3. Record the video only after the public tester-attestation count is visible.

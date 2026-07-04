@@ -65,15 +65,29 @@ function shortHash(value?: string) {
   return value.length > 18 ? `${value.slice(0, 10)}...${value.slice(-8)}` : value;
 }
 
-export function TesterPage() {
-  const [testerName, setTesterName] = useState("");
-  const [testerRole, setTesterRole] = useState<TesterRole>("builder");
-  const [walletOrContact, setWalletOrContact] = useState("");
-  const [quote, setQuote] = useState("I ran the Kleos settlement flow and could inspect the proof trail.");
+export function TesterPage({
+  initialInvite,
+}: {
+  initialInvite?: {
+    testerName?: string;
+    testerRole?: TesterRole;
+    walletOrContact?: string;
+    quote?: string;
+  };
+}) {
+  const [testerName, setTesterName] = useState(initialInvite?.testerName ?? "");
+  const [testerRole, setTesterRole] = useState<TesterRole>(initialInvite?.testerRole ?? "builder");
+  const [walletOrContact, setWalletOrContact] = useState(initialInvite?.walletOrContact ?? "");
+  const [quote, setQuote] = useState(
+    initialInvite?.quote ?? "I ran the Kleos settlement flow and could inspect the proof trail.",
+  );
   const [result, setResult] = useState<OneClickResult | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const inviteLoaded = Boolean(
+    initialInvite?.testerName || initialInvite?.testerRole || initialInvite?.walletOrContact || initialInvite?.quote,
+  );
 
   const issueUrl = result?.githubIssueUrl;
   const totalCitationTolls = useMemo(
@@ -165,6 +179,12 @@ export function TesterPage() {
           </div>
 
           <div className="grid gap-4 p-6">
+            {inviteLoaded ? (
+              <div className="rounded-lg border border-[#cfe4ff] bg-[#f2f8ff] px-4 py-3 text-sm font-medium text-[#21466d]">
+                Tester invite loaded. Run the flow, then submit the generated GitHub issue so the public traction gate can count it.
+              </div>
+            ) : null}
+
             <label className="grid gap-2">
               <span className="text-xs font-semibold uppercase text-[#607089]">Name or handle</span>
               <input

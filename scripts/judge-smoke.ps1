@@ -249,6 +249,19 @@ if (-not $campaign.discordCopy -or -not $campaign.xCopy) {
 Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttestations)"
 Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
 
+Write-Step "Tester invite packet"
+$invite = Invoke-RestMethod "$BaseUrl/api/traction/invite?role=creator&name=Smoke%20Creator"
+if (-not $invite.inviteUrl -or $invite.inviteUrl -notlike "*role=creator*") {
+  throw "Tester invite packet did not return a creator invite URL."
+}
+if (-not $invite.copyBlocks.shortDm -or -not $invite.githubTraction.successGates) {
+  throw "Tester invite packet is missing outreach copy or traction gates."
+}
+if (-not $invite.recommendedBatch -or $invite.recommendedBatch.Count -lt 1) {
+  throw "Tester invite packet is missing recommended tester batch."
+}
+Write-Host "Invite URL: $($invite.inviteUrl)"
+
 Write-Step "Hosted one-click tester flow"
 $testerPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/test"
 if ($testerPage.Content -notlike "*Create a public Kleos proof hash*") {

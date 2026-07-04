@@ -257,6 +257,11 @@ Assert-True ($oneClick.attestation.proofHash -like "0x*") "Hosted one-click test
 Assert-True ($oneClick.githubIssueUrl -like "*github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues/new*") "Hosted one-click tester flow did not return a GitHub issue URL."
 Assert-True ($oneClick.trial.citationReceipts.Count -ge 1) "Hosted one-click tester flow created no citation receipts."
 Write-Host "Hosted tester flow checked."
+$invite = Invoke-RestMethod "$BaseUrl/api/traction/invite?role=creator&name=Invariant%20Creator"
+Assert-True ($invite.inviteUrl -like "*/test?*role=creator*") "Tester invite did not return a prefilled creator /test URL."
+Assert-True ($invite.copyBlocks.shortDm -like "*Kleos*") "Tester invite is missing short DM copy."
+Assert-True ($invite.githubTraction.rolesNeeded.Count -ge 1 -or $invite.githubTraction.successGates.allPassed) "Tester invite did not expose needed roles or passing gates."
+Write-Host "Tester invite packet checked."
 
 Write-Host ""
 Write-Host "Kleos invariant check passed." -ForegroundColor Green

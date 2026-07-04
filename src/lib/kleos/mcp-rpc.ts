@@ -16,6 +16,7 @@ import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
 import { runOneClickTesterFlow } from "./tester-flow";
 import { buildTractionCampaign, createTesterAttestation } from "./traction";
+import { buildTesterInvitePacket } from "./traction-invite";
 import { buildTransparencyLog, buildTransparencyProof } from "./transparency-log";
 
 type JsonRpcRequest = {
@@ -254,6 +255,18 @@ export const mcpTools: ToolDefinition[] = [
     inputSchema: { type: "object", properties: {} },
   },
   {
+    name: "get_tester_invite",
+    description: "Return a role-specific tester invite URL, outreach copy, API curl, and current GitHub traction gates.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        role: { type: "string" },
+        testerName: { type: "string" },
+        quote: { type: "string" },
+      },
+    },
+  },
+  {
     name: "verify_github_traction",
     description: "Verify durable public tester attestations from GitHub issues.",
     inputSchema: { type: "object", properties: {} },
@@ -438,6 +451,14 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       );
     case "get_traction_campaign":
       return toolResult(buildTractionCampaign(origin));
+    case "get_tester_invite":
+      return toolResult(
+        await buildTesterInvitePacket(origin, {
+          role: asString(args.role) || undefined,
+          testerName: asString(args.testerName) || undefined,
+          quote: asString(args.quote) || undefined,
+        }),
+      );
     case "verify_github_traction":
       return toolResult(await getGithubTractionSnapshot());
     case "get_public_status":

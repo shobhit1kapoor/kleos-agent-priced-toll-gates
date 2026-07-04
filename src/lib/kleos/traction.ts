@@ -188,6 +188,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     citationChallenge: `${origin}/api/citations/challenge`,
     competitivePositioning: `${origin}/api/competitive/positioning`,
     attestationEndpoint: `${origin}/api/traction/attest`,
+    invitePacket: `${origin}/api/traction/invite`,
     oneClickTester: `${origin}/api/tester/one-click`,
     githubIssues: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues",
     githubIssueTemplate:
@@ -228,6 +229,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     },
     testerFlow: [
       "Fastest browser path: open /test, run the tester flow, then submit the generated GitHub issue.",
+      "Fastest invite path: open /api/traction/invite?role=creator or /api/traction/invite?role=builder and send the generated role-specific link.",
       "Fastest hosted path: POST your name and role to /api/tester/one-click, then submit the returned GitHub issue URL.",
       "Optional fastest path: clone the repo and run scripts/tester-run.ps1 with your name and role.",
       "Open the live app.",

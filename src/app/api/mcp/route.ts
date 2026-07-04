@@ -280,6 +280,22 @@ export async function GET() {
         inputSchema: { type: "object", properties: {} },
       },
       {
+        name: "get_tester_invite",
+        description:
+          "Return a role-specific tester invite URL, outreach copy, API curl, and current GitHub traction gates.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            role: {
+              type: "string",
+              enum: ["judge", "creator", "publisher", "builder", "agent-operator", "other"],
+            },
+            testerName: { type: "string" },
+            quote: { type: "string" },
+          },
+        },
+      },
+      {
         name: "verify_github_traction",
         description:
           "Verify durable public tester attestations from GitHub issues labeled tester-attestation.",

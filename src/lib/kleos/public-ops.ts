@@ -125,6 +125,7 @@ export async function buildPublicStatus() {
       impactGraph: `${APP_URL}/api/impact/graph`,
       transparencyLog: `${APP_URL}/api/transparency/log`,
       githubTraction: `${APP_URL}/api/traction/github`,
+      tractionInvite: `${APP_URL}/api/traction/invite`,
       oneClickTester: `${APP_URL}/api/tester/one-click`,
       sponsoredTrial: `${APP_URL}/api/trial/sponsored`,
       liveX402Receipt: ledger.gatewayProof.liveX402Receipt.receiptId
@@ -237,6 +238,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/publishers/verify": { get: { summary: "List publisher ownership verification records." }, post: { summary: "Issue or verify a publisher ownership challenge." } },
       "/api/reputation/passport": { get: { summary: "ERC-8004-ready local reputation passports for agents, creators, and publishers." }, post: { summary: "Append a signed local reputation attestation." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
+      "/api/traction/invite": { get: { summary: "Role-specific tester invite packet with prefilled /test links, outreach copy, and current GitHub traction gates." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },
       "/api/mcp": { get: { summary: "MCP-style manifest for agent discovery and actions." } },

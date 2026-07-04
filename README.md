@@ -97,6 +97,9 @@ tiny toll.
   GitHub issue URL after someone runs the public scenario.
 - `GET /api/traction/campaign` - returns role-specific tester asks, curl
   payloads, social copy, and success gates for collecting external validation.
+- `GET /api/traction/invite` - returns one role-specific tester invite packet
+  with a prefilled `/test` URL, DM/social copy, API curl, and the exact GitHub
+  traction roles still needed.
 - `GET /api/traction/github` - verifies durable public tester-attestation issues
   from GitHub so traction survives serverless cold starts and redeploys.
 - `.github/ISSUE_TEMPLATE/tester-attestation.md` - public tester issue template
@@ -285,6 +288,12 @@ Browser path:
 1. Open https://kleos-agent-priced-toll-gates.vercel.app/test
 2. Run the tester flow.
 3. Open the generated GitHub issue URL and submit it publicly.
+
+Fastest invite links:
+
+- Creator/publisher: https://kleos-agent-priced-toll-gates.vercel.app/api/traction/invite?role=creator
+- Builder: https://kleos-agent-priced-toll-gates.vercel.app/api/traction/invite?role=builder
+- Agent operator: https://kleos-agent-priced-toll-gates.vercel.app/api/traction/invite?role=agent-operator
 
 Hosted, no clone:
 
