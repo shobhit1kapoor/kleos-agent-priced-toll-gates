@@ -109,6 +109,23 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /api/registry/sources") "Proo
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/vault/:id") "Proof pack missing vault surface."
 Write-Host "Proof pack surfaces checked."
 
+Write-Step "MCP RPC invariants"
+$mcpDiscovery = Invoke-RestMethod "$BaseUrl/.well-known/mcp.json"
+Assert-True ($mcpDiscovery.rpcEndpoint -like "*/api/mcp/rpc") "MCP discovery is missing RPC endpoint."
+$toolsList = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+Assert-True ($toolsList.result.tools.Count -ge 10) "MCP tools/list returned too few tools."
+$quote = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"quote_source","arguments":{"itemId":"ci_arc_gateway_notes"}}}'
+Assert-True ($quote.result.structuredContent.id -eq "ci_arc_gateway_notes") "MCP quote_source did not return the requested source."
+Write-Host "MCP RPC checked."
+
 Write-Step "Traction template invariants"
 $campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
 Assert-True ($campaign.links.githubIssueTemplate -like "*template=tester-attestation.md*") "Traction campaign is missing the GitHub issue template link."

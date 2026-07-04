@@ -10,6 +10,8 @@ export async function GET() {
     version: "0.1.0",
     description:
       "MCP-compatible tool manifest for discovering, quoting, buying, and summarizing Kleos paid content.",
+    rpcEndpoint: "/api/mcp/rpc",
+    wellKnownDiscovery: "/.well-known/mcp.json",
     tools: [
       {
         name: "list_paid_sources",

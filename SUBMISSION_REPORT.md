@@ -78,6 +78,8 @@ Implemented:
   release.
 - x402-priced A2A endpoint where external agents can buy a grounded answer from
   Kleos, after which Kleos pays creator sources and returns settlement proof.
+- Callable JSON-RPC MCP endpoint and `/.well-known/mcp.json` discovery document
+  so agent clients can list resources, quote sources, and call Kleos tools.
 - Economic invariant checker and GitHub Actions workflow for budget caps, split
   totals, receipt links, registry records, vault gates, A2A gates, and score
   honesty.

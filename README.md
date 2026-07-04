@@ -43,6 +43,9 @@ tiny toll.
   proof.
 - `POST /api/a2a/ask` and `POST /api/agent/ask` - x402-priced agent-to-agent
   grounded answer endpoint.
+- `GET /.well-known/mcp.json` - MCP discovery document for agent clients.
+- `POST /api/mcp/rpc` - JSON-RPC MCP endpoint for `tools/list`,
+  `tools/call`, `resources/list`, and `resources/read`.
 - `POST /api/trial/sponsored` - no-wallet sponsored trial that runs the full
   inspect, buy, cite, impact, and reprice loop under bounded spend caps.
 - `POST /api/agent/research` - runs the buyer research agent with a task and
@@ -113,7 +116,7 @@ Kleos is designed around the hackathon scoring surface:
   impact rewards, bonded broker proof, collaborator royalties, no-wallet
   sponsored trials, public status, treasury proof, OpenAPI discoverability,
   source registry records, encrypted content vaults, and x402-priced A2A
-  research, plus CI-checked economic invariants.
+  research, callable JSON-RPC MCP tools, plus CI-checked economic invariants.
 
 The dashboard includes a rubric scorecard so reviewers can see the judge case
 and the remaining full-mark moves without needing a guided live demo.
