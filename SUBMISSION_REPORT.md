@@ -67,6 +67,8 @@ Implemented:
   prefilled GitHub issue URL for external feedback.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
+- GitHub traction verifier that counts public `tester-attestation` issues as
+  durable external proof across redeploys and serverless cold starts.
 - A2A trust-event ledger with signed/bound proof plus a bonded citation broker.
 - Live `@circle-fin/x402-batching` seller-side verifier for real Gateway x402
   payment payloads.
@@ -138,6 +140,7 @@ The product measures the right traction metrics:
 - Citation challenge outcomes
 - Tester attestations
 - Traction campaign success gates
+- Durable GitHub issue attestations
 - Agent-to-agent proof events
 - Catalog size
 
@@ -203,8 +206,9 @@ Target length: under 3 minutes.
    the bond/reputation audit path.
 8. Open the creator operations endpoints.
 9. Open the traction campaign endpoint and show the tester success gates.
-10. Trigger repricing and show seller-agent price movement.
-11. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+10. Open the GitHub traction verifier to show durable public feedback evidence.
+11. Trigger repricing and show seller-agent price movement.
+12. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and next deployment plan.
 
 ## Final Checklist
@@ -220,6 +224,7 @@ Target length: under 3 minutes.
 - `/api/receipts/verify` verifies receipt integrity.
 - `/api/citations/challenge` records citation challenge outcomes.
 - `/api/traction/campaign` returns tester asks and success gates.
+- `/api/traction/github` verifies public tester issue evidence.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/submission/report` returns the judge-facing summary.
 - Video demo under 3 minutes.

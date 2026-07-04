@@ -1,9 +1,12 @@
 import { getLedgerSnapshot } from "@/lib/kleos/ledger";
+import { getGithubTractionSnapshot } from "@/lib/kleos/github-traction";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const ledger = getLedgerSnapshot();
+  const githubTraction = await getGithubTractionSnapshot();
+  const tractionScore = githubTraction.successGates.allPassed || ledger.metrics.testerAttestations >= 5 ? 30 : 26;
 
   return Response.json(
     {
@@ -20,12 +23,12 @@ export async function GET() {
       },
       rubricScoreEstimate: {
         agenticSophistication: ledger.metrics.receiptVerifications > 0 ? 30 : 29,
-        traction: ledger.metrics.testerAttestations >= 5 ? 30 : 26,
+        traction: tractionScore,
         circleToolUsage: 20,
         innovation: 20,
         total:
           (ledger.metrics.receiptVerifications > 0 ? 30 : 29) +
-          (ledger.metrics.testerAttestations >= 5 ? 30 : 26) +
+          tractionScore +
           20 +
           20,
       },
@@ -39,11 +42,17 @@ export async function GET() {
         ossKit: "https://kleos-agent-priced-toll-gates.vercel.app/api/oss-kit",
         tractionAttestations: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/attest",
         tractionCampaign: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/campaign",
+        durableGithubTraction: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/github",
         liveX402Receipt: `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`,
       },
       evidence: {
         liveX402Receipt: ledger.gatewayProof.liveX402Receipt,
         metrics: ledger.metrics,
+        durableGithubTraction: {
+          reachable: githubTraction.reachable,
+          totals: githubTraction.totals,
+          successGates: githubTraction.successGates,
+        },
         differentiators: [
           "Read toll plus citation toll settlement.",
           "Claim-level covered/partial/unsupported proof traces.",

@@ -171,6 +171,17 @@ if (-not $campaign.discordCopy -or -not $campaign.xCopy) {
 Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttestations)"
 Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
 
+Write-Step "Durable GitHub traction verifier"
+$githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
+if ($null -eq $githubTraction.reachable) {
+  throw "GitHub traction verifier did not return reachability status."
+}
+if (-not $githubTraction.successGates) {
+  throw "GitHub traction verifier did not return success gates."
+}
+Write-Host "GitHub reachable: $($githubTraction.reachable)"
+Write-Host "GitHub issue attestations: $($githubTraction.totals.githubIssueAttestations)"
+
 Write-Step "Citation-aware repricing"
 $pricing = Invoke-RestMethod `
   -Uri "$BaseUrl/api/pricing/recompute" `

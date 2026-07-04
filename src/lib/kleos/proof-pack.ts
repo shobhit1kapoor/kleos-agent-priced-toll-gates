@@ -40,6 +40,7 @@ export function buildProofPack(origin?: string) {
       "POST /api/citations/challenge",
       "POST /api/traction/attest",
       "Open /api/traction/campaign",
+      "Open /api/traction/github",
       "Open /api/oss-kit",
       "Open /api/competitive/positioning",
       "Open /api/publisher-kit",
@@ -60,6 +61,7 @@ export function buildProofPack(origin?: string) {
     citationChallenges: ledger.citationChallenges.slice(0, 8),
     testerAttestations: ledger.testerAttestations.slice(0, 8),
     tractionCampaign,
+    durableTractionVerifier: origin ? `${origin}/api/traction/github` : "/api/traction/github",
     publisherKit: publisherKit.wellKnownManifest,
     apiSurfaces: [
       "GET /api/catalog",
@@ -77,6 +79,7 @@ export function buildProofPack(origin?: string) {
       "GET /api/traction/attest",
       "POST /api/traction/attest",
       "GET /api/traction/campaign",
+      "GET /api/traction/github",
       "POST /api/pricing/recompute",
       "POST /api/sources/register",
       "GET /api/mcp",

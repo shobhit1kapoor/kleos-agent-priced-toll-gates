@@ -17,6 +17,7 @@ export async function GET(request: Request) {
         publisherManifest: `${origin}/api/publisher-kit`,
         answerProof: `${origin}/api/answers/proof`,
         tractionCampaign: `${origin}/api/traction/campaign`,
+        durableGithubTraction: `${origin}/api/traction/github`,
       },
       agentFlow: [
         "GET /api/catalog to discover previews, prices, citation tolls, and splits.",
@@ -26,6 +27,7 @@ export async function GET(request: Request) {
         "GET /api/answers/proof to export claim traces, receipts, payouts, and x402 proof.",
         "POST /api/webhooks/dispatch and /api/creators/cashout for creator operations.",
         "GET /api/traction/campaign for role-specific tester asks, curl payloads, and success gates.",
+        "GET /api/traction/github to verify public tester-attestation issues as durable traction evidence.",
       ],
       curl: {
         catalog: `curl ${origin}/api/catalog`,
@@ -33,6 +35,7 @@ export async function GET(request: Request) {
         localProof: `curl -H "PAYMENT-SIGNATURE: kleos-payment-proof:ci_arc_gateway_notes:oss-kit" ${origin}/api/content/ci_arc_gateway_notes`,
         proof: `curl ${origin}/api/answers/proof`,
         campaign: `curl ${origin}/api/traction/campaign`,
+        githubTraction: `curl ${origin}/api/traction/github`,
         attestation: `curl -X POST ${origin}/api/traction/attest -H "Content-Type: application/json" -d "{\\"testerName\\":\\"OSS tester\\",\\"quote\\":\\"Kleos proof flow worked.\\"}"`,
       },
       schemas: {

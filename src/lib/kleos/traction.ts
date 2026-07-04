@@ -24,6 +24,8 @@ function githubIssueUrl(attestation: Omit<TesterAttestation, "githubIssueUrl">) 
     [
       "## Kleos tester attestation",
       "",
+      "KLEOS_ATTESTATION_V1",
+      "",
       `- Tester: ${attestation.testerName}`,
       `- Role: ${attestation.testerRole}`,
       `- Scenario run: ${attestation.scenarioRun ? "yes" : "no"}`,
@@ -187,6 +189,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
     competitivePositioning: `${origin}/api/competitive/positioning`,
     attestationEndpoint: `${origin}/api/traction/attest`,
     githubIssues: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates/issues",
+    githubTractionVerifier: `${origin}/api/traction/github`,
   };
 
   return {
@@ -217,7 +220,8 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       "Open the latest answer proof and proof pack.",
       "Open the receipt verifier and confirm the live x402-backed receipt appears.",
       "Click Attest or POST the role-specific payload below.",
-      "Open the generated GitHub issue URL so the feedback is public.",
+      "Open the generated GitHub issue URL so the feedback is public and durable.",
+      "Check /api/traction/github to verify public tester issues across serverless cold starts.",
     ],
     links,
     roleSpecificAsks: roles.map((role) => ({

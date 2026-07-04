@@ -169,6 +169,12 @@ export async function GET() {
           "Return role-specific tester asks, curl payloads, social copy, and success gates for closing the external traction gap.",
         inputSchema: { type: "object", properties: {} },
       },
+      {
+        name: "verify_github_traction",
+        description:
+          "Verify durable public tester attestations from GitHub issues labeled tester-attestation.",
+        inputSchema: { type: "object", properties: {} },
+      },
     ],
     resources: getCatalogItems().map((item) => ({
       uri: `kleos://content/${item.id}`,
