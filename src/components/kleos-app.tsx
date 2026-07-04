@@ -77,6 +77,11 @@ type Ledger = {
     creatorCashoutUsdc: number;
     testerAttestations: number;
     scenarioRunsAttested: number;
+    receiptVerifications: number;
+    validReceiptVerifications: number;
+    citationChallenges: number;
+    rejectedCitationChallenges: number;
+    bondAtRiskUsdc: number;
   };
   gatewayProof: {
     network: string;
@@ -707,6 +712,8 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 "POST /api/agent/research",
                 "POST /api/citations/finalize",
                 "GET /api/answers/proof",
+                "POST /api/receipts/verify",
+                "POST /api/citations/challenge",
                 "POST /api/traction/attest",
                 "POST /api/impact/settle",
                 "GET /api/mcp",

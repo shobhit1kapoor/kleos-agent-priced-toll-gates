@@ -14,23 +14,28 @@ export async function GET() {
         keryxStrength:
           "Keryx is strongest on public citation-toll traction and distribution claims.",
         kleosResponse:
-          "Kleos goes beyond citation tolls into full answer-settlement operations: claim traces, webhook notifications, creator cash-outs, impact rewards, dynamic pricing, publisher kit, OSS kit, and tester attestations.",
+          "Kleos goes beyond citation tolls into full answer-settlement operations: claim traces, verifier checks, citation challenges, webhook notifications, creator cash-outs, impact rewards, dynamic pricing, publisher kit, OSS kit, and tester attestations.",
         honestRemainingGap:
           "Only external tester/creator traction can fully close the gap against projects with higher public usage claims.",
       },
       rubricScoreEstimate: {
-        agenticSophistication: 29,
+        agenticSophistication: ledger.metrics.receiptVerifications > 0 ? 30 : 29,
         traction: ledger.metrics.testerAttestations >= 5 ? 30 : 26,
         circleToolUsage: 20,
         innovation: 20,
         total:
-          29 + (ledger.metrics.testerAttestations >= 5 ? 30 : 26) + 20 + 20,
+          (ledger.metrics.receiptVerifications > 0 ? 30 : 29) +
+          (ledger.metrics.testerAttestations >= 5 ? 30 : 26) +
+          20 +
+          20,
       },
       proofLinks: {
         app: "https://kleos-agent-priced-toll-gates.vercel.app",
         github: "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates",
         proofPack: "https://kleos-agent-priced-toll-gates.vercel.app/api/proof-pack",
         answerProof: "https://kleos-agent-priced-toll-gates.vercel.app/api/answers/proof",
+        receiptVerifier: "https://kleos-agent-priced-toll-gates.vercel.app/api/receipts/verify?latest=true",
+        citationChallenge: "https://kleos-agent-priced-toll-gates.vercel.app/api/citations/challenge",
         ossKit: "https://kleos-agent-priced-toll-gates.vercel.app/api/oss-kit",
         tractionAttestations: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/attest",
         liveX402Receipt: `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`,
@@ -45,6 +50,7 @@ export async function GET() {
           "Retroactive impact pool for sources that changed the answer.",
           "Signed creator webhook delivery records.",
           "Creator cash-out ledger.",
+          "Independent receipt verifier and adversarial citation challenge flow.",
           "Dynamic value-of-information repricing.",
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",

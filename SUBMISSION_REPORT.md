@@ -56,6 +56,10 @@ Implemented:
   payment, confidence, and split outcomes.
 - Shareable answer proof endpoint with covered, partial, and unsupported
   claim-level support traces.
+- Independent receipt verifier that checks answer links, read/citation payments,
+  split totals, receipt hashes, and claim support.
+- Adversarial citation challenge route that releases or risks the broker bond
+  depending on receipt and support quality.
 - Signed creator webhook records for citation, impact, and cash-out events.
 - Creator cash-out ledger that aggregates read tolls, citation tolls, and impact
   grants into Arc-ready settlement records.
@@ -102,6 +106,8 @@ Kleos has three active agent loops:
   hashes, support spans, read payments, citation payments, and split payouts.
 - Proof loop: finalized answers expose claim-level support traces so judges can
   see which claims are covered, partial, or unsupported.
+- Verifier loop: audit agents can independently verify receipts and challenge
+  weak citations, causing bond and reputation consequences when support fails.
 
 Full-mark move:
 
@@ -126,6 +132,8 @@ The product measures the right traction metrics:
 - Creator-registered and RSS-imported sources
 - Signed creator webhook deliveries
 - Creator cash-out records
+- Receipt verification records
+- Citation challenge outcomes
 - Tester attestations
 - Agent-to-agent proof events
 - Catalog size
@@ -162,8 +170,10 @@ Kleos is differentiated because the price is set by a seller agent, the buyer is
 an autonomous budgeted agent, only cited purchased sources receive a second
 payment, every payment fans out to collaborators, each final answer becomes a
 shareable proof object, and creator operations continue through signed webhooks
-and cash-out records. The tester attestation flow converts external review into
-verifiable proof hashes and public GitHub feedback links.
+and cash-out records. The verifier and challenge layer makes the proof object
+adversarial: a weak citation can be challenged and can put the broker bond at
+risk. The tester attestation flow converts external review into verifiable proof
+hashes and public GitHub feedback links.
 Competitors may build x402 endpoints or agent wallets; Kleos connects them into a
 creator economy workflow judges can understand.
 
@@ -186,9 +196,11 @@ Target length: under 3 minutes.
 5. Show paid versus skipped decisions, then finalize citations.
 6. Show read tolls, citation tolls, answer-linked receipt hashes, x402 settlement
    records, and split payouts.
-7. Open the answer proof and creator operations endpoints.
-8. Trigger repricing and show seller-agent price movement.
-9. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+7. Open the answer proof, verify a receipt, and challenge one citation to show
+   the bond/reputation audit path.
+8. Open the creator operations endpoints.
+9. Trigger repricing and show seller-agent price movement.
+10. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and next deployment plan.
 
 ## Final Checklist
@@ -201,6 +213,8 @@ Target length: under 3 minutes.
 - `/api/content/:id` returns 402 without payment.
 - `/api/agent/research` runs and respects budget.
 - `/api/citations/finalize` creates answer-linked citation tolls.
+- `/api/receipts/verify` verifies receipt integrity.
+- `/api/citations/challenge` records citation challenge outcomes.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/submission/report` returns the judge-facing summary.
 - Video demo under 3 minutes.

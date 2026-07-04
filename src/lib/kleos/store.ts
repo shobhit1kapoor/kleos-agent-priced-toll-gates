@@ -472,6 +472,8 @@ const initialStore = (): KleosStore => ({
     },
   ],
   testerAttestations: [],
+  receiptVerifications: [],
+  citationChallenges: [],
   agentTrustEvents: [
     {
       id: "ate_shadow_float_v2",
@@ -503,6 +505,8 @@ function ensureStoreShape(store: KleosStore) {
   store.creatorCashouts ??= [];
   store.claimTraces ??= [];
   store.testerAttestations ??= [];
+  store.receiptVerifications ??= [];
+  store.citationChallenges ??= [];
 
   for (const creator of store.creators) {
     if (!store.creatorWebhooks.some((webhook) => webhook.creatorId === creator.id)) {

@@ -101,6 +101,32 @@ export async function GET() {
         },
       },
       {
+        name: "verify_citation_receipt",
+        description:
+          "Independently verify receipt links, read and citation payments, split totals, and claim support.",
+        inputSchema: {
+          type: "object",
+          properties: { receiptId: { type: "string" } },
+        },
+      },
+      {
+        name: "challenge_citation",
+        description:
+          "Challenge a weak citation receipt and mark the broker bond at risk if support verification fails.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            receiptId: { type: "string" },
+            challenger: { type: "string" },
+            challengeReason: { type: "string" },
+            claimedWeakness: {
+              type: "string",
+              enum: ["unsupported_claim", "weak_support_span", "wrong_source", "split_mismatch"],
+            },
+          },
+        },
+      },
+      {
         name: "dispatch_creator_webhooks",
         description:
           "Queue signed creator webhook payloads for cited-source, impact, or cash-out events.",
@@ -158,6 +184,8 @@ export async function GET() {
       webhookDeliveries: store.webhookDeliveries.slice(0, 5),
       creatorCashouts: store.creatorCashouts.slice(0, 5),
       claimTraces: store.claimTraces.slice(0, 5),
+      receiptVerifications: store.receiptVerifications.slice(0, 5),
+      citationChallenges: store.citationChallenges.slice(0, 5),
       testerAttestations: store.testerAttestations.slice(0, 5),
     },
   });

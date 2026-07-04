@@ -73,6 +73,18 @@ export function getLedgerSnapshot() {
       ),
       testerAttestations: store.testerAttestations.length,
       scenarioRunsAttested: store.testerAttestations.filter((entry) => entry.scenarioRun).length,
+      receiptVerifications: store.receiptVerifications.length,
+      validReceiptVerifications: store.receiptVerifications.filter((entry) => entry.status === "valid")
+        .length,
+      citationChallenges: store.citationChallenges.length,
+      rejectedCitationChallenges: store.citationChallenges.filter((entry) => entry.status === "rejected")
+        .length,
+      bondAtRiskUsdc: Number(
+        store.citationChallenges
+          .filter((entry) => entry.status === "accepted")
+          .reduce((sum, challenge) => sum + challenge.bondImpactUsdc, 0)
+          .toFixed(6),
+      ),
     },
     gatewayProof: {
       network: "Arc Testnet",
@@ -105,6 +117,8 @@ export function getLedgerSnapshot() {
     webhookDeliveries: store.webhookDeliveries,
     creatorCashouts: store.creatorCashouts,
     testerAttestations: store.testerAttestations,
+    receiptVerifications: store.receiptVerifications,
+    citationChallenges: store.citationChallenges,
     rubric: {
       readiness: estimatedRubricReadiness(),
       scorecard: rubricScorecard,

@@ -216,6 +216,38 @@ export type TesterAttestation = {
   createdAt: string;
 };
 
+export type VerificationCheck = {
+  label: string;
+  status: "pass" | "warn" | "fail";
+  details: string;
+};
+
+export type ReceiptVerification = {
+  id: string;
+  targetType: "citation_receipt" | "answer_settlement" | "payment";
+  targetId: string;
+  status: "valid" | "warning" | "invalid";
+  proofHash: string;
+  checks: VerificationCheck[];
+  createdAt: string;
+};
+
+export type CitationChallenge = {
+  id: string;
+  receiptId: string;
+  sessionId: string;
+  itemId: string;
+  challenger: string;
+  challengeReason: string;
+  claimedWeakness: "unsupported_claim" | "weak_support_span" | "wrong_source" | "split_mismatch";
+  status: "opened" | "accepted" | "rejected";
+  bondImpactUsdc: number;
+  buyerReputationDelta: number;
+  evaluatorRationale: string;
+  proofHash: string;
+  createdAt: string;
+};
+
 export type KleosStore = {
   creators: Creator[];
   contentItems: ContentItem[];
@@ -234,6 +266,8 @@ export type KleosStore = {
   creatorCashouts: CreatorCashout[];
   claimTraces: ClaimTrace[];
   testerAttestations: TesterAttestation[];
+  receiptVerifications: ReceiptVerification[];
+  citationChallenges: CitationChallenge[];
 };
 
 export type CatalogItem = ContentItem & {

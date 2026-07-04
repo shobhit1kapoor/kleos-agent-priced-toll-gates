@@ -97,6 +97,34 @@ if (-not $answerProof.claimTraces -or $answerProof.claimTraces.Count -lt 1) {
 Write-Host "Proof hash: $($answerProof.proofHash)"
 Write-Host "Claim traces: $($answerProof.claimTraces.Count)"
 
+Write-Step "Receipt verification"
+$receiptId = $settlement.citationReceipts[0].id
+$verification = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/receipts/verify" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body "{`"receiptId`":`"$receiptId`"}"
+if ($verification.verification.status -eq "invalid") {
+  throw "Receipt verification failed."
+}
+if (-not $verification.verification.proofHash) {
+  throw "Receipt verification did not return a proof hash."
+}
+Write-Host "Verification: $($verification.verification.status)"
+Write-Host "Verification proof: $($verification.verification.proofHash)"
+
+Write-Step "Citation challenge broker"
+$challenge = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/citations/challenge" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body "{`"receiptId`":`"$receiptId`",`"challenger`":`"Judge Smoke Auditor`",`"challengeReason`":`"Stress-test citation support before submission.`",`"claimedWeakness`":`"weak_support_span`"}"
+if (-not $challenge.challenge.proofHash) {
+  throw "Citation challenge did not return a proof hash."
+}
+Write-Host "Challenge status: $($challenge.challenge.status)"
+Write-Host "Challenge proof: $($challenge.challenge.proofHash)"
+
 Write-Step "Signed creator webhooks"
 $webhooks = Invoke-RestMethod `
   -Uri "$BaseUrl/api/webhooks/dispatch" `
@@ -159,6 +187,8 @@ Write-Host "Claim traces: $($ledger.metrics.claimTraces)"
 Write-Host "Webhook deliveries: $($ledger.metrics.webhookDeliveries)"
 Write-Host "Creator cash-outs: $($ledger.metrics.creatorCashouts)"
 Write-Host "Tester attestations: $($ledger.metrics.testerAttestations)"
+Write-Host "Receipt verifications: $($ledger.metrics.receiptVerifications)"
+Write-Host "Citation challenges: $($ledger.metrics.citationChallenges)"
 
 Write-Step "Publisher kit"
 $publisherKit = Invoke-RestMethod "$BaseUrl/api/publisher-kit"
