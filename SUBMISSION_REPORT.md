@@ -60,6 +60,8 @@ Implemented:
 - Public transparency log that rolls payments, citation receipts, collaborator
   splits, impact grants, cash-outs, verifications, and challenges into a root
   hash with per-entry inclusion proofs.
+- Impact graph endpoint that traces source -> read toll -> citation receipt ->
+  claim -> split/impact/cash-out records as a value-flow graph.
 - Adversarial citation challenge route that releases or risks the broker bond
   depending on receipt and support quality.
 - Signed creator webhook records for citation, impact, and cash-out events.
@@ -272,6 +274,7 @@ Target length: under 3 minutes.
 - `/api/receipts/verify` verifies receipt integrity.
 - `/api/transparency/log` and `/api/transparency/proof/:id` expose the public
   settlement/audit root and inclusion proofs.
+- `/api/impact/graph` exposes the source-to-answer-to-creator value graph.
 - `/api/citations/challenge` records citation challenge outcomes.
 - `/api/traction/campaign` returns tester asks and success gates.
 - `/api/traction/github` verifies public tester issue evidence.

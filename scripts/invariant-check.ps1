@@ -129,6 +129,8 @@ Assert-True ($proofPack.apiSurfaces -contains "GET /api/submission/certificate")
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/tester/one-click") "Proof pack missing one-click tester surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/impact/graph") "Proof pack missing impact graph surface."
+Assert-True ($proofPack.impactGraph.graphHash -like "0x*") "Proof pack missing impact graph hash."
 Write-Host "Proof pack surfaces checked."
 
 Write-Step "Submission certificate invariants"
@@ -164,6 +166,12 @@ $mcpTransparency = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_transparency_log","arguments":{}}}'
 Assert-True ($mcpTransparency.result.structuredContent.rootHash -like "0x*") "MCP transparency log did not return a root hash."
+$mcpImpactGraph = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_impact_graph","arguments":{}}}'
+Assert-True ($mcpImpactGraph.result.structuredContent.graphHash -like "0x*") "MCP impact graph did not return a graph hash."
 $mcpTester = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
@@ -209,6 +217,10 @@ Assert-True ($sameSnapshotProof.verified) "Transparency sample inclusion proof d
 Assert-True ($sameSnapshotProof.recomputedRoot -eq $transparencyLog.rootHash) "Transparency sample inclusion proof root mismatch."
 $transparencyProof = Invoke-RestMethod "$BaseUrl/api/transparency/proof/$($sameSnapshotProof.entryId)"
 Assert-True ($transparencyProof.verified) "Transparency inclusion proof did not verify."
+$impactGraph = Invoke-RestMethod "$BaseUrl/api/impact/graph"
+Assert-True ($impactGraph.graphHash -like "0x*") "Impact graph did not return a graph hash."
+Assert-True ($impactGraph.summary.edges -ge $ledger.citationReceipts.Count) "Impact graph has too few value-flow edges."
+Assert-True (($impactGraph.nodes | Where-Object { $_.type -eq "creator" }).Count -ge 1) "Impact graph is missing creator nodes."
 $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `

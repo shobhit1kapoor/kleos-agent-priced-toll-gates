@@ -1,4 +1,5 @@
 import { getGithubTractionSnapshot } from "./github-traction";
+import { buildImpactGraph } from "./impact-graph";
 import { getLedgerSnapshot } from "./ledger";
 import { buildSourceRegistry } from "./source-registry";
 import { buildTransparencyLog } from "./transparency-log";
@@ -11,6 +12,7 @@ export async function buildPublicStatus() {
   const githubTraction = await getGithubTractionSnapshot();
   const sourceRegistry = buildSourceRegistry();
   const transparencyLog = buildTransparencyLog();
+  const impactGraph = buildImpactGraph();
 
   const checks = [
     {
@@ -58,6 +60,12 @@ export async function buildPublicStatus() {
       detail: `${transparencyLog.entryCount} audited settlement/audit entries rooted at ${transparencyLog.rootHash.slice(0, 12)}...`,
     },
     {
+      id: "impact-graph",
+      label: "Impact graph",
+      status: impactGraph.summary.edges >= 1 ? "pass" : "warn",
+      detail: `${impactGraph.summary.nodes} node(s), ${impactGraph.summary.edges} edge(s), ${impactGraph.summary.valueFlowUsdc} USDC traced.`,
+    },
+    {
       id: "public-traction",
       label: "Public tester traction",
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
@@ -98,6 +106,7 @@ export async function buildPublicStatus() {
       provenance: `${APP_URL}/api/provenance`,
       submissionCertificate: `${APP_URL}/api/submission/certificate`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
+      impactGraph: `${APP_URL}/api/impact/graph`,
       transparencyLog: `${APP_URL}/api/transparency/log`,
       githubTraction: `${APP_URL}/api/traction/github`,
       oneClickTester: `${APP_URL}/api/tester/one-click`,
@@ -122,6 +131,11 @@ export async function buildPublicStatus() {
       rootHash: transparencyLog.rootHash,
       entryCount: transparencyLog.entryCount,
       totals: transparencyLog.totals,
+    },
+    impactGraph: {
+      schema: impactGraph.schema,
+      graphHash: impactGraph.graphHash,
+      summary: impactGraph.summary,
     },
   };
 }
@@ -198,6 +212,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/transparency/proof/{id}": { get: { summary: "Inclusion proof for a transparency log entry." } },
       "/api/citations/challenge": { get: { summary: "Latest citation challenge." }, post: { summary: "Challenge weak citation support." } },
       "/api/impact/settle": { post: { summary: "Allocate sponsor impact pool to cited sources." } },
+      "/api/impact/graph": { get: { summary: "Source-to-answer-to-creator impact graph with value-flow edges and proof hashes." } },
       "/api/webhooks/dispatch": { post: { summary: "Create signed creator webhook delivery records." } },
       "/api/creators/cashout": { post: { summary: "Queue Arc-ready creator cash-out batches." } },
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },

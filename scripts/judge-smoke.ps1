@@ -162,6 +162,14 @@ if (-not $transparencyProof.verified) {
 Write-Host "Transparency root: $($transparencyLog.rootHash)"
 Write-Host "Transparency proof: $($sameSnapshotProof.entryId)"
 
+Write-Step "Impact graph"
+$impactGraph = Invoke-RestMethod "$BaseUrl/api/impact/graph"
+if (-not $impactGraph.graphHash -or $impactGraph.summary.edges -lt 1) {
+  throw "Impact graph did not return a graph hash and value-flow edges."
+}
+Write-Host "Impact graph: $($impactGraph.summary.nodes) nodes, $($impactGraph.summary.edges) edges"
+Write-Host "Impact graph hash: $($impactGraph.graphHash)"
+
 Write-Step "Tester attestation"
 $attestation = Invoke-RestMethod `
   -Uri "$BaseUrl/api/traction/attest" `

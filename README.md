@@ -74,6 +74,8 @@ tiny toll.
   and mark the broker bond at risk when support fails.
 - `POST /api/impact/settle` - allocates a sponsor-backed impact pool only after
   citation receipts prove which sources changed the answer.
+- `GET /api/impact/graph` - returns the source-to-answer-to-creator value graph
+  with proof hashes for nodes and edges.
 - `POST /api/webhooks/dispatch` - queues signed creator webhook payloads for
   citation, impact, and cash-out events.
 - `POST /api/creators/cashout` - aggregates creator balances from read tolls,

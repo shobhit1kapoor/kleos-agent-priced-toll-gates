@@ -4,6 +4,7 @@ import { createPaymentProof, settlePayment } from "./charon";
 import { getEncryptedVaultItem, releaseVaultKey } from "./content-vault";
 import { createCreatorCashouts, dispatchCreatorWebhooks } from "./creator-ops";
 import { getGithubTractionSnapshot } from "./github-traction";
+import { buildImpactGraph } from "./impact-graph";
 import { settleImpactPool } from "./impact-pool";
 import { getLedgerSnapshot } from "./ledger";
 import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
@@ -140,6 +141,11 @@ export const mcpTools: ToolDefinition[] = [
         sponsorPoolUsdc: { type: "number" },
       },
     },
+  },
+  {
+    name: "get_impact_graph",
+    description: "Return source-to-answer-to-creator value graph with proof hashes for nodes and edges.",
+    inputSchema: { type: "object", properties: {} },
   },
   {
     name: "dispatch_creator_webhooks",
@@ -304,6 +310,8 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
           sponsorPoolUsdc: asNumber(args.sponsorPoolUsdc),
         }),
       );
+    case "get_impact_graph":
+      return toolResult(buildImpactGraph());
     case "dispatch_creator_webhooks":
       return toolResult(
         dispatchCreatorWebhooks({

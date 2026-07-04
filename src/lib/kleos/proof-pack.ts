@@ -2,6 +2,7 @@ import { getLedgerSnapshot } from "./ledger";
 import { buildPublisherKit } from "./publisher-kit";
 import { buildSubmissionReport } from "./submission";
 import { buildAnswerProof } from "./answer-proof";
+import { buildImpactGraph } from "./impact-graph";
 import { buildTractionCampaign } from "./traction";
 import { buildTransparencyLog } from "./transparency-log";
 
@@ -10,6 +11,7 @@ export function buildProofPack(origin?: string) {
   const report = buildSubmissionReport();
   const publisherKit = buildPublisherKit(origin);
   const answerProof = buildAnswerProof(undefined, origin);
+  const impactGraph = buildImpactGraph();
   const tractionCampaign = buildTractionCampaign(origin);
   const transparencyLog = buildTransparencyLog();
 
@@ -22,6 +24,7 @@ export function buildProofPack(origin?: string) {
       "Two-stage economics: read tolls unlock sources, citation tolls pay only sources used in final answers.",
       "Answer-linked receipts: every citation has an answer hash, support span, read payment, citation payment, confidence, and receipt hash.",
       "Claim-level proof: finalized answers expose covered, partial, and unsupported claims with receipt-backed support traces.",
+      "Impact graph: source, read-payment, citation, claim, split, creator, impact, and cash-out nodes expose how information turns into creator settlement.",
       "Creator operations: signed webhook delivery records and Arc-ready cash-out records are generated from citation and impact settlement.",
       "Adversarial audit layer: receipts can be independently verified and weak citations can put the broker bond at risk.",
       "Transparency log: payments, citation receipts, splits, impact grants, cash-outs, verifications, and challenges roll into a public root hash with per-entry inclusion proofs.",
@@ -62,6 +65,7 @@ export function buildProofPack(origin?: string) {
       "Run node packages/kleos-mcp/bin/kleos-mcp.js --list-tools",
       "Open /api/proof-pack",
       "Open /api/answers/proof",
+      "Open /api/impact/graph",
       "Open /api/transparency/log and /api/transparency/proof/:id",
       "POST /api/trial/sponsored",
       "POST /api/webhooks/dispatch",
@@ -86,6 +90,12 @@ export function buildProofPack(origin?: string) {
     gatewayProof: ledger.gatewayProof,
     latestAnswerSettlement: ledger.answerSettlements[0] ?? null,
     latestAnswerProof: answerProof,
+    impactGraph: {
+      graphHash: impactGraph.graphHash,
+      summary: impactGraph.summary,
+      sampleNodes: impactGraph.nodes.slice(0, 8),
+      sampleEdges: impactGraph.edges.slice(0, 8),
+    },
     latestCitationReceipts: ledger.citationReceipts.slice(0, 5),
     impactGrants: ledger.impactGrants.slice(0, 8),
     creatorWebhooks: ledger.creatorWebhooks.slice(0, 8),
@@ -125,6 +135,7 @@ export function buildProofPack(origin?: string) {
       "POST /api/citations/finalize",
       "GET /api/answers/proof",
       "POST /api/impact/settle",
+      "GET /api/impact/graph",
       "POST /api/webhooks/dispatch",
       "POST /api/creators/cashout",
       "GET /api/receipts/verify",
