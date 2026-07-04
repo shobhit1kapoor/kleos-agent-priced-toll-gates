@@ -280,6 +280,16 @@ if (-not $oneClick.trial.citationReceipts -or $oneClick.trial.citationReceipts.C
 }
 Write-Host "One-click proof: $($oneClick.attestation.proofHash)"
 
+Write-Step "Traction command center"
+$tractionPage = Invoke-WebRequest -UseBasicParsing "$BaseUrl/traction"
+if ($tractionPage.Content -notlike "*Public Traction Command Center*") {
+  throw "Traction command center did not render expected content."
+}
+if ($tractionPage.Content -notlike "*Public traction gates*") {
+  throw "Traction command center is missing gate content."
+}
+Write-Host "Traction command center rendered."
+
 Write-Step "Proof explorer page"
 $proofExplorer = Invoke-WebRequest -UseBasicParsing "$BaseUrl/proof"
 if ($proofExplorer.Content -notlike "*Kleos Proof Explorer*") {
@@ -339,6 +349,9 @@ if (-not $openApi.paths."/api/publishers/verify") {
 }
 if (-not $openApi.paths."/api/reputation/passport") {
   throw "OpenAPI manifest is missing reputation passport route."
+}
+if (-not $openApi.paths."/traction") {
+  throw "OpenAPI manifest is missing traction command center route."
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 

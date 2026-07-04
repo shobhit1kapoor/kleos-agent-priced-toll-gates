@@ -89,6 +89,8 @@ tiny toll.
   prefilled GitHub attestation issue URL.
 - `GET /test` - public tester page that lets nontechnical testers run the hosted
   scenario and open the prefilled GitHub issue from a browser.
+- `GET /traction` - public traction command center with live GitHub gate status,
+  role-specific tester invite links, outreach copy, and judge proof links.
 - `GET /proof` - public proof explorer that turns the x402 receipt, submission
   certificate, transparency root, impact graph, and traction gates into a
   reviewer-readable audit console.

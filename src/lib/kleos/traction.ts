@@ -181,6 +181,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
 
   const links = {
     app: origin,
+    tractionCenter: `${origin}/traction`,
     testerPage: `${origin}/test`,
     proofPack: `${origin}/api/proof-pack`,
     answerProof: `${origin}/api/answers/proof`,
@@ -228,6 +229,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       roles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
     },
     testerFlow: [
+      "Fastest command-center path: open /traction, pick the missing role, send the invite link, then verify the GitHub issue gate.",
       "Fastest browser path: open /test, run the tester flow, then submit the generated GitHub issue.",
       "Fastest invite path: open /api/traction/invite?role=creator or /api/traction/invite?role=builder and send the generated role-specific link.",
       "Fastest hosted path: POST your name and role to /api/tester/one-click, then submit the returned GitHub issue URL.",

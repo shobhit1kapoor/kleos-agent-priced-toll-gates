@@ -75,6 +75,9 @@ Implemented:
   clone and returns the prefilled public GitHub issue URL.
 - Public `/test` tester page that makes the same proof-hash and GitHub-issue
   flow usable from a browser.
+- Public `/traction` command center that shows live GitHub traction gates,
+  role-specific tester invite links, outreach copy, and judge proof links in one
+  reviewer-readable page.
 - Public `/proof` proof explorer that presents the live x402 receipt, submission
   certificate, transparency root, impact graph, proof links, and honest traction
   gates in one reviewer-readable page.

@@ -59,6 +59,7 @@ export async function buildSubmissionBundle(origin: string) {
       githubUrl: certificate.project.github,
       proofExplorer: certificate.judgeProofLinks.proofExplorer,
       creatorEarnings: certificate.judgeProofLinks.creatorEarnings,
+      tractionCenter: certificate.judgeProofLinks.tractionCenter,
       proofPack: certificate.judgeProofLinks.proofPack,
       submissionCertificate: certificate.judgeProofLinks.submissionCertificate,
       liveX402ReceiptUrl: certificate.judgeProofLinks.liveX402Receipt,
@@ -66,6 +67,7 @@ export async function buildSubmissionBundle(origin: string) {
     judgeRunbook: [
       "Open the live dashboard and click Run scenario.",
       "Open /proof to see the x402 receipt, score certificate, transparency root, and traction gates.",
+      "Open /traction to see live public tester gates, role-specific invite links, and outreach copy.",
       "Open /api/proof-pack to inspect differentiators, receipts, claim traces, impact graph, spend permits, and proof links.",
       "Open /api/agents/spend-permits?permitId=permit_seed_judge_agent to verify external-agent spend limits.",
       "Open /creators to inspect read toll splits, citation toll splits, impact rewards, and cash-outs.",

@@ -25,6 +25,7 @@ const proofLinks = [
   { label: "Transparency log", href: "/api/transparency/log" },
   { label: "Impact graph", href: "/api/impact/graph" },
   { label: "Public status", href: "/api/status" },
+  { label: "Traction center", href: "/traction" },
   { label: "GitHub traction", href: "/api/traction/github" },
 ];
 
