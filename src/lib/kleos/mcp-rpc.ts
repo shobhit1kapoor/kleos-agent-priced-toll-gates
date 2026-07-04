@@ -7,6 +7,7 @@ import { getGithubTractionSnapshot } from "./github-traction";
 import { buildImpactGraph } from "./impact-graph";
 import { settleImpactPool } from "./impact-pool";
 import { getLedgerSnapshot } from "./ledger";
+import { getPublisherVerificationSnapshot, verifyPublisherOwnership } from "./publisher-verification";
 import { buildPublicStatus, buildTreasuryProof } from "./public-ops";
 import { verifyCitationReceipt } from "./receipt-verifier";
 import { importRssFeed } from "./rss-import";
@@ -104,6 +105,28 @@ export const mcpTools: ToolDefinition[] = [
         limit: { type: "number" },
       },
     },
+  },
+  {
+    name: "verify_publisher_ownership",
+    description: "Issue or verify a publisher ownership challenge for a creator wallet and source domain.",
+    inputSchema: {
+      type: "object",
+      required: ["creatorName", "wallet", "publisherUrl"],
+      properties: {
+        creatorName: { type: "string" },
+        wallet: { type: "string" },
+        publisherUrl: { type: "string" },
+        feedUrl: { type: "string" },
+        proofUrl: { type: "string" },
+        proofText: { type: "string" },
+        method: { type: "string" },
+      },
+    },
+  },
+  {
+    name: "list_publisher_verifications",
+    description: "Return publisher ownership challenges and verified creator/source owner records.",
+    inputSchema: { type: "object", properties: {} },
   },
   {
     name: "get_encrypted_vault_item",
@@ -304,6 +327,20 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
           limit: asNumber(args.limit),
         }),
       );
+    case "verify_publisher_ownership":
+      return toolResult(
+        await verifyPublisherOwnership({
+          creatorName: asString(args.creatorName),
+          wallet: asString(args.wallet),
+          publisherUrl: asString(args.publisherUrl),
+          feedUrl: asString(args.feedUrl) || undefined,
+          proofUrl: asString(args.proofUrl) || undefined,
+          proofText: asString(args.proofText) || undefined,
+          method: (asString(args.method) || undefined) as Parameters<typeof verifyPublisherOwnership>[0]["method"],
+        }),
+      );
+    case "list_publisher_verifications":
+      return toolResult(getPublisherVerificationSnapshot());
     case "get_encrypted_vault_item": {
       const item = getEncryptedVaultItem(asString(args.itemId), origin);
       if (!item) {

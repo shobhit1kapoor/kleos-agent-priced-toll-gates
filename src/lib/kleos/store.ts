@@ -6,6 +6,7 @@ import type {
   Creator,
   CreatorRole,
   KleosStore,
+  PublisherVerification,
   ReceiptVerification,
 } from "./types";
 import {
@@ -267,6 +268,21 @@ const seedCitationChallenge: CitationChallenge = {
   proofHash: makeShapeHash(`challenge:${seedReceiptHash}:rejected`),
   createdAt: now(),
 };
+const seedPublisherVerification: PublisherVerification = {
+  id: "pv_seed_civic",
+  creatorId: "cr_civic",
+  creatorName: "Civic Ledger",
+  wallet: "0xc171c40000000000000000000000000000000d44",
+  publisherUrl: "https://thecanteenapp.com",
+  feedUrl: "https://thecanteenapp.com/feed.xml",
+  method: "well-known",
+  challenge: "kleos-verify:cr_civic:0xc171c40000000000000000000000000000000d44",
+  proofUrl: "https://thecanteenapp.com/.well-known/kleos.json",
+  proofDigest: makeShapeHash("pv_seed_civic:verified"),
+  status: "verified",
+  checkedAt: now(),
+  createdAt: now(),
+};
 
 const initialStore = (): KleosStore => ({
   creators,
@@ -516,6 +532,7 @@ const initialStore = (): KleosStore => ({
       createdAt: now(),
     },
   ],
+  publisherVerifications: [seedPublisherVerification],
   claimTraces: [
     {
       id: "claim_seed_gateway",
@@ -561,6 +578,7 @@ function ensureStoreShape(store: KleosStore) {
   store.creatorWebhooks ??= [];
   store.webhookDeliveries ??= [];
   store.creatorCashouts ??= [];
+  store.publisherVerifications ??= [];
   store.claimTraces ??= [];
   store.testerAttestations ??= [];
   store.receiptVerifications ??= [];

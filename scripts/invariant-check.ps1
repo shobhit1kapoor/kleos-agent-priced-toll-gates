@@ -130,8 +130,11 @@ Assert-True ($proofPack.apiSurfaces -contains "POST /api/tester/one-click") "Pro
 Assert-True ($proofPack.apiSurfaces -contains "GET /proof") "Proof pack missing public proof explorer surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /creators") "Proof pack missing public creator earnings surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/sources/import-rss") "Proof pack missing RSS import surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/publishers/verify") "Proof pack missing publisher verification list surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/publishers/verify") "Proof pack missing publisher verification surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
+Assert-True ($proofPack.transparencyLog.totals.publisher_verification -ge 1) "Proof pack transparency log is missing publisher verification leaves."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/impact/graph") "Proof pack missing impact graph surface."
 Assert-True ($proofPack.impactGraph.graphHash -like "0x*") "Proof pack missing impact graph hash."
 Write-Host "Proof pack surfaces checked."
@@ -159,6 +162,8 @@ $toolsList = Invoke-RestMethod `
 Assert-True ($toolsList.result.tools.Count -ge 10) "MCP tools/list returned too few tools."
 $rssTools = @($toolsList.result.tools | Where-Object { $_.name -eq "import_rss_feed" })
 Assert-True ($rssTools.Count -eq 1) "MCP tools/list is missing import_rss_feed."
+$publisherTools = @($toolsList.result.tools | Where-Object { $_.name -eq "verify_publisher_ownership" })
+Assert-True ($publisherTools.Count -eq 1) "MCP tools/list is missing verify_publisher_ownership."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

@@ -172,6 +172,12 @@ export async function buildSubmissionCertificate() {
         "Callable MCP JSON-RPC, well-known MCP discovery, well-known agent card, packageable MCP bridge, and x402-priced A2A research endpoint are exposed.",
     },
     {
+      id: "publisher-verification",
+      label: "Publisher ownership verification",
+      status: ledger.metrics.verifiedPublishers >= 1 ? "pass" : "warn",
+      detail: `${ledger.metrics.verifiedPublishers} verified publisher ownership record(s).`,
+    },
+    {
       id: "traction-honesty",
       label: "Public tester traction gate",
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
@@ -236,6 +242,7 @@ export async function buildSubmissionCertificate() {
       submissionReport: `${APP_URL}/api/submission/report`,
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
+      publisherVerification: `${APP_URL}/api/publishers/verify`,
       impactGraph: `${APP_URL}/api/impact/graph`,
       transparencyLog: `${APP_URL}/api/transparency/log`,
       liveX402Receipt: arcExplorerTxUrl(ledger.gatewayProof.liveX402Receipt.receiptId),

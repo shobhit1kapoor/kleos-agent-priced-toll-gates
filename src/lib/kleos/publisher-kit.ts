@@ -16,6 +16,7 @@ export function buildPublisherKit(origin?: string) {
       pricingAgent: `${baseUrl}/api/pricing/recompute`,
       catalog: `${baseUrl}/api/catalog`,
       rssImport: `${baseUrl}/api/sources/import-rss`,
+      publisherVerification: `${baseUrl}/api/publishers/verify`,
       mcp: `${baseUrl}/api/mcp`,
       contentGateway: `${baseUrl}/api/content/{itemId}`,
       sourceRegistry: `${baseUrl}/api/registry/sources`,
@@ -34,6 +35,8 @@ export function buildPublisherKit(origin?: string) {
         citation: sample ? sample.citationPriceUsdc ?? sample.currentPriceUsdc * 0.35 : 0.0014,
       },
       splitPolicy: "Collaborator splits must sum to 10000 basis points.",
+      ownershipPolicy:
+        "Publishers prove ownership by placing a Kleos challenge in /.well-known/kleos.json or an RSS/Atom feed proof before sources are marked owner-verified.",
       notificationPolicy:
         "Creators can receive signed citation, impact, and cash-out webhook payloads keyed by creator wallet.",
       cashoutPolicy:
@@ -55,6 +58,7 @@ export function buildPublisherKit(origin?: string) {
     judgeCurl: [
       `curl ${baseUrl}/api/catalog`,
       `curl -X POST ${baseUrl}/api/sources/import-rss -H "Content-Type: application/json" -d "{\\"feedUrl\\":\\"https://example.com/feed.xml\\",\\"creatorName\\":\\"Example Publisher\\",\\"limit\\":1}"`,
+      `curl -X POST ${baseUrl}/api/publishers/verify -H "Content-Type: application/json" -d "{\\"creatorName\\":\\"Example Publisher\\",\\"wallet\\":\\"0x0000000000000000000000000000000000000001\\",\\"publisherUrl\\":\\"https://example.com\\"}"`,
       `curl -i ${baseUrl}/api/content/${sample?.id ?? "ci_arc_gateway_notes"}`,
       `curl ${baseUrl}/api/registry/sources`,
       `curl ${baseUrl}/api/vault/${sample?.id ?? "ci_arc_gateway_notes"}`,

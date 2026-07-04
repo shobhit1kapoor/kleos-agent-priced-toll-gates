@@ -42,6 +42,8 @@ The bridge forwards to the live Kleos MCP JSON-RPC endpoint, including:
 - `get_answer_proof`
 - `list_source_registry`
 - `import_rss_feed`
+- `verify_publisher_ownership`
+- `list_publisher_verifications`
 - `get_encrypted_vault_item`
 - `release_vault_key`
 - `ask_kleos_agent`

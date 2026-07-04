@@ -61,6 +61,31 @@ if (-not $rssImport.imported -or $rssImport.imported.Count -lt 1) {
 }
 Write-Host "RSS imported: $($rssImport.imported.Count) source(s) in $($rssImport.feed.mode) mode"
 
+Write-Step "Publisher ownership verification"
+$publisherChallenge = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/publishers/verify" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"creatorName":"Judge RSS Publisher","wallet":"0x0000000000000000000000000000000000000001","publisherUrl":"https://example.com","feedUrl":"https://example.com/kleos-smoke-feed.xml"}'
+$challenge = $publisherChallenge.record.challenge
+$publisherVerifyBody = @{
+  creatorName = "Judge RSS Publisher"
+  wallet = "0x0000000000000000000000000000000000000001"
+  publisherUrl = "https://example.com"
+  feedUrl = "https://example.com/kleos-smoke-feed.xml"
+  method = "manual-proof"
+  proofText = "Kleos ownership proof: $challenge"
+} | ConvertTo-Json -Compress
+$publisherVerification = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/publishers/verify" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body $publisherVerifyBody
+if (-not $publisherVerification.verified) {
+  throw "Publisher ownership verification did not pass."
+}
+Write-Host "Publisher verified: $($publisherVerification.record.id)"
+
 Write-Step "Budgeted buyer agent"
 $run = Invoke-RestMethod `
   -Uri "$BaseUrl/api/agent/research" `
@@ -277,6 +302,9 @@ if (-not $openApi.paths."/api/trial/sponsored") {
 }
 if (-not $openApi.paths."/api/sources/import-rss") {
   throw "OpenAPI manifest is missing RSS import route."
+}
+if (-not $openApi.paths."/api/publishers/verify") {
+  throw "OpenAPI manifest is missing publisher verification route."
 }
 Write-Host "OpenAPI: $($openApi.info.title)"
 

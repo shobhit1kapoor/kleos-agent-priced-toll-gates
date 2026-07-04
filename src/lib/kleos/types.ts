@@ -190,6 +190,22 @@ export type CreatorCashout = {
   createdAt: string;
 };
 
+export type PublisherVerification = {
+  id: string;
+  creatorId: string;
+  creatorName: string;
+  wallet: string;
+  publisherUrl: string;
+  feedUrl?: string;
+  method: "well-known" | "feed-proof" | "manual-proof";
+  challenge: string;
+  proofUrl: string;
+  proofDigest: string;
+  status: "challenge_issued" | "verified" | "failed";
+  checkedAt?: string;
+  createdAt: string;
+};
+
 export type ClaimTrace = {
   id: string;
   sessionId: string;
@@ -264,6 +280,7 @@ export type KleosStore = {
   creatorWebhooks: CreatorWebhook[];
   webhookDeliveries: WebhookDelivery[];
   creatorCashouts: CreatorCashout[];
+  publisherVerifications: PublisherVerification[];
   claimTraces: ClaimTrace[];
   testerAttestations: TesterAttestation[];
   receiptVerifications: ReceiptVerification[];

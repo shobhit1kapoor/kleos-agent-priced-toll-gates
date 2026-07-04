@@ -36,6 +36,7 @@ export function buildSubmissionReport() {
         "Seller pricing agent using paid reads, skipped reads, citation rate, and citation confidence.",
         "Creator source registration flow.",
         "RSS/Ghost-style import path for creator onboarding.",
+        "Publisher ownership verifier that binds domains or feeds to creator payout wallets before marking sources owner-verified.",
         "Citation receipts tying answer hashes, support spans, read payments, citation payments, and split payouts to grounded claims.",
         "Shareable answer proof endpoint with claim-level covered, partial, and unsupported support traces.",
         "Signed creator webhook dispatch records for citation, impact, and cash-out events.",

@@ -116,6 +116,33 @@ export async function GET() {
         },
       },
       {
+        name: "verify_publisher_ownership",
+        description:
+          "Issue or verify a publisher ownership challenge for a creator wallet and source domain.",
+        inputSchema: {
+          type: "object",
+          required: ["creatorName", "wallet", "publisherUrl"],
+          properties: {
+            creatorName: { type: "string" },
+            wallet: { type: "string" },
+            publisherUrl: { type: "string" },
+            feedUrl: { type: "string" },
+            proofUrl: { type: "string" },
+            proofText: { type: "string" },
+            method: {
+              type: "string",
+              enum: ["well-known", "feed-proof", "manual-proof"],
+            },
+          },
+        },
+      },
+      {
+        name: "list_publisher_verifications",
+        description:
+          "Return publisher ownership challenges and verified creator/source owner records.",
+        inputSchema: { type: "object", properties: {} },
+      },
+      {
         name: "get_encrypted_vault_item",
         description:
           "Return public ciphertext and x402-gated key-release policy for a paid creator source.",

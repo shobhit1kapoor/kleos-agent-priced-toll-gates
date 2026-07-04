@@ -83,6 +83,8 @@ Implemented:
   cash-out records for each creator.
 - Live RSS/Atom importer that lets a creator or publisher paste a feed URL and
   register recent entries as x402-priced sources.
+- Publisher ownership verifier that binds a publisher domain/feed challenge to a
+  creator payout wallet before sources are marked owner-verified.
 - Traction campaign endpoint with role-specific tester asks, curl payloads,
   Discord/X copy, and exact success gates for closing the external usage gap.
 - GitHub traction verifier that counts public `tester-attestation` issues as
@@ -297,6 +299,7 @@ Target length: under 3 minutes.
 - `/creators` exposes the creator earnings ledger.
 - `/api/sources/import-rss` imports recent RSS/Atom entries into the priced
   source catalog.
+- `/api/publishers/verify` issues and verifies publisher ownership challenges.
 - `scripts/tester-run.ps1` gives external testers a one-command path to produce
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.

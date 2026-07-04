@@ -16,6 +16,7 @@ export async function GET(request: Request) {
         mcpManifest: `${origin}/api/mcp`,
         publisherManifest: `${origin}/api/publisher-kit`,
         rssImport: `${origin}/api/sources/import-rss`,
+        publisherVerification: `${origin}/api/publishers/verify`,
         sourceRegistry: `${origin}/api/registry/sources`,
         encryptedVault: `${origin}/api/vault/ci_arc_gateway_notes`,
         a2aAsk: `${origin}/api/a2a/ask`,
@@ -26,6 +27,7 @@ export async function GET(request: Request) {
       agentFlow: [
         "GET /api/catalog to discover previews, prices, citation tolls, and splits.",
         "POST /api/sources/import-rss to turn a publisher RSS/Atom feed into priced creator sources.",
+        "POST /api/publishers/verify to bind a publisher domain challenge to a creator payout wallet.",
         "GET /api/content/:id without payment to receive a 402 challenge.",
         "Retry with PAYMENT-SIGNATURE after Circle Gateway authorization.",
         "GET /api/vault/:id to inspect public encrypted content, then POST /api/vault/:id/key after payment proof.",
@@ -41,6 +43,7 @@ export async function GET(request: Request) {
         challenge: `curl -i ${origin}/api/content/ci_arc_gateway_notes`,
         localProof: `curl -H "PAYMENT-SIGNATURE: kleos-payment-proof:ci_arc_gateway_notes:oss-kit" ${origin}/api/content/ci_arc_gateway_notes`,
         rssImport: `curl -X POST ${origin}/api/sources/import-rss -H "Content-Type: application/json" -d "{\\"feedUrl\\":\\"https://example.com/feed.xml\\",\\"creatorName\\":\\"Example Publisher\\",\\"limit\\":1}"`,
+        publisherVerify: `curl -X POST ${origin}/api/publishers/verify -H "Content-Type: application/json" -d "{\\"creatorName\\":\\"Example Publisher\\",\\"wallet\\":\\"0x0000000000000000000000000000000000000001\\",\\"publisherUrl\\":\\"https://example.com\\"}"`,
         registry: `curl ${origin}/api/registry/sources`,
         vault: `curl ${origin}/api/vault/ci_arc_gateway_notes`,
         vaultKey: `curl -X POST -H "PAYMENT-SIGNATURE: kleos-payment-proof:ci_arc_gateway_notes:oss-kit" ${origin}/api/vault/ci_arc_gateway_notes/key`,
@@ -59,6 +62,8 @@ export async function GET(request: Request) {
           "eventType, targetUrl, payloadDigest, signature, status, attempts",
         sourceRegistry:
           "registryId, creatorScopedId, metadataCid, encryptedContentCid, splitDigest, splitBps, economics",
+        publisherVerification:
+          "creatorName, wallet, publisherUrl, challenge, proofUrl, proofDigest, status",
         vaultKeyRelease:
           "releaseId, itemId, algorithm, key, releaseProof, policy, createdAt",
         a2aSettlement:

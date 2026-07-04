@@ -8,6 +8,7 @@ type TransparencyRecordType =
   | "answer_settlement"
   | "impact_grant"
   | "creator_cashout"
+  | "publisher_verification"
   | "receipt_verification"
   | "citation_challenge";
 
@@ -202,6 +203,22 @@ function buildRawEntries() {
         status: cashout.status,
         txHash: cashout.txHash,
         explorerUrl: cashout.explorerUrl,
+      }),
+    ),
+    ...ledger.publisherVerifications.map((verification) =>
+      entry("publisher_verification", verification.id, verification.createdAt, null, [
+        verification.creatorId,
+      ], {
+        creatorName: verification.creatorName,
+        wallet: verification.wallet,
+        publisherUrl: verification.publisherUrl,
+        feedUrl: verification.feedUrl,
+        method: verification.method,
+        challengeDigest: makeHash(verification.challenge),
+        proofUrl: verification.proofUrl,
+        proofDigest: verification.proofDigest,
+        status: verification.status,
+        checkedAt: verification.checkedAt,
       }),
     ),
     ...ledger.receiptVerifications.map((verification) =>

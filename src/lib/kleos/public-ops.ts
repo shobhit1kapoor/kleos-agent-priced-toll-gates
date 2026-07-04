@@ -42,6 +42,12 @@ export async function buildPublicStatus() {
       detail: `${ledger.metrics.webhookDeliveries} webhook delivery record(s), ${ledger.metrics.creatorCashouts} cash-out batch(es).`,
     },
     {
+      id: "publisher-verification",
+      label: "Publisher ownership verification",
+      status: ledger.metrics.verifiedPublishers >= 1 ? "pass" : "warn",
+      detail: `${ledger.metrics.verifiedPublishers} verified publisher ownership record(s).`,
+    },
+    {
       id: "audit",
       label: "Receipt audit layer",
       status: ledger.metrics.validReceiptVerifications >= 1 && ledger.metrics.citationChallenges >= 1 ? "pass" : "warn",
@@ -99,6 +105,7 @@ export async function buildPublicStatus() {
       catalog: `${APP_URL}/api/catalog`,
       openApi: `${APP_URL}/api/openapi`,
       treasury: `${APP_URL}/api/treasury`,
+      publisherVerification: `${APP_URL}/api/publishers/verify`,
       sourceRegistry: `${APP_URL}/api/registry/sources`,
       encryptedVault: `${APP_URL}/api/vault/ci_arc_gateway_notes`,
       a2aAsk: `${APP_URL}/api/a2a/ask`,
@@ -220,6 +227,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/creators": { get: { summary: "Public creator earnings ledger for read tolls, citation tolls, impact grants, and cash-outs." } },
       "/api/pricing/recompute": { post: { summary: "Run citation-aware seller repricing." } },
       "/api/sources/import-rss": { post: { summary: "Import recent RSS/Atom entries as x402-priced creator sources." } },
+      "/api/publishers/verify": { get: { summary: "List publisher ownership verification records." }, post: { summary: "Issue or verify a publisher ownership challenge." } },
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },

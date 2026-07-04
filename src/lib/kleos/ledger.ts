@@ -68,6 +68,7 @@ export function getLedgerSnapshot() {
       creatorWebhooks: store.creatorWebhooks.length,
       webhookDeliveries: store.webhookDeliveries.length,
       creatorCashouts: store.creatorCashouts.length,
+      verifiedPublishers: store.publisherVerifications.filter((entry) => entry.status === "verified").length,
       creatorCashoutUsdc: Number(
         store.creatorCashouts.reduce((sum, cashout) => sum + cashout.amountUsdc, 0).toFixed(6),
       ),
@@ -116,6 +117,7 @@ export function getLedgerSnapshot() {
     creatorWebhooks: store.creatorWebhooks,
     webhookDeliveries: store.webhookDeliveries,
     creatorCashouts: store.creatorCashouts,
+    publisherVerifications: store.publisherVerifications,
     testerAttestations: store.testerAttestations,
     receiptVerifications: store.receiptVerifications,
     citationChallenges: store.citationChallenges,

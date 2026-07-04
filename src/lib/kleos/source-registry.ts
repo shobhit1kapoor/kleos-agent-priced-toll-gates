@@ -12,6 +12,14 @@ function cid(seed: string) {
   return `ipfs://bafy${createHash("sha256").update(seed).digest("hex").slice(0, 46)}`;
 }
 
+function hostname(value: string) {
+  try {
+    return new URL(value).hostname.toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
 export function buildSourceRegistry() {
   const store = getStore();
   const records = getCatalogItems().map((item) => {
@@ -28,14 +36,36 @@ export function buildSourceRegistry() {
       (payment) => payment.itemId === item.id && payment.kind === "read",
     ).length;
     const citations = store.citationReceipts.filter((receipt) => receipt.itemId === item.id).length;
+    const ownerWallet = item.collaborators[0]?.wallet ?? KLEOS_SELLER_WALLET;
+    const sourceHost = hostname(item.sourceUrl);
+    const ownerVerification = store.publisherVerifications.find((verification) => {
+      const verificationHost = hostname(verification.publisherUrl);
+
+      return (
+        verification.status === "verified" &&
+        (verification.wallet.toLowerCase() === ownerWallet.toLowerCase() ||
+          verificationHost === sourceHost)
+      );
+    });
 
     return {
       registryId,
       itemId: item.id,
       title: item.title,
       sourceUrl: item.sourceUrl,
-      owner: item.collaborators[0]?.wallet ?? KLEOS_SELLER_WALLET,
+      owner: ownerWallet,
       creatorScopedId: digest(`${item.collaborators[0]?.id ?? "creator"}:${item.id}`).slice(0, 42),
+      ownerVerification: ownerVerification
+        ? {
+            status: ownerVerification.status,
+            verificationId: ownerVerification.id,
+            method: ownerVerification.method,
+            proofUrl: ownerVerification.proofUrl,
+            proofDigest: ownerVerification.proofDigest,
+          }
+        : {
+            status: "unverified",
+          },
       metadataCid,
       encryptedContentCid,
       splitDigest,
