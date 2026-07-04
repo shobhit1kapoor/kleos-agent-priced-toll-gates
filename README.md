@@ -116,6 +116,9 @@ tiny toll.
 - `GET /api/provenance` and `GET /api/submission/certificate` - machine-readable
   submission certificate binding the live deployment, public repo, CI status,
   Circle x402 receipt, score estimate, and public traction gates.
+- `GET /api/submission/bundle` - portable judge evidence bundle with form
+  fields, demo script, proof links, tester invites, score gates, and a bundle
+  hash.
 - `GET /api/submission/report` - judge-facing project summary, rubric mapping,
   current metrics, Gateway proof, and submission checklist.
 - `POST /api/sources/register` - creator source intake that adds a priced source

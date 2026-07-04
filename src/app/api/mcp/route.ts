@@ -328,6 +328,12 @@ export async function GET() {
           "Verify durable public tester attestations from GitHub issues labeled tester-attestation.",
         inputSchema: { type: "object", properties: {} },
       },
+      {
+        name: "get_submission_bundle",
+        description:
+          "Return the portable judge evidence bundle with form fields, proof links, demo script, tester invites, and score gates.",
+        inputSchema: { type: "object", properties: {} },
+      },
     ],
     resources: getCatalogItems().map((item) => ({
       uri: `kleos://content/${item.id}`,

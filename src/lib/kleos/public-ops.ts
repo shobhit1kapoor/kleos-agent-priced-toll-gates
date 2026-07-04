@@ -122,6 +122,7 @@ export async function buildPublicStatus() {
       proofPack: `${APP_URL}/api/proof-pack`,
       provenance: `${APP_URL}/api/provenance`,
       submissionCertificate: `${APP_URL}/api/submission/certificate`,
+      submissionBundle: `${APP_URL}/api/submission/bundle`,
       receiptVerifier: `${APP_URL}/api/receipts/verify?latest=true`,
       impactGraph: `${APP_URL}/api/impact/graph`,
       transparencyLog: `${APP_URL}/api/transparency/log`,
@@ -252,6 +253,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/proof-pack": { get: { summary: "Single judge proof pack." } },
       "/api/provenance": { get: { summary: "Submission certificate with deployment, CI, x402, score, and traction gates." } },
       "/api/submission/certificate": { get: { summary: "Judge-facing submission certificate alias for /api/provenance." } },
+      "/api/submission/bundle": { get: { summary: "Portable judge evidence bundle with form fields, demo script, proof links, tester invites, score gates, and bundle hash." } },
       "/api/competitive/positioning": { get: { summary: "Rubric score estimate with honest traction gates." } },
     },
   };

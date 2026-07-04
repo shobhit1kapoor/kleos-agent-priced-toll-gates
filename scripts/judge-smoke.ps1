@@ -479,6 +479,19 @@ $report = Invoke-RestMethod "$BaseUrl/api/submission/report"
 Write-Host "Project: $($report.project.name)"
 Write-Host "Readiness: $($report.rubric.readiness.totalPct)%"
 
+Write-Step "Submission bundle"
+$bundle = Invoke-RestMethod "$BaseUrl/api/submission/bundle"
+if ($bundle.bundleHash -notlike "0x*" -or -not $bundle.formFields.liveUrl) {
+  throw "Submission bundle is missing hash or form fields."
+}
+if (-not $bundle.demoScriptUnder3Min -or $bundle.demoScriptUnder3Min.Count -lt 4) {
+  throw "Submission bundle is missing demo script beats."
+}
+if (-not $bundle.testerRecruitment.creatorInvite.inviteUrl) {
+  throw "Submission bundle is missing tester invite links."
+}
+Write-Host "Bundle hash: $($bundle.bundleHash)"
+
 Write-Step "Proof pack"
 $proofPack = Invoke-RestMethod "$BaseUrl/api/proof-pack"
 if (-not $proofPack.strongestDifferentiators -or $proofPack.strongestDifferentiators.Count -lt 3) {

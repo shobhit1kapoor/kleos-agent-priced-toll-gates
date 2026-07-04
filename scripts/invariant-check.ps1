@@ -164,12 +164,23 @@ $certificate = Invoke-RestMethod "$BaseUrl/api/provenance"
 Assert-True ($certificate.project.name -eq "Kleos") "Submission certificate project name is wrong."
 Assert-True ($certificate.circleArcProof.liveX402Receipt.receiptId -eq $ledger.gatewayProof.liveX402Receipt.receiptId) "Submission certificate live x402 receipt does not match ledger."
 Assert-True ($certificate.judgeProofLinks.submissionCertificate -like "*/api/submission/certificate") "Submission certificate is missing judge alias link."
+Assert-True ($certificate.judgeProofLinks.submissionBundle -like "*/api/submission/bundle") "Submission certificate is missing submission bundle link."
 Assert-True ($certificate.checks.Count -ge 8) "Submission certificate has too few checks."
 if (-not $githubTraction.successGates.allPassed) {
   Assert-True ($certificate.rubricScoreEstimate.total -lt 100) "Submission certificate reached 100 without public GitHub traction gates."
   Assert-True ($certificate.remaining100PointGate -like "*5 public tester-attestation*") "Submission certificate does not explain the remaining public traction gate."
 }
 Write-Host "Submission certificate checked: $($certificate.status), $($certificate.rubricScoreEstimate.total)/100."
+
+Write-Step "Submission bundle invariants"
+$bundle = Invoke-RestMethod "$BaseUrl/api/submission/bundle"
+Assert-True ($bundle.bundleHash -like "0x*") "Submission bundle did not return a bundle hash."
+Assert-True ($bundle.formFields.liveUrl -like "http*") "Submission bundle is missing live URL form field."
+Assert-True ($bundle.formFields.proofPack -like "*/api/proof-pack") "Submission bundle is missing proof pack link."
+Assert-True ($bundle.demoScriptUnder3Min.Count -ge 4) "Submission bundle has too few demo script beats."
+Assert-True ($bundle.testerRecruitment.creatorInvite.inviteUrl -like "*/test?*role=creator*") "Submission bundle is missing creator invite URL."
+Assert-True ($bundle.proofDigest.spendPermits.totalPermits -ge 1) "Submission bundle is missing spend permit proof digest."
+Write-Host "Submission bundle checked: $($bundle.bundleHash)."
 
 Write-Step "MCP RPC invariants"
 $mcpDiscovery = Invoke-RestMethod "$BaseUrl/.well-known/mcp.json"
@@ -188,6 +199,8 @@ $reputationTools = @($toolsList.result.tools | Where-Object { $_.name -eq "get_r
 Assert-True ($reputationTools.Count -eq 1) "MCP tools/list is missing get_reputation_passport."
 $permitTools = @($toolsList.result.tools | Where-Object { $_.name -eq "issue_agent_spend_permit" })
 Assert-True ($permitTools.Count -eq 1) "MCP tools/list is missing issue_agent_spend_permit."
+$bundleTools = @($toolsList.result.tools | Where-Object { $_.name -eq "get_submission_bundle" })
+Assert-True ($bundleTools.Count -eq 1) "MCP tools/list is missing get_submission_bundle."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
@@ -200,6 +213,12 @@ $mcpPermit = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":21,"method":"tools/call","params":{"name":"issue_agent_spend_permit","arguments":{"agentName":"MCP spend agent","budgetUsdc":0.02,"maxTollUsdc":0.005}}}'
 Assert-True ($mcpPermit.result.structuredContent.permit.permitHash -like "0x*") "MCP issue_agent_spend_permit did not return a permit hash."
+$mcpBundle = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":22,"method":"tools/call","params":{"name":"get_submission_bundle","arguments":{}}}'
+Assert-True ($mcpBundle.result.structuredContent.bundleHash -like "0x*") "MCP get_submission_bundle did not return a bundle hash."
 $mcpTransparency = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

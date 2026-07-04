@@ -97,6 +97,8 @@ Implemented:
   parseable traction evidence without custom instructions.
 - Public operations status, health, treasury, and OpenAPI endpoints so async
   judges can verify liveness and scope without clicking through the UI.
+- Portable submission evidence bundle with form fields, proof links, demo
+  script, tester invites, score gates, and bundle hash for async judging.
 - Well-known agent card exposing Kleos wallet, x402 payment schemes, MCP/A2A
   endpoints, proof links, and ERC-8004-ready identity posture.
 - Creator-scoped source registry with IPFS-shaped metadata/content CIDs, split
@@ -315,6 +317,8 @@ Target length: under 3 minutes.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/provenance` and `/api/submission/certificate` bind deployment, repo, CI,
   live x402 proof, score honesty, and public traction gates into one verifier.
+- `/api/submission/bundle` returns the portable judge packet and tester invite
+  packet in one hashed object.
 - `/api/submission/report` returns the judge-facing summary.
 - Video demo under 3 minutes.
 - Submission form includes exact user/creator/payment counts.

@@ -41,6 +41,7 @@ export function buildProofPack(origin?: string) {
       "Public operations proof: status, health, treasury, and OpenAPI endpoints let async judges verify scope and liveness without a guided demo.",
       "Proof explorer: /proof turns the live x402 receipt, score certificate, transparency root, impact graph, and traction gates into a reviewer-readable audit console.",
       "Submission certificate: /api/provenance and /api/submission/certificate tie deployment, GitHub repo, CI, Circle x402 receipt, rubric score, and traction gates into one machine-readable proof.",
+      "Submission evidence bundle: /api/submission/bundle packages form fields, demo script, proof links, tester invite links, score gates, and a bundle hash for async judges.",
       "Sponsored no-wallet trial: one endpoint runs inspect, read toll, citation toll, impact, and reprice flow under explicit spend caps.",
       "Source registry: creator-scoped source IDs, IPFS-shaped metadata/content CIDs, split digests, and a deployable Arc SourceRegistry contract.",
       "Live RSS/Atom import: creators can paste a feed URL and Kleos registers recent entries as x402-priced sources with feed-derived previews and citation tolls.",
@@ -68,6 +69,7 @@ export function buildProofPack(origin?: string) {
       "Open /proof for the public proof explorer",
       "Open /api/provenance",
       "Open /api/submission/certificate",
+      "Open /api/submission/bundle",
       "Open /api/registry/sources",
       "POST /api/sources/import-rss",
       "POST /api/publishers/verify",
@@ -186,6 +188,7 @@ export function buildProofPack(origin?: string) {
       "GET /api/proof-pack",
       "GET /api/provenance",
       "GET /api/submission/certificate",
+      "GET /api/submission/bundle",
       "GET /api/submission/report",
     ],
     openDeploymentItems: [

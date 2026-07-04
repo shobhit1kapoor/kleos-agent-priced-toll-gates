@@ -238,6 +238,7 @@ export async function buildSubmissionCertificate() {
       status: `${APP_URL}/api/status`,
       provenance: `${APP_URL}/api/provenance`,
       submissionCertificate: `${APP_URL}/api/submission/certificate`,
+      submissionBundle: `${APP_URL}/api/submission/bundle`,
       proofPack: `${APP_URL}/api/proof-pack`,
       submissionReport: `${APP_URL}/api/submission/report`,
       openApi: `${APP_URL}/api/openapi`,

@@ -15,6 +15,7 @@ import { importRssFeed } from "./rss-import";
 import { issueAgentSpendPermit, listAgentSpendPermits, verifyAgentSpendPermit } from "./spend-permits";
 import { buildSourceRegistry } from "./source-registry";
 import { getCatalogItems } from "./store";
+import { buildSubmissionBundle } from "./submission-bundle";
 import { runOneClickTesterFlow } from "./tester-flow";
 import { buildTractionCampaign, createTesterAttestation } from "./traction";
 import { buildTesterInvitePacket } from "./traction-invite";
@@ -298,6 +299,11 @@ export const mcpTools: ToolDefinition[] = [
     inputSchema: { type: "object", properties: {} },
   },
   {
+    name: "get_submission_bundle",
+    description: "Return the portable judge evidence bundle with form fields, proof links, demo script, tester invites, and score gates.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
     name: "get_public_status",
     description: "Return public operations status and proof links.",
     inputSchema: { type: "object", properties: {} },
@@ -505,6 +511,8 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       );
     case "verify_github_traction":
       return toolResult(await getGithubTractionSnapshot());
+    case "get_submission_bundle":
+      return toolResult(await buildSubmissionBundle(origin));
     case "get_public_status":
       return toolResult(await buildPublicStatus());
     case "get_treasury_proof":
