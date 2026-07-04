@@ -76,6 +76,9 @@ Implemented:
   release.
 - x402-priced A2A endpoint where external agents can buy a grounded answer from
   Kleos, after which Kleos pays creator sources and returns settlement proof.
+- Economic invariant checker and GitHub Actions workflow for budget caps, split
+  totals, receipt links, registry records, vault gates, A2A gates, and score
+  honesty.
 - Sponsored no-wallet trial endpoint that runs inspect, read toll settlement,
   citation settlement, impact allocation, and repricing from a bounded sponsor
   budget.
@@ -155,6 +158,7 @@ The product measures the right traction metrics:
 - Sponsored trial completions through `/api/trial/sponsored`
 - Source registry and encrypted vault access
 - A2A paid research requests
+- CI/economic invariant pass status
 - Agent-to-agent proof events
 - Catalog size
 
@@ -235,6 +239,8 @@ Target length: under 3 minutes.
 - Live deployment.
 - `corepack pnpm lint` passes.
 - `corepack pnpm build` passes.
+- `corepack pnpm smoke` passes.
+- `corepack pnpm invariants` passes.
 - `/api/catalog` works.
 - `/api/status`, `/api/health`, `/api/treasury`, and `/api/openapi` expose the
   public operations surface.

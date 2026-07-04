@@ -65,6 +65,8 @@ tiny toll.
   citation, impact, and cash-out events.
 - `POST /api/creators/cashout` - aggregates creator balances from read tolls,
   citation tolls, and impact grants into Arc-ready cash-out records.
+- `scripts/invariant-check.ps1` - verifies budget caps, split totals, receipt
+  links, registry records, vault gates, A2A gates, and score honesty.
 - `POST /api/traction/attest` - mints a signed tester proof hash and prefilled
   GitHub issue URL after someone runs the public scenario.
 - `GET /api/traction/campaign` - returns role-specific tester asks, curl
@@ -109,7 +111,7 @@ Kleos is designed around the hackathon scoring surface:
   impact rewards, bonded broker proof, collaborator royalties, no-wallet
   sponsored trials, public status, treasury proof, OpenAPI discoverability,
   source registry records, encrypted content vaults, and x402-priced A2A
-  research.
+  research, plus CI-checked economic invariants.
 
 The dashboard includes a rubric scorecard so reviewers can see the judge case
 and the remaining full-mark moves without needing a guided live demo.
@@ -253,6 +255,7 @@ Open `http://localhost:3000`.
 pnpm lint
 pnpm build
 pnpm smoke
+pnpm invariants
 ```
 
 With Circle CLI installed, inspect the x402 requirements without spending:

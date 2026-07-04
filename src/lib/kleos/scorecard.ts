@@ -16,7 +16,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
     weightPct: 30,
     coverage: "Strong",
     evidence:
-      "Buyer agent ranks sources by relevance, trust, price, budget remaining, and reputation discount, then separately finalizes which purchased sources deserve citation tolls; seller agent reprices from paid reads, skipped reads, citation rate, citation confidence, uncited purchases, and impact-pool outcomes; answer proofs expose claim-level covered, partial, and unsupported traces; verifier and challenge agents can audit receipts and release or risk the citation broker bond.",
+      "Buyer agent ranks sources by relevance, trust, price, budget remaining, and reputation discount, then separately finalizes which purchased sources deserve citation tolls; seller agent reprices from paid reads, skipped reads, citation rate, citation confidence, uncited purchases, and impact-pool outcomes; answer proofs expose claim-level covered, partial, and unsupported traces; verifier and challenge agents can audit receipts and release or risk the citation broker bond; CI checks economic invariants across budgets, splits, receipts, registry, vault, and A2A gates.",
     fullMarksMove:
       "Record more end-to-end agent runs from fresh users and show read-to-citation conversion by task.",
   },

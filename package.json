@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "smoke": "powershell -ExecutionPolicy Bypass -File scripts/judge-smoke.ps1",
+    "invariants": "powershell -ExecutionPolicy Bypass -File scripts/invariant-check.ps1",
     "x402:estimate": "powershell -ExecutionPolicy Bypass -File scripts/x402-estimate.ps1"
   },
   "dependencies": {

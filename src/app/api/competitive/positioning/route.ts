@@ -74,6 +74,7 @@ export async function GET() {
           "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
           "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",
+          "CI-backed economic invariant checks for spend caps, split math, receipt integrity, payment gates, and score honesty.",
         ],
       },
       nextBestAction:

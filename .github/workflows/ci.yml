@@ -1,0 +1,61 @@
+name: Kleos CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: corepack pnpm lint
+
+      - name: Build
+        run: corepack pnpm build
+
+      - name: Start production server
+        shell: powershell
+        run: |
+          Start-Process -FilePath "powershell" -ArgumentList @(
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command",
+            "corepack pnpm exec next start -H 127.0.0.1 -p 3000"
+          ) -WindowStyle Hidden
+          for ($i = 0; $i -lt 30; $i += 1) {
+            try {
+              Invoke-WebRequest http://127.0.0.1:3000/api/health -UseBasicParsing -TimeoutSec 3 | Out-Null
+              exit 0
+            } catch {
+              Start-Sleep -Seconds 2
+            }
+          }
+          throw "Next production server did not become healthy."
+
+      - name: Judge smoke
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -File scripts/judge-smoke.ps1 -BaseUrl http://127.0.0.1:3000
+
+      - name: Economic invariants
+        shell: powershell
+        run: powershell -ExecutionPolicy Bypass -File scripts/invariant-check.ps1 -BaseUrl http://127.0.0.1:3000
