@@ -715,6 +715,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 "POST /api/receipts/verify",
                 "POST /api/citations/challenge",
                 "POST /api/traction/attest",
+                "GET /api/traction/campaign",
                 "POST /api/impact/settle",
                 "GET /api/mcp",
               ].map((endpoint) => (

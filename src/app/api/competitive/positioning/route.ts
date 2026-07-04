@@ -38,6 +38,7 @@ export async function GET() {
         citationChallenge: "https://kleos-agent-priced-toll-gates.vercel.app/api/citations/challenge",
         ossKit: "https://kleos-agent-priced-toll-gates.vercel.app/api/oss-kit",
         tractionAttestations: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/attest",
+        tractionCampaign: "https://kleos-agent-priced-toll-gates.vercel.app/api/traction/campaign",
         liveX402Receipt: `https://testnet.arcscan.app/tx/${ledger.gatewayProof.liveX402Receipt.receiptId}`,
       },
       evidence: {
@@ -54,6 +55,7 @@ export async function GET() {
           "Dynamic value-of-information repricing.",
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",
+          "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
         ],
       },
       nextBestAction:

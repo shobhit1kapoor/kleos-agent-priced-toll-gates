@@ -65,6 +65,8 @@ Implemented:
   grants into Arc-ready settlement records.
 - Tester attestation endpoint and dashboard action that mint a proof hash plus
   prefilled GitHub issue URL for external feedback.
+- Traction campaign endpoint with role-specific tester asks, curl payloads,
+  Discord/X copy, and exact success gates for closing the external usage gap.
 - A2A trust-event ledger with signed/bound proof plus a bonded citation broker.
 - Live `@circle-fin/x402-batching` seller-side verifier for real Gateway x402
   payment payloads.
@@ -135,6 +137,7 @@ The product measures the right traction metrics:
 - Receipt verification records
 - Citation challenge outcomes
 - Tester attestations
+- Traction campaign success gates
 - Agent-to-agent proof events
 - Catalog size
 
@@ -199,8 +202,9 @@ Target length: under 3 minutes.
 7. Open the answer proof, verify a receipt, and challenge one citation to show
    the bond/reputation audit path.
 8. Open the creator operations endpoints.
-9. Trigger repricing and show seller-agent price movement.
-10. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
+9. Open the traction campaign endpoint and show the tester success gates.
+10. Trigger repricing and show seller-agent price movement.
+11. End with metrics: testnet USDC moved, paid accesses, buyer-agent runs,
    creators onboarded, and next deployment plan.
 
 ## Final Checklist
@@ -215,6 +219,7 @@ Target length: under 3 minutes.
 - `/api/citations/finalize` creates answer-linked citation tolls.
 - `/api/receipts/verify` verifies receipt integrity.
 - `/api/citations/challenge` records citation challenge outcomes.
+- `/api/traction/campaign` returns tester asks and success gates.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/submission/report` returns the judge-facing summary.
 - Video demo under 3 minutes.

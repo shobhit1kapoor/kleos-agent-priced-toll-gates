@@ -51,6 +51,8 @@ tiny toll.
   citation tolls, and impact grants into Arc-ready cash-out records.
 - `POST /api/traction/attest` - mints a signed tester proof hash and prefilled
   GitHub issue URL after someone runs the public scenario.
+- `GET /api/traction/campaign` - returns role-specific tester asks, curl
+  payloads, social copy, and success gates for collecting external validation.
 - `GET /api/publisher-kit` - returns a `/.well-known/kleos.json` publisher
   manifest, crawler policy, and RSS/Ghost integration mapping.
 - `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
@@ -159,10 +161,12 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 8. POST `/api/webhooks/dispatch` and `/api/creators/cashout` to show signed
    creator notifications and Arc-ready creator cash-outs.
 9. Click **Attest** or POST `/api/traction/attest` to mint a tester proof hash.
-10. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
+10. Open `/api/traction/campaign` to copy role-specific tester links and
+    submission-ready traction wording.
+11. Inspect paid reads, bought-but-not-cited sources, answer-linked receipts,
    x402 settlement records, and collaborator split payouts.
-11. Click **Reprice sources** to run the citation-aware seller pricing agent.
-12. Open `/api/proof-pack` and `/api/submission/report` for the structured
+12. Click **Reprice sources** to run the citation-aware seller pricing agent.
+13. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 
 ## Citation receipt schema

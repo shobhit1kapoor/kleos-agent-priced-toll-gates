@@ -2,12 +2,14 @@ import { getLedgerSnapshot } from "./ledger";
 import { buildPublisherKit } from "./publisher-kit";
 import { buildSubmissionReport } from "./submission";
 import { buildAnswerProof } from "./answer-proof";
+import { buildTractionCampaign } from "./traction";
 
 export function buildProofPack(origin?: string) {
   const ledger = getLedgerSnapshot();
   const report = buildSubmissionReport();
   const publisherKit = buildPublisherKit(origin);
   const answerProof = buildAnswerProof(undefined, origin);
+  const tractionCampaign = buildTractionCampaign(origin);
 
   return {
     generatedAt: new Date().toISOString(),
@@ -21,6 +23,7 @@ export function buildProofPack(origin?: string) {
       "Creator operations: signed webhook delivery records and Arc-ready cash-out records are generated from citation and impact settlement.",
       "Adversarial audit layer: receipts can be independently verified and weak citations can put the broker bond at risk.",
       "Tester attestation loop: every tester can mint a signed proof hash and prefilled GitHub issue from the live app.",
+      "Traction campaign kit: role-specific tester links, curl payloads, Discord copy, X copy, and success gates make external validation repeatable.",
       "OSS kit: builders get copy-paste agent, publisher, proof, webhook, cash-out, and attestation integration steps.",
       "Retroactive impact pool: sponsor capital is allocated after citations prove which sources changed the answer.",
       "Publisher kit: a concrete /.well-known/kleos.json path for RSS/Ghost creators and crawler payment policy.",
@@ -36,6 +39,7 @@ export function buildProofPack(origin?: string) {
       "POST /api/receipts/verify",
       "POST /api/citations/challenge",
       "POST /api/traction/attest",
+      "Open /api/traction/campaign",
       "Open /api/oss-kit",
       "Open /api/competitive/positioning",
       "Open /api/publisher-kit",
@@ -55,6 +59,7 @@ export function buildProofPack(origin?: string) {
     receiptVerifications: ledger.receiptVerifications.slice(0, 8),
     citationChallenges: ledger.citationChallenges.slice(0, 8),
     testerAttestations: ledger.testerAttestations.slice(0, 8),
+    tractionCampaign,
     publisherKit: publisherKit.wellKnownManifest,
     apiSurfaces: [
       "GET /api/catalog",
@@ -71,6 +76,7 @@ export function buildProofPack(origin?: string) {
       "POST /api/citations/challenge",
       "GET /api/traction/attest",
       "POST /api/traction/attest",
+      "GET /api/traction/campaign",
       "POST /api/pricing/recompute",
       "POST /api/sources/register",
       "GET /api/mcp",

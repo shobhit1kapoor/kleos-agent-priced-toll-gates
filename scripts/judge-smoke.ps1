@@ -160,6 +160,17 @@ if (-not $attestation.attestation.githubIssueUrl) {
 }
 Write-Host "Attestation: $($attestation.attestation.proofHash)"
 
+Write-Step "Traction campaign kit"
+$campaign = Invoke-RestMethod "$BaseUrl/api/traction/campaign"
+if (-not $campaign.roleSpecificAsks -or $campaign.roleSpecificAsks.Count -lt 3) {
+  throw "Traction campaign is missing role-specific asks."
+}
+if (-not $campaign.discordCopy -or -not $campaign.xCopy) {
+  throw "Traction campaign is missing outreach copy."
+}
+Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttestations)"
+Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
+
 Write-Step "Citation-aware repricing"
 $pricing = Invoke-RestMethod `
   -Uri "$BaseUrl/api/pricing/recompute" `

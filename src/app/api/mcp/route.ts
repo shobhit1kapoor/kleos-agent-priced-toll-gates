@@ -163,6 +163,12 @@ export async function GET() {
           },
         },
       },
+      {
+        name: "get_traction_campaign",
+        description:
+          "Return role-specific tester asks, curl payloads, social copy, and success gates for closing the external traction gap.",
+        inputSchema: { type: "object", properties: {} },
+      },
     ],
     resources: getCatalogItems().map((item) => ({
       uri: `kleos://content/${item.id}`,
