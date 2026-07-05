@@ -678,8 +678,8 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
 
   return (
     <div className="min-h-screen bg-[#f7f7f5] text-[#181818]">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-[#e0e0dc] bg-[#181818] text-white xl:flex xl:flex-col">
-        <div className="flex h-24 items-start gap-3 border-b border-white/10 px-5 pt-7">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden h-dvh w-72 overflow-hidden border-r border-[#e0e0dc] bg-[#181818] text-white xl:flex xl:flex-col">
+        <div className="flex h-24 shrink-0 items-start gap-3 border-b border-white/10 px-5 pt-7">
           <div className="grid size-9 place-items-center rounded-lg bg-[#19c37d] text-[#181818]">
             <BadgeDollarSign size={19} aria-hidden />
           </div>
@@ -689,7 +689,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
           </div>
         </div>
 
-        <nav className="flex-1 space-y-6 px-3 py-5">
+        <nav className="kleos-sidebar-scroll min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain px-3 py-5 pr-2">
           <div>
             <p className="px-3 text-xs font-medium uppercase text-white/38">Workspace</p>
             <div className="mt-2 space-y-1">
@@ -746,7 +746,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
           </div>
         </nav>
 
-        <div className="border-t border-white/10 p-4">
+        <div className="shrink-0 border-t border-white/10 p-4">
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
             <div className="flex items-center gap-2 text-sm font-medium">
               <ShieldCheck size={15} className="text-[#19c37d]" aria-hidden />
