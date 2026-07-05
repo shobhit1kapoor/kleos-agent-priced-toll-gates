@@ -181,14 +181,19 @@ export async function buildSubmissionCertificate() {
       id: "traction-honesty",
       label: "Public tester traction gate",
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
-      detail: `${githubTraction.totals.githubIssueAttestations} public tester issue(s); score remains below 100 until gates pass.`,
+      detail: githubTraction.successGates.allPassed
+        ? `${githubTraction.totals.githubIssueAttestations} public tester issue(s); public traction gates are passing.`
+        : `${githubTraction.totals.githubIssueAttestations} public tester issue(s); score remains below 100 until gates pass.`,
     },
   ];
+
+  const certificateStatus =
+    githubTraction.successGates.allPassed && totalScore >= 100 ? "100-ready" : checkSummary(checks);
 
   return {
     name: "Kleos submission certificate",
     generatedAt: new Date().toISOString(),
-    status: checkSummary(checks),
+    status: certificateStatus,
     project: {
       name: "Kleos",
       thesis:
