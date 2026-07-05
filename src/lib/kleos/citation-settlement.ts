@@ -114,8 +114,7 @@ export function finalizeAnswerCitations(input: {
       toll: citationTollUsdc(entry.item.currentPriceUsdc, entry.item.citationPriceUsdc),
     }))
     .filter((entry) => entry.confidence >= 72)
-    .sort((a, b) => b.confidence - a.confidence)
-    .slice(0, 2);
+    .sort((a, b) => b.confidence - a.confidence || a.toll - b.toll);
 
   for (const candidate of candidates) {
     if (Number((spentCitationUsdc + candidate.toll).toFixed(6)) > maxSpend) {
@@ -159,6 +158,10 @@ export function finalizeAnswerCitations(input: {
     payoutSplitIds.push(...citationPayment.payoutSplits.map((split) => split.id));
     citedItemIds.push(candidate.item.id);
     spentCitationUsdc = Number((spentCitationUsdc + candidate.toll).toFixed(6));
+
+    if (receipts.length >= 2) {
+      break;
+    }
   }
 
   const skippedPurchasedItemIds = purchased

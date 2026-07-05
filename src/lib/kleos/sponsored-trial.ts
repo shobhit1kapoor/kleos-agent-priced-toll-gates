@@ -7,6 +7,13 @@ import { getCatalogItems } from "./store";
 
 const DEFAULT_TASK =
   "Evaluate Kleos as a settlement layer for grounded AI answers, including x402, citation receipts, creator payouts, and dynamic repricing.";
+const SPONSORED_EVIDENCE_ITEM_IDS = [
+  "ci_arc_gateway_notes",
+  "ci_rss_creator_tolls",
+  "ci_dynamic_pricing_agents",
+  "ci_collaborator_splits",
+  "ci_hackathon_judge_path",
+];
 
 export function runSponsoredTrial(input?: {
   task?: string;
@@ -16,6 +23,7 @@ export function runSponsoredTrial(input?: {
 }) {
   const buyerReputation = 94;
   const cheapestViable = getCatalogItems()
+    .filter((item) => SPONSORED_EVIDENCE_ITEM_IDS.includes(item.id))
     .map((item) => {
       const effectiveReadTollUsdc = Number((item.currentPriceUsdc * 0.92).toFixed(6));
       const citationTollUsdc = Number(
@@ -44,6 +52,7 @@ export function runSponsoredTrial(input?: {
     reservedCitationBudgetUsdc: citationBudgetUsdc,
     buyerWallet: KLEOS_AGENT_WALLET,
     buyerReputation,
+    candidateItemIds: SPONSORED_EVIDENCE_ITEM_IDS,
   });
   const citations = finalizeAnswerCitations({
     sessionId: research.session.id,
@@ -51,10 +60,20 @@ export function runSponsoredTrial(input?: {
       "Kleos lets agents inspect paid sources, cite only evidence that supports the final answer, and settle read tolls, citation tolls, collaborator splits, and impact rewards through Arc-ready proof records.",
     maxCitationSpendUsdc: citationBudgetUsdc,
   });
-  const impact = settleImpactPool({
-    settlementId: citations.settlement.id,
-    sponsorPoolUsdc,
-  });
+  const impact =
+    citations.citationReceipts.length > 0
+      ? settleImpactPool({
+          settlementId: citations.settlement.id,
+          sponsorPoolUsdc,
+        })
+      : {
+          settlement: citations.settlement,
+          impactGrants: [],
+          sponsorPoolUsdc: 0,
+          reused: false,
+          skippedReason:
+            "No citation receipts cleared the current confidence and budget gates, so impact rewards were not allocated for this bounded trial.",
+        };
   const pricingEvents = recomputePrices();
 
   return {

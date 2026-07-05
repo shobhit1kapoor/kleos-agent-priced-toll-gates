@@ -24,6 +24,7 @@ export function runBuyerResearchAgent(input: {
   reservedCitationBudgetUsdc?: number;
   buyerWallet?: string;
   buyerReputation?: number;
+  candidateItemIds?: string[];
 }) {
   const store = getStore();
   const buyerWallet = input.buyerWallet ?? KLEOS_AGENT_WALLET;
@@ -48,7 +49,11 @@ export function runBuyerResearchAgent(input: {
   };
   store.agentSessions.unshift(session);
 
-  const ranked = getCatalogItems()
+  const scopedCatalog = input.candidateItemIds?.length
+    ? getCatalogItems().filter((item) => input.candidateItemIds?.includes(item.id))
+    : getCatalogItems();
+
+  const ranked = scopedCatalog
     .map((item) => {
       const relevanceScore = scoreRelevance(input.task, item.tags, item.preview);
       const trustScore = (item.credibilityScore + item.freshnessScore) / 2;
