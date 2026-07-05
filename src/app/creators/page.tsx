@@ -30,10 +30,10 @@ function percent(splitBps: number) {
 
 function Metric({ label, value, detail }: { label: string; value: string; detail?: string }) {
   return (
-    <div className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4">
-      <p className="text-xs font-semibold uppercase text-[#607089]">{label}</p>
-      <p className="mt-2 break-words font-mono text-lg font-semibold text-[#080d16]">{value}</p>
-      {detail ? <p className="mt-2 text-sm leading-5 text-[#647084]">{detail}</p> : null}
+    <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
+      <p className="text-xs font-semibold uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-2 break-words font-mono text-lg font-semibold text-[#181818]">{value}</p>
+      {detail ? <p className="mt-2 text-sm leading-5 text-[#6f686a]">{detail}</p> : null}
     </div>
   );
 }
@@ -42,7 +42,7 @@ function HeaderLink({ href, label }: { href: string; label: string }) {
   return (
     <a
       href={href}
-      className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-4 text-sm font-semibold text-[#4d5867] transition hover:border-[#b8c1cf] hover:text-[#111827]"
+      className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-4 text-sm font-semibold text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]"
     >
       {label}
       <ExternalLink size={15} aria-hidden />
@@ -97,16 +97,16 @@ export default function CreatorEarningsPage() {
   const paidCreators = creatorRows.filter((row) => row.totalEarnedUsdc > 0).length;
 
   return (
-    <main className="min-h-screen bg-[#f4f6f8] text-[#171b21]">
-      <header className="border-b border-[#dfe4ec] bg-white">
+    <main className="min-h-screen bg-[#f7f7f5] text-[#181818]">
+      <header className="border-b border-[#e0e0dc] bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5">
           <Link href="/" className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl bg-[#d7ff6f] text-[#0e141b]">
+            <span className="grid size-11 place-items-center rounded-xl bg-[#19c37d] text-[#181818]">
               <BadgeDollarSign size={22} aria-hidden />
             </span>
             <span>
               <span className="block text-base font-semibold">Kleos</span>
-              <span className="block text-sm text-[#647084]">Creator earnings</span>
+              <span className="block text-sm text-[#6f686a]">Creator earnings</span>
             </span>
           </Link>
           <div className="flex flex-wrap gap-2">
@@ -119,27 +119,27 @@ export default function CreatorEarningsPage() {
       <section className="mx-auto max-w-7xl px-5 py-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <div>
-            <p className="text-sm font-semibold uppercase text-[#657084]">Creator operations</p>
-            <h1 className="mt-2 max-w-4xl text-4xl font-semibold tracking-tight text-[#080d16] md:text-5xl">
+            <p className="text-sm font-semibold uppercase text-[#6f686a]">Creator operations</p>
+            <h1 className="mt-2 max-w-4xl text-4xl font-semibold tracking-tight text-[#181818] md:text-5xl">
               Creator Earnings Ledger
             </h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-[#536174]">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-[#6f686a]">
               A creator-readable view of how every read toll, citation toll, impact grant, and
               Arc-ready cash-out flows to the people behind grounded AI answers.
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#dfe4ec] bg-white p-5 shadow-sm">
+          <div className="rounded-xl border border-[#e0e0dc] bg-white p-5 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-xl border border-[#d8dee8] bg-[#f8fafc] text-[#536174]">
+              <span className="grid size-11 place-items-center rounded-xl border border-[#deded9] bg-[#f7f7f3] text-[#6f686a]">
                 <Landmark size={20} aria-hidden />
               </span>
               <div>
-                <p className="text-xs font-semibold uppercase text-[#607089]">Arc-ready payout queue</p>
-                <p className="mt-1 text-2xl font-semibold text-[#080d16]">{formatUsdc(totalCashoutUsdc)}</p>
+                <p className="text-xs font-semibold uppercase text-[#6f686a]">Arc-ready payout queue</p>
+                <p className="mt-1 text-2xl font-semibold text-[#181818]">{formatUsdc(totalCashoutUsdc)}</p>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-6 text-[#536174]">
+            <p className="mt-4 text-sm leading-6 text-[#6f686a]">
               Cash-out records aggregate existing split and impact balances only. They do not invent payout
               volume, which keeps the ledger honest for judges and creators.
             </p>
@@ -155,18 +155,18 @@ export default function CreatorEarningsPage() {
 
         <div className="mt-6 grid gap-5">
           {creatorRows.map((row) => (
-            <section key={row.creator.id} className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
-              <div className="grid gap-5 border-b border-[#e8edf3] p-5 xl:grid-cols-[minmax(0,1fr)_minmax(440px,0.85fr)]">
+            <section key={row.creator.id} className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
+              <div className="grid gap-5 border-b border-[#e8e8e3] p-5 xl:grid-cols-[minmax(0,1fr)_minmax(440px,0.85fr)]">
                 <div className="flex min-w-0 items-start gap-4">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#d8dee8] bg-[#f8fafc] text-[#536174]">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#deded9] bg-[#f7f7f3] text-[#6f686a]">
                     <Wallet size={21} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase text-[#607089]">{row.creator.role}</p>
-                    <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#080d16]">
+                    <p className="text-xs font-semibold uppercase text-[#6f686a]">{row.creator.role}</p>
+                    <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#181818]">
                       {row.creator.displayName}
                     </h2>
-                    <p className="mt-2 break-words font-mono text-sm text-[#647084]">{row.creator.wallet}</p>
+                    <p className="mt-2 break-words font-mono text-sm text-[#6f686a]">{row.creator.wallet}</p>
                   </div>
                 </div>
 
@@ -185,10 +185,10 @@ export default function CreatorEarningsPage() {
                     <Metric label="Impact grants" value={formatUsdc(row.impactUsdc)} detail={`${row.impactGrants.length} grant(s)`} />
                   </div>
 
-                  <div className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd]">
-                    <div className="flex items-center gap-3 border-b border-[#e8edf3] px-4 py-3">
-                      <Split size={17} className="text-[#536174]" aria-hidden />
-                      <p className="text-sm font-semibold text-[#080d16]">Sources and split policy</p>
+                  <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8]">
+                    <div className="flex items-center gap-3 border-b border-[#e8e8e3] px-4 py-3">
+                      <Split size={17} className="text-[#6f686a]" aria-hidden />
+                      <p className="text-sm font-semibold text-[#181818]">Sources and split policy</p>
                     </div>
                     <div className="grid gap-2 p-4">
                       {row.sources.map((source) => {
@@ -197,16 +197,16 @@ export default function CreatorEarningsPage() {
                         return (
                           <div
                             key={source.id}
-                            className="grid gap-2 rounded-lg border border-[#e3e8ef] bg-white px-4 py-3 md:grid-cols-[1fr_auto]"
+                            className="grid gap-2 rounded-lg border border-[#e6e6e1] bg-white px-4 py-3 md:grid-cols-[1fr_auto]"
                           >
                             <div>
-                              <p className="font-semibold text-[#080d16]">{source.title}</p>
-                              <p className="mt-1 text-sm text-[#647084]">
+                              <p className="font-semibold text-[#181818]">{source.title}</p>
+                              <p className="mt-1 text-sm text-[#6f686a]">
                                 Read toll {formatUsdc(source.currentPriceUsdc)} - citation toll{" "}
                                 {formatUsdc(source.citationPriceUsdc ?? source.currentPriceUsdc * 0.35)}
                               </p>
                             </div>
-                            <p className="font-mono text-sm font-semibold text-[#273244]">
+                            <p className="font-mono text-sm font-semibold text-[#2f2f2f]">
                               {percent(collaborator?.splitBps ?? 0)}
                             </p>
                           </div>
@@ -217,24 +217,24 @@ export default function CreatorEarningsPage() {
                 </div>
 
                 <div className="grid gap-4">
-                  <div className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4">
+                  <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
                     <div className="flex items-center gap-3">
-                      <ReceiptText size={17} className="text-[#536174]" aria-hidden />
-                      <p className="text-sm font-semibold text-[#080d16]">Latest creator proof</p>
+                      <ReceiptText size={17} className="text-[#6f686a]" aria-hidden />
+                      <p className="text-sm font-semibold text-[#181818]">Latest creator proof</p>
                     </div>
                     <div className="mt-4 grid gap-3">
                       {row.cashouts[0] ? (
                         <a
                           href={row.cashouts[0].explorerUrl}
-                          className="rounded-lg border border-[#d8dee8] bg-white px-4 py-3 text-sm transition hover:border-[#b8c1cf]"
+                          className="rounded-lg border border-[#deded9] bg-white px-4 py-3 text-sm transition hover:border-[#b8b8b1]"
                         >
-                          <span className="block font-semibold text-[#080d16]">Cash-out {row.cashouts[0].status}</span>
-                          <span className="mt-1 block font-mono text-[#647084]">
+                          <span className="block font-semibold text-[#181818]">Cash-out {row.cashouts[0].status}</span>
+                          <span className="mt-1 block font-mono text-[#6f686a]">
                             {shortHash(row.cashouts[0].txHash)} - {formatUsdc(row.cashouts[0].amountUsdc)}
                           </span>
                         </a>
                       ) : (
-                        <p className="rounded-lg border border-[#e3e8ef] bg-white px-4 py-3 text-sm text-[#647084]">
+                        <p className="rounded-lg border border-[#e6e6e1] bg-white px-4 py-3 text-sm text-[#6f686a]">
                           No cash-out record yet.
                         </p>
                       )}
@@ -242,15 +242,15 @@ export default function CreatorEarningsPage() {
                       {row.impactGrants[0] ? (
                         <a
                           href={row.impactGrants[0].explorerUrl}
-                          className="rounded-lg border border-[#d8dee8] bg-white px-4 py-3 text-sm transition hover:border-[#b8c1cf]"
+                          className="rounded-lg border border-[#deded9] bg-white px-4 py-3 text-sm transition hover:border-[#b8b8b1]"
                         >
-                          <span className="block font-semibold text-[#080d16]">Impact grant</span>
-                          <span className="mt-1 block font-mono text-[#647084]">
+                          <span className="block font-semibold text-[#181818]">Impact grant</span>
+                          <span className="mt-1 block font-mono text-[#6f686a]">
                             {shortHash(row.impactGrants[0].txHash)} - {formatUsdc(row.impactGrants[0].amountUsdc)}
                           </span>
                         </a>
                       ) : (
-                        <p className="rounded-lg border border-[#e3e8ef] bg-white px-4 py-3 text-sm text-[#647084]">
+                        <p className="rounded-lg border border-[#e6e6e1] bg-white px-4 py-3 text-sm text-[#6f686a]">
                           No impact grant yet.
                         </p>
                       )}
@@ -276,7 +276,7 @@ export default function CreatorEarningsPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/"
-            className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-4 text-sm font-semibold text-[#4d5867] transition hover:border-[#b8c1cf] hover:text-[#111827]"
+            className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-4 text-sm font-semibold text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]"
           >
             Return to dashboard
           </Link>

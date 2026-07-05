@@ -37,8 +37,8 @@ function shortHash(value?: string | null) {
 
 function HeaderLink({ href, label, primary = false }: { href: string; label: string; primary?: boolean }) {
   const className = primary
-    ? "inline-flex h-11 items-center gap-2 rounded-lg bg-[#111827] px-4 text-sm font-semibold text-white transition hover:bg-[#222b3b]"
-    : "inline-flex h-11 items-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-4 text-sm font-semibold text-[#4d5867] transition hover:border-[#b8c1cf] hover:text-[#111827]";
+    ? "inline-flex h-11 items-center gap-2 rounded-lg bg-[#181818] px-4 text-sm font-semibold text-white transition hover:bg-[#2f2f2f]"
+    : "inline-flex h-11 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-4 text-sm font-semibold text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]";
 
   return (
     <a href={href} className={className}>
@@ -50,10 +50,10 @@ function HeaderLink({ href, label, primary = false }: { href: string; label: str
 
 function Metric({ label, value, detail }: { label: string; value: string; detail?: string }) {
   return (
-    <div className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4">
-      <p className="text-xs font-semibold uppercase text-[#607089]">{label}</p>
-      <p className="mt-2 break-words font-mono text-lg font-semibold text-[#080d16]">{value}</p>
-      {detail ? <p className="mt-2 text-sm leading-5 text-[#647084]">{detail}</p> : null}
+    <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
+      <p className="text-xs font-semibold uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-2 break-words font-mono text-lg font-semibold text-[#181818]">{value}</p>
+      {detail ? <p className="mt-2 text-sm leading-5 text-[#6f686a]">{detail}</p> : null}
     </div>
   );
 }
@@ -70,14 +70,14 @@ function SectionHeader({
   icon: ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-3 border-b border-[#e8edf3] p-5">
-      <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#d8dee8] bg-[#f8fafc] text-[#536174]">
+    <div className="flex items-start gap-3 border-b border-[#e8e8e3] p-5">
+      <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-[#deded9] bg-[#f7f7f3] text-[#6f686a]">
         {icon}
       </span>
       <div>
-        <p className="text-xs font-semibold uppercase text-[#607089]">{eyebrow}</p>
-        <h2 className="mt-1 text-xl font-semibold tracking-tight text-[#080d16]">{title}</h2>
-        {description ? <p className="mt-2 text-sm leading-6 text-[#536174]">{description}</p> : null}
+        <p className="text-xs font-semibold uppercase text-[#6f686a]">{eyebrow}</p>
+        <h2 className="mt-1 text-xl font-semibold tracking-tight text-[#181818]">{title}</h2>
+        {description ? <p className="mt-2 text-sm leading-6 text-[#6f686a]">{description}</p> : null}
       </div>
     </div>
   );
@@ -99,9 +99,9 @@ function GateCard({ label, passed, detail }: { label: string; passed: boolean; d
 
 function CopyBlock({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4">
-      <p className="text-xs font-semibold uppercase text-[#607089]">{label}</p>
-      <p className="mt-3 break-words font-mono text-sm leading-6 text-[#273244]">{value}</p>
+    <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
+      <p className="text-xs font-semibold uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-3 break-words font-mono text-sm leading-6 text-[#2f2f2f]">{value}</p>
     </div>
   );
 }
@@ -145,16 +145,16 @@ export default async function TractionPage() {
   const currentScore = certificate.rubricScoreEstimate;
 
   return (
-    <main className="min-h-screen bg-[#f4f6f8] text-[#171b21]">
-      <header className="border-b border-[#dfe4ec] bg-white">
+    <main className="min-h-screen bg-[#f7f7f5] text-[#181818]">
+      <header className="border-b border-[#e0e0dc] bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5">
           <Link href="/" className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl bg-[#d7ff6f] text-[#0e141b]">
+            <span className="grid size-11 place-items-center rounded-xl bg-[#19c37d] text-[#181818]">
               <BadgeDollarSign size={22} aria-hidden />
             </span>
             <span>
               <span className="block text-base font-semibold">Kleos</span>
-              <span className="block text-sm text-[#647084]">Public traction center</span>
+              <span className="block text-sm text-[#6f686a]">Public traction center</span>
             </span>
           </Link>
           <div className="flex flex-wrap gap-2">
@@ -168,28 +168,28 @@ export default async function TractionPage() {
       <section className="mx-auto max-w-7xl px-5 py-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <div>
-            <p className="text-sm font-semibold uppercase text-[#657084]">External evidence</p>
-            <h1 className="mt-2 max-w-4xl text-4xl font-semibold tracking-tight text-[#080d16] md:text-5xl">
+            <p className="text-sm font-semibold uppercase text-[#6f686a]">External evidence</p>
+            <h1 className="mt-2 max-w-4xl text-4xl font-semibold tracking-tight text-[#181818] md:text-5xl">
               Public Traction Command Center
             </h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-[#536174]">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-[#6f686a]">
               Kleos already has live payment, proof, creator, and agent surfaces. This page focuses on the final
               judge-visible gap: real external testers who run the scenario, mint proof hashes, and publish durable
               GitHub attestations.
             </p>
           </div>
 
-          <div className="rounded-xl border border-[#dfe4ec] bg-white p-5 shadow-sm">
+          <div className="rounded-xl border border-[#e0e0dc] bg-white p-5 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-xl border border-[#d8dee8] bg-[#f8fafc] text-[#536174]">
+              <span className="grid size-11 place-items-center rounded-xl border border-[#deded9] bg-[#f7f7f3] text-[#6f686a]">
                 <RadioTower size={20} aria-hidden />
               </span>
               <div>
-                <p className="text-xs font-semibold uppercase text-[#607089]">Submission score gate</p>
-                <p className="mt-1 text-2xl font-semibold text-[#080d16]">{currentScore.total}/100</p>
+                <p className="text-xs font-semibold uppercase text-[#6f686a]">Submission score gate</p>
+                <p className="mt-1 text-2xl font-semibold text-[#181818]">{currentScore.total}/100</p>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-6 text-[#536174]">
+            <p className="mt-4 text-sm leading-6 text-[#6f686a]">
               The score stays below 100 until GitHub verifies public tester issues. That keeps the submission
               credible while making the exact path to full traction visible.
             </p>
@@ -208,7 +208,7 @@ export default async function TractionPage() {
         </div>
 
         <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)]">
-          <section className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
+          <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="100-point requirements"
               title="Public traction gates"
@@ -222,7 +222,7 @@ export default async function TractionPage() {
             </div>
           </section>
 
-          <section className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
+          <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="Fastest next action"
               title="Send role-specific tester links"
@@ -235,13 +235,13 @@ export default async function TractionPage() {
                   <a
                     key={`${invite.role}-${invite.inviteUrl}`}
                     href={invite.inviteUrl}
-                    className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4 transition hover:border-[#b8c1cf] hover:bg-white"
+                    className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4 transition hover:border-[#b8b8b1] hover:bg-white"
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-semibold text-[#080d16]">{invite.label}</p>
-                      <ExternalLink size={15} className="text-[#536174]" aria-hidden />
+                      <p className="font-semibold text-[#181818]">{invite.label}</p>
+                      <ExternalLink size={15} className="text-[#6f686a]" aria-hidden />
                     </div>
-                    <p className="mt-2 text-sm leading-5 text-[#536174]">{invite.shortDm}</p>
+                    <p className="mt-2 text-sm leading-5 text-[#6f686a]">{invite.shortDm}</p>
                   </a>
                 ))
               ) : (
@@ -254,7 +254,7 @@ export default async function TractionPage() {
         </div>
 
         <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.8fr)]">
-          <section className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
+          <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="Invite packets"
               title="Tester roles"
@@ -263,22 +263,22 @@ export default async function TractionPage() {
             />
             <div className="grid gap-4 p-5 lg:grid-cols-2">
               {invitePackets.map((packet) => (
-                <div key={packet.selectedRole.role} className="rounded-xl border border-[#e3e8ef] bg-[#fbfcfd] p-4">
+                <div key={packet.selectedRole.role} className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-xs font-semibold uppercase text-[#607089]">{packet.selectedRole.role}</p>
-                      <h3 className="mt-1 text-lg font-semibold text-[#080d16]">{packet.selectedRole.label}</h3>
+                      <p className="text-xs font-semibold uppercase text-[#6f686a]">{packet.selectedRole.role}</p>
+                      <h3 className="mt-1 text-lg font-semibold text-[#181818]">{packet.selectedRole.label}</h3>
                     </div>
                     <a
                       href={packet.inviteUrl}
-                      className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-3 text-sm font-semibold text-[#4d5867] transition hover:border-[#b8c1cf] hover:text-[#111827]"
+                      className="inline-flex h-10 shrink-0 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-semibold text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]"
                     >
                       Open
                       <ExternalLink size={14} aria-hidden />
                     </a>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-[#536174]">{packet.selectedRole.whyThisMatters}</p>
-                  <p className="mt-4 rounded-lg border border-[#e3e8ef] bg-white p-3 text-sm leading-6 text-[#273244]">
+                  <p className="mt-3 text-sm leading-6 text-[#6f686a]">{packet.selectedRole.whyThisMatters}</p>
+                  <p className="mt-4 rounded-lg border border-[#e6e6e1] bg-white p-3 text-sm leading-6 text-[#2f2f2f]">
                     {packet.copyBlocks.shortDm}
                   </p>
                 </div>
@@ -286,7 +286,7 @@ export default async function TractionPage() {
             </div>
           </section>
 
-          <section className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
+          <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="Proof trail"
               title="Judge-readable links"
@@ -304,7 +304,7 @@ export default async function TractionPage() {
           </section>
         </div>
 
-        <section className="mt-6 rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
+        <section className="mt-6 rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
           <SectionHeader
             eyebrow="Outreach copy"
             title="Ready-to-send tester asks"

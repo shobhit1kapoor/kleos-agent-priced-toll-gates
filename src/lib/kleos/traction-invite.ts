@@ -143,7 +143,8 @@ export async function buildTesterInvitePacket(
       };
     }),
     campaignLinks: campaign.links,
-    nextStep:
-      "Send the recommendedBatch links to real testers. The score only reaches 100 after the generated GitHub issues are submitted publicly and /api/traction/github verifies the gates.",
+    nextStep: githubTraction.successGates.allPassed
+      ? "Public tester gates are already verified. Keep this packet as an easy way to collect additional backup attestations."
+      : "Send the recommendedBatch links to real testers. The score only reaches 100 after the generated GitHub issues are submitted publicly and /api/traction/github verifies the gates.",
   };
 }

@@ -138,21 +138,21 @@ export function TesterPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f6f8] text-[#111827]">
-      <section className="border-b border-[#dfe4ec] bg-white">
+    <main className="min-h-screen bg-[#f7f7f5] text-[#181818]">
+      <section className="border-b border-[#e0e0dc] bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-5">
           <Link href="/" className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-xl bg-[#d7ff6f] text-[#0e141b]">
+            <span className="grid size-10 place-items-center rounded-xl bg-[#19c37d] text-[#181818]">
               <BadgeDollarSign size={21} aria-hidden />
             </span>
             <span>
               <span className="block text-sm font-semibold">Kleos</span>
-              <span className="block text-xs text-[#657084]">Public tester proof</span>
+              <span className="block text-xs text-[#6f686a]">Public tester proof</span>
             </span>
           </Link>
           <a
             href="/api/traction/github"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b8c1cf] hover:text-[#111827]"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]"
           >
             Verify traction
             <ExternalLink size={15} aria-hidden />
@@ -161,17 +161,17 @@ export function TesterPage({
       </section>
 
       <section className="mx-auto grid max-w-6xl gap-5 px-5 py-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="rounded-xl border border-[#dfe4ec] bg-white shadow-sm">
-          <div className="flex items-start gap-4 border-b border-[#e7ebf1] p-6">
-            <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#dfe4ec] bg-[#f8fafc] text-[#526072]">
+        <div className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
+          <div className="flex items-start gap-4 border-b border-[#e8e8e3] p-6">
+            <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#e0e0dc] bg-[#f7f7f3] text-[#6f686a]">
               <ShieldCheck size={22} aria-hidden />
             </span>
             <div>
-              <p className="text-sm font-medium uppercase text-[#607089]">External tester run</p>
-              <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#090d14] md:text-3xl">
+              <p className="text-sm font-medium uppercase text-[#6f686a]">External tester run</p>
+              <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#181818] md:text-3xl">
                 Create a public Kleos proof hash
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#526072]">
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6f686a]">
                 The page runs the no-wallet settlement scenario, verifies a receipt, mints a tester proof hash, and
                 prepares a public GitHub attestation.
               </p>
@@ -186,17 +186,17 @@ export function TesterPage({
             ) : null}
 
             <label className="grid gap-2">
-              <span className="text-xs font-semibold uppercase text-[#607089]">Name or handle</span>
+              <span className="text-xs font-semibold uppercase text-[#6f686a]">Name or handle</span>
               <input
                 value={testerName}
                 onChange={(event) => setTesterName(event.target.value)}
                 placeholder="Your name"
-                className="h-12 rounded-lg border border-[#d8dee8] bg-white px-4 text-base outline-none transition placeholder:text-[#9aa4b2] focus:border-[#111827]"
+                className="h-12 rounded-lg border border-[#deded9] bg-white px-4 text-base outline-none transition placeholder:text-[#8e8a85] focus:border-[#181818]"
               />
             </label>
 
             <div className="grid gap-2">
-              <span className="text-xs font-semibold uppercase text-[#607089]">Role</span>
+              <span className="text-xs font-semibold uppercase text-[#6f686a]">Role</span>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {roles.map((role) => (
                   <button
@@ -205,8 +205,8 @@ export function TesterPage({
                     onClick={() => setTesterRole(role.value)}
                     className={`h-11 rounded-lg border px-3 text-sm font-medium transition ${
                       testerRole === role.value
-                        ? "border-[#111827] bg-[#111827] text-white"
-                        : "border-[#d8dee8] bg-white text-[#526072] hover:border-[#aeb8c7]"
+                        ? "border-[#181818] bg-[#181818] text-white"
+                        : "border-[#deded9] bg-white text-[#6f686a] hover:border-[#b8b8b1]"
                     }`}
                   >
                     {role.label}
@@ -216,22 +216,22 @@ export function TesterPage({
             </div>
 
             <label className="grid gap-2">
-              <span className="text-xs font-semibold uppercase text-[#607089]">Contact or wallet</span>
+              <span className="text-xs font-semibold uppercase text-[#6f686a]">Contact or wallet</span>
               <input
                 value={walletOrContact}
                 onChange={(event) => setWalletOrContact(event.target.value)}
                 placeholder="Optional"
-                className="h-12 rounded-lg border border-[#d8dee8] bg-white px-4 text-base outline-none transition placeholder:text-[#9aa4b2] focus:border-[#111827]"
+                className="h-12 rounded-lg border border-[#deded9] bg-white px-4 text-base outline-none transition placeholder:text-[#8e8a85] focus:border-[#181818]"
               />
             </label>
 
             <label className="grid gap-2">
-              <span className="text-xs font-semibold uppercase text-[#607089]">Feedback quote</span>
+              <span className="text-xs font-semibold uppercase text-[#6f686a]">Feedback quote</span>
               <textarea
                 value={quote}
                 onChange={(event) => setQuote(event.target.value)}
                 rows={4}
-                className="resize-none rounded-lg border border-[#d8dee8] bg-white px-4 py-3 text-base leading-6 outline-none transition focus:border-[#111827]"
+                className="resize-none rounded-lg border border-[#deded9] bg-white px-4 py-3 text-base leading-6 outline-none transition focus:border-[#181818]"
               />
             </label>
 
@@ -245,7 +245,7 @@ export function TesterPage({
               type="button"
               onClick={runFlow}
               disabled={busy}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#111827] px-5 text-base font-semibold text-white transition hover:bg-[#222b3b] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#181818] px-5 text-base font-semibold text-white transition hover:bg-[#2f2f2f] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {busy ? <Loader2 size={18} className="animate-spin" aria-hidden /> : <ArrowRight size={18} aria-hidden />}
               Run tester flow
@@ -254,14 +254,14 @@ export function TesterPage({
         </div>
 
         <div className="space-y-5">
-          <div className="rounded-xl border border-[#dfe4ec] bg-white p-6 shadow-sm">
+          <div className="rounded-xl border border-[#e0e0dc] bg-white p-6 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-xl border border-[#dfe4ec] bg-[#f8fafc] text-[#526072]">
+              <span className="grid size-11 place-items-center rounded-xl border border-[#e0e0dc] bg-[#f7f7f3] text-[#6f686a]">
                 <FileText size={20} aria-hidden />
               </span>
               <div>
-                <p className="text-sm font-medium uppercase text-[#607089]">Result</p>
-                <h2 className="text-xl font-semibold text-[#090d14]">
+                <p className="text-sm font-medium uppercase text-[#6f686a]">Result</p>
+                <h2 className="text-xl font-semibold text-[#181818]">
                   {result ? "Issue ready" : "Awaiting run"}
                 </h2>
               </div>
@@ -284,7 +284,7 @@ export function TesterPage({
                   <button
                     type="button"
                     onClick={copyIssueUrl}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#d8dee8] bg-white px-4 text-sm font-semibold text-[#111827] transition hover:border-[#aeb8c7]"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#deded9] bg-white px-4 text-sm font-semibold text-[#181818] transition hover:border-[#b8b8b1]"
                   >
                     <Clipboard size={16} aria-hidden />
                     {copied ? "Copied issue URL" : "Copy issue URL"}
@@ -293,7 +293,7 @@ export function TesterPage({
                     href={result.githubIssueUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#d7ff6f] px-4 text-sm font-semibold text-[#111827] transition hover:bg-[#c7f15d]"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#19c37d] px-4 text-sm font-semibold text-[#181818] transition hover:bg-[#16a66b]"
                   >
                     Open GitHub issue
                     <ExternalLink size={16} aria-hidden />
@@ -307,16 +307,16 @@ export function TesterPage({
                   "Receipt verification",
                   "Public GitHub attestation URL",
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-lg border border-[#e5e9f0] px-4 py-3">
-                    <CheckCircle2 size={17} className="text-[#0e9f6e]" aria-hidden />
-                    <span className="text-sm font-medium text-[#526072]">{item}</span>
+                  <div key={item} className="flex items-center gap-3 rounded-lg border border-[#e6e6e1] px-4 py-3">
+                    <CheckCircle2 size={17} className="text-[#19c37d]" aria-hidden />
+                    <span className="text-sm font-medium text-[#6f686a]">{item}</span>
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="rounded-xl border border-[#dfe4ec] bg-[#101720] p-6 text-white shadow-sm">
+          <div className="rounded-xl border border-[#e0e0dc] bg-[#181818] p-6 text-white shadow-sm">
             <p className="text-sm font-medium uppercase text-white/50">100/100 gate</p>
             <h2 className="mt-1 text-xl font-semibold">Public traction requirements</h2>
             <div className="mt-5 grid gap-3">
@@ -341,9 +341,9 @@ export function TesterPage({
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-[#e5e9f0] bg-[#f9fafb] px-4 py-3">
-      <p className="text-xs font-semibold uppercase text-[#607089]">{label}</p>
-      <p className="mt-1 break-all font-mono text-sm font-semibold text-[#090d14]">{value}</p>
+    <div className="rounded-lg border border-[#e6e6e1] bg-[#fbfbf8] px-4 py-3">
+      <p className="text-xs font-semibold uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-1 break-all font-mono text-sm font-semibold text-[#181818]">{value}</p>
     </div>
   );
 }

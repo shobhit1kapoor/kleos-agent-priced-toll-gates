@@ -257,7 +257,7 @@ if (-not $invite.inviteUrl -or $invite.inviteUrl -notlike "*role=creator*") {
 if (-not $invite.copyBlocks.shortDm -or -not $invite.githubTraction.successGates) {
   throw "Tester invite packet is missing outreach copy or traction gates."
 }
-if (-not $invite.recommendedBatch -or $invite.recommendedBatch.Count -lt 1) {
+if ((-not $invite.recommendedBatch -or $invite.recommendedBatch.Count -lt 1) -and -not $invite.githubTraction.successGates.allPassed) {
   throw "Tester invite packet is missing recommended tester batch."
 }
 Write-Host "Invite URL: $($invite.inviteUrl)"

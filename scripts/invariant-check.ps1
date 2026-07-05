@@ -140,8 +140,11 @@ $positioning = Invoke-RestMethod "$BaseUrl/api/competitive/positioning"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if (-not $githubTraction.successGates.allPassed) {
   Assert-True ($positioning.rubricScoreEstimate.total -lt 100) "Score reached 100 without public GitHub traction gates."
+  Assert-True (-not $githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should be false before enough public attestations exist."
+} else {
+  Assert-True ($positioning.rubricScoreEstimate.total -ge 100) "Score did not reach 100 after public GitHub traction gates passed."
+  Assert-True ($githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should pass after verified public attestations."
 }
-Assert-True (-not $githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should be false with zero public attestations."
 Assert-True ($githubTraction.issueCreationUrl -like "*template=tester-attestation.md*") "GitHub traction verifier is not pointing to the tester issue template."
 Write-Host "Score honesty checked: $($positioning.rubricScoreEstimate.total)/100."
 
@@ -190,6 +193,9 @@ Assert-True ($certificate.checks.Count -ge 8) "Submission certificate has too fe
 if (-not $githubTraction.successGates.allPassed) {
   Assert-True ($certificate.rubricScoreEstimate.total -lt 100) "Submission certificate reached 100 without public GitHub traction gates."
   Assert-True ($certificate.remaining100PointGate -like "*5 public tester-attestation*") "Submission certificate does not explain the remaining public traction gate."
+} else {
+  Assert-True ($certificate.status -eq "100-ready") "Submission certificate did not mark the project 100-ready after public traction gates passed."
+  Assert-True ($certificate.rubricScoreEstimate.total -eq 100) "Submission certificate did not reach 100 after public traction gates passed."
 }
 Write-Host "Submission certificate checked: $($certificate.status), $($certificate.rubricScoreEstimate.total)/100."
 

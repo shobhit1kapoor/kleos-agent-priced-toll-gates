@@ -677,10 +677,10 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
     allDecisions.length > 0 ? Math.round((paidDecisions.length / allDecisions.length) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#f5f6f8] text-[#171b21]">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-[#e4e7ec] bg-[#0e141b] text-white xl:flex xl:flex-col">
+    <div className="min-h-screen bg-[#f7f7f5] text-[#181818]">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 border-r border-[#e0e0dc] bg-[#181818] text-white xl:flex xl:flex-col">
         <div className="flex h-24 items-start gap-3 border-b border-white/10 px-5 pt-7">
-          <div className="grid size-9 place-items-center rounded-lg bg-[#d7ff6f] text-[#0e141b]">
+          <div className="grid size-9 place-items-center rounded-lg bg-[#19c37d] text-[#181818]">
             <BadgeDollarSign size={19} aria-hidden />
           </div>
           <div>
@@ -749,7 +749,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
         <div className="border-t border-white/10 p-4">
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-3">
             <div className="flex items-center gap-2 text-sm font-medium">
-              <ShieldCheck size={15} className="text-[#d7ff6f]" aria-hidden />
+              <ShieldCheck size={15} className="text-[#19c37d]" aria-hidden />
               Arc Testnet funded
             </div>
             <p className="mt-2 font-mono text-xs text-white/60">
@@ -760,16 +760,16 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
       </aside>
 
       <div className="xl:pl-72">
-        <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-3 border-b border-[#e4e7ec] bg-white/88 px-3 py-3 backdrop-blur sm:px-4 md:px-6">
+        <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-3 border-b border-[#e0e0dc] bg-white/88 px-3 py-3 backdrop-blur sm:px-4 md:px-6">
           <div className="flex min-w-0 flex-1 items-center gap-3">
-            <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#111827] text-[#d7ff6f] xl:hidden">
+            <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#181818] text-[#19c37d] xl:hidden">
               <BadgeDollarSign size={18} aria-hidden />
             </div>
             <div className="min-w-0 flex-1">
-              <div className="hidden items-center gap-2 text-xs text-[#687080] sm:flex">
+              <div className="hidden items-center gap-2 text-xs text-[#6f686a] sm:flex">
                 <span>Dashboard</span>
                 <ChevronRight size={13} aria-hidden />
-                <span className="text-[#171b21]">Overview</span>
+                <span className="text-[#181818]">Overview</span>
               </div>
               <h1 className="truncate text-base font-semibold leading-6 sm:text-lg md:text-xl">
                 Settlement layer for grounded AI answers
@@ -784,7 +784,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
               disabled={busy !== null}
               title="Trigger a 402 challenge"
               aria-label="Trigger a 402 challenge"
-              className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#d9dee7] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b7c1cf] hover:text-[#171b21] disabled:opacity-50"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818] disabled:opacity-50"
             >
               <ShieldCheck size={16} aria-hidden />
               <span className="hidden md:inline">Test 402</span>
@@ -795,7 +795,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
               disabled={busy !== null}
               title="Recompute prices"
               aria-label="Recompute prices"
-              className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#d9dee7] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b7c1cf] hover:text-[#171b21] disabled:opacity-50"
+              className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818] disabled:opacity-50"
             >
               <RefreshCw size={16} aria-hidden />
               <span className="hidden md:inline">Reprice sources</span>
@@ -806,13 +806,13 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
         <main className="mx-auto max-w-[1500px] space-y-5 p-4 md:p-6" id="overview">
           <section className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-sm font-medium text-[#6b7280]">Citation settlement operations</p>
-              <h2 className="mt-1 text-2xl font-semibold text-[#111827] md:text-3xl">
+              <p className="text-sm font-medium text-[#6f686a]">Citation settlement operations</p>
+              <h2 className="mt-1 text-2xl font-semibold text-[#181818] md:text-3xl">
                 Kleos Answer Settlement Network
               </h2>
             </div>
-            <div className="flex items-center gap-2 rounded-lg border border-[#dfe4eb] bg-white px-3 py-2 text-sm text-[#596273] shadow-sm">
-              <Activity size={15} className="text-[#1f9d6a]" aria-hidden />
+            <div className="flex items-center gap-2 rounded-lg border border-[#e0e0dc] bg-white px-3 py-2 text-sm text-[#6f686a] shadow-sm">
+              <Activity size={15} className="text-[#19c37d]" aria-hidden />
               {lastChallenge ?? "Gateway online"}
             </div>
           </section>
@@ -829,7 +829,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={attestScenario}
                       disabled={busy !== null}
-                      className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#d9dee7] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b7c1cf] hover:text-[#171b21] disabled:opacity-50"
+                      className="inline-flex h-9 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818] disabled:opacity-50"
                     >
                       <ShieldCheck size={15} aria-hidden />
                       {busy === "attest" ? "Minting" : "Attest"}
@@ -838,7 +838,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={runJudgeScenario}
                       disabled={busy !== null}
-                      className="inline-flex h-9 items-center gap-2 rounded-lg bg-[#111827] px-3 text-sm font-medium text-white transition hover:bg-[#263241] disabled:opacity-50"
+                      className="inline-flex h-9 items-center gap-2 rounded-lg bg-[#181818] px-3 text-sm font-medium text-white transition hover:bg-[#2f2f2f] disabled:opacity-50"
                     >
                       <Play size={15} aria-hidden />
                       {busy === "scenario" ? "Running" : "Run scenario"}
@@ -846,16 +846,16 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   </div>
                 }
               />
-              <div className="border-t border-[#edf0f4] px-4 pt-4">
-                <div className="flex items-start gap-2 rounded-lg border border-[#dfe4eb] bg-[#fbfcfd] px-3 py-2 text-sm text-[#596273]">
-                  <Activity size={15} className="mt-0.5 shrink-0 text-[#1f9d6a]" aria-hidden />
+              <div className="border-t border-[#e9e9e4] px-4 pt-4">
+                <div className="flex items-start gap-2 rounded-lg border border-[#e0e0dc] bg-[#fbfbf8] px-3 py-2 text-sm text-[#6f686a]">
+                  <Activity size={15} className="mt-0.5 shrink-0 text-[#19c37d]" aria-hidden />
                   <span>{statusMessage}</span>
                 </div>
                 {testerAttestation ? (
-                  <div className="mt-3 grid gap-2 rounded-lg border border-[#dfe4eb] bg-white p-3 text-xs text-[#596273] md:grid-cols-[1fr_auto] md:items-center">
+                  <div className="mt-3 grid gap-2 rounded-lg border border-[#e0e0dc] bg-white p-3 text-xs text-[#6f686a] md:grid-cols-[1fr_auto] md:items-center">
                     <div>
-                      <p className="font-medium uppercase text-[#697386]">Tester attestation</p>
-                      <p className="mt-1 font-mono text-[#111827]">
+                      <p className="font-medium uppercase text-[#6f686a]">Tester attestation</p>
+                      <p className="mt-1 font-mono text-[#181818]">
                         {shortHash(testerAttestation.attestation.proofHash)}
                       </p>
                     </div>
@@ -863,7 +863,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       href={testerAttestation.attestation.githubIssueUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border border-[#d9dee7] px-3 font-medium text-[#111827] transition hover:border-[#b7c1cf]"
+                      className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border border-[#deded9] px-3 font-medium text-[#181818] transition hover:border-[#b8b8b1]"
                     >
                       <ExternalLink size={14} aria-hidden />
                       Open proof issue
@@ -906,7 +906,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Live proof"
                 title="Gateway status"
               />
-              <div className="grid gap-3 border-t border-[#edf0f4] p-4 sm:grid-cols-2 2xl:grid-cols-1">
+              <div className="grid gap-3 border-t border-[#e9e9e4] p-4 sm:grid-cols-2 2xl:grid-cols-1">
                 <MiniMetric
                   label="Gateway balance"
                   value={`${ledger?.gatewayProof.fundedBalanceUsdc ?? 0} testnet USDC`}
@@ -972,11 +972,11 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Judging readiness"
                 title="Rubric position"
               />
-              <div className="border-t border-[#edf0f4] p-4">
-                <p className="text-4xl font-semibold tabular-nums text-[#111827]">
+              <div className="border-t border-[#e9e9e4] p-4">
+                <p className="text-4xl font-semibold tabular-nums text-[#181818]">
                   {ledger?.rubric.readiness.totalPct ?? 0}%
                 </p>
-                <p className="mt-3 text-sm leading-6 text-[#596273]">
+                <p className="mt-3 text-sm leading-6 text-[#6f686a]">
                   {ledger?.rubric.readiness.verdict}
                 </p>
                 <div className="mt-4 grid gap-3">
@@ -992,7 +992,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Scorecard"
                 title="How Kleos earns points"
               />
-              <div className="grid gap-3 border-t border-[#edf0f4] p-4 md:grid-cols-2">
+              <div className="grid gap-3 border-t border-[#e9e9e4] p-4 md:grid-cols-2">
                 {ledger?.rubric.scorecard.map((item) => (
                   <RubricCard key={item.id} item={item} />
                 ))}
@@ -1012,7 +1012,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={importFeed}
                       disabled={busy !== null}
-                      className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-[#d9dee7] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b7c1cf] hover:text-[#171b21] disabled:opacity-50 sm:w-auto"
+                      className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818] disabled:opacity-50 sm:w-auto"
                     >
                       <Database size={15} aria-hidden />
                       {busy === "feed" ? "Importing" : "Import RSS"}
@@ -1021,7 +1021,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={registerSource}
                       disabled={busy !== null}
-                      className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-[#111827] px-3 text-sm font-medium text-white transition hover:bg-[#263241] disabled:opacity-50 sm:w-auto"
+                      className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-[#181818] px-3 text-sm font-medium text-white transition hover:bg-[#2f2f2f] disabled:opacity-50 sm:w-auto"
                     >
                       <FilePlus2 size={15} aria-hidden />
                       {busy === "source" ? "Registering" : "Register"}
@@ -1029,65 +1029,65 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   </div>
                 }
               />
-              <div className="grid min-w-0 gap-3 border-t border-[#edf0f4] p-4 md:grid-cols-2">
-                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386] md:col-span-2">
+              <div className="grid min-w-0 gap-3 border-t border-[#e9e9e4] p-4 md:grid-cols-2">
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a] md:col-span-2">
                   Source title
                   <input
                     value={sourceForm.title}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, title: event.target.value }))
                     }
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
-                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386]">
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a]">
                   Creator
                   <input
                     value={sourceForm.creatorName}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, creatorName: event.target.value }))
                     }
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
-                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386] md:col-span-2">
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a] md:col-span-2">
                   Source URL
                   <input
                     value={sourceForm.sourceUrl}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, sourceUrl: event.target.value }))
                     }
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
-                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386] md:col-span-2">
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a] md:col-span-2">
                   RSS / Atom feed URL
                   <input
                     value={sourceForm.feedUrl}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, feedUrl: event.target.value }))
                     }
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
-                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#697386] md:col-span-2">
+                <label className="grid min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a] md:col-span-2">
                   Preview
                   <textarea
                     value={sourceForm.preview}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, preview: event.target.value }))
                     }
-                    className="min-h-20 w-full min-w-0 resize-none rounded-lg border border-[#dfe4eb] bg-white px-3 py-2 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="min-h-20 w-full min-w-0 resize-none rounded-lg border border-[#e0e0dc] bg-white px-3 py-2 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
-                <label className="grid w-full max-w-40 min-w-0 gap-2 text-xs font-medium uppercase text-[#697386]">
+                <label className="grid w-full max-w-40 min-w-0 gap-2 text-xs font-medium uppercase text-[#6f686a]">
                   Toll
                   <input
                     value={sourceForm.priceUsdc}
                     onChange={(event) =>
                       setSourceForm((current) => ({ ...current, priceUsdc: event.target.value }))
                     }
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm normal-case text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm normal-case text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
               </div>
@@ -1099,50 +1099,50 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Evidence layer"
                 title="Citation and A2A proof"
               />
-              <div className="grid gap-4 border-t border-[#edf0f4] p-4 lg:grid-cols-2">
+              <div className="grid gap-4 border-t border-[#e9e9e4] p-4 lg:grid-cols-2">
                 <div>
-                  <p className="text-xs font-medium uppercase text-[#697386]">Citation receipts</p>
+                  <p className="text-xs font-medium uppercase text-[#6f686a]">Citation receipts</p>
                   <div className="mt-3 space-y-3">
                     {ledger?.citationReceipts.slice(0, 3).map((receipt) => (
-                      <div key={receipt.id} className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] p-3">
+                      <div key={receipt.id} className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] p-3">
                         <div className="flex items-start justify-between gap-3">
                           <p className="line-clamp-1 text-sm font-semibold">
                             {itemTitle(ledger, receipt.itemId)}
                           </p>
-                          <span className="font-mono text-xs text-[#596273]">
+                          <span className="font-mono text-xs text-[#6f686a]">
                             {formatUsdc(receipt.citationTollUsdc)}
                           </span>
                         </div>
-                        <p className="mt-2 text-xs leading-5 text-[#596273]">{receipt.claim}</p>
-                        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#697386]">
+                        <p className="mt-2 text-xs leading-5 text-[#6f686a]">{receipt.claim}</p>
+                        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#6f686a]">
                           {receipt.supportSpan}
                         </p>
-                        <p className="mt-2 font-mono text-[11px] text-[#8a94a6]">
+                        <p className="mt-2 font-mono text-[11px] text-[#8e8a85]">
                           answer {shortHash(receipt.answerHash)} - receipt {shortHash(receipt.receiptHash)}
                         </p>
-                        <p className="mt-1 font-mono text-[11px] text-[#8a94a6]">
+                        <p className="mt-1 font-mono text-[11px] text-[#8e8a85]">
                           read {shortHash(receipt.readPaymentId)} - cite{" "}
                           {shortHash(receipt.citationPaymentId)} - {receipt.confidence}% confidence
                         </p>
                       </div>
                     ))}
                     {ledger?.citationReceipts.length === 0 ? (
-                      <p className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] p-3 text-sm text-[#697386]">
+                      <p className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] p-3 text-sm text-[#6f686a]">
                         Run the buyer agent, then finalize citations to charge only sources used in the answer.
                       </p>
                     ) : null}
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-medium uppercase text-[#697386]">Agent-to-agent proof</p>
+                  <p className="text-xs font-medium uppercase text-[#6f686a]">Agent-to-agent proof</p>
                   <div className="mt-3 space-y-3">
                     {ledger?.agentTrustEvents.map((event) => (
-                      <div key={event.id} className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] p-3">
+                      <div key={event.id} className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] p-3">
                         <div className="flex items-start justify-between gap-3">
                           <p className="text-sm font-semibold">{event.title}</p>
                           <StatusPill>{event.status.replace("_", " ")}</StatusPill>
                         </div>
-                        <p className="mt-2 text-xs leading-5 text-[#596273]">{event.note}</p>
+                        <p className="mt-2 text-xs leading-5 text-[#6f686a]">{event.note}</p>
                         <div className="mt-3 grid gap-2 sm:grid-cols-2">
                           <MiniMetric label="Amount" value={formatUsdc(event.amountUsdc)} />
                           <MiniMetric label="Digest" value={shortHash(event.digest)} />
@@ -1167,7 +1167,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={runAgent}
                       disabled={busy !== null}
-                      className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-[#d9dee7] bg-white px-3 text-sm font-medium text-[#4d5867] transition hover:border-[#b7c1cf] hover:text-[#171b21] disabled:opacity-50"
+                      className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-[#deded9] bg-white px-3 text-sm font-medium text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818] disabled:opacity-50"
                     >
                       <Play size={15} aria-hidden />
                       {busy === "agent" ? "Running" : "Run agent"}
@@ -1176,7 +1176,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       type="button"
                       onClick={() => finalizeCitations()}
                       disabled={busy !== null || !latestSession}
-                      className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#111827] px-3 text-sm font-medium text-white transition hover:bg-[#263241] disabled:opacity-50"
+                      className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#181818] px-3 text-sm font-medium text-white transition hover:bg-[#2f2f2f] disabled:opacity-50"
                     >
                       <ReceiptText size={15} aria-hidden />
                       {busy === "citations" ? "Finalizing" : "Finalize citations"}
@@ -1188,14 +1188,14 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 <textarea
                   value={task}
                   onChange={(event) => setTask(event.target.value)}
-                  className="min-h-28 min-w-0 resize-none rounded-lg border border-[#dfe4eb] bg-[#fbfcfd] px-3 py-3 text-sm text-[#111827] outline-none transition focus:border-[#111827]"
+                  className="min-h-28 min-w-0 resize-none rounded-lg border border-[#e0e0dc] bg-[#fbfbf8] px-3 py-3 text-sm text-[#181818] outline-none transition focus:border-[#181818]"
                 />
-                <label className="grid min-w-0 content-start gap-2 text-xs font-medium uppercase text-[#697386]">
+                <label className="grid min-w-0 content-start gap-2 text-xs font-medium uppercase text-[#6f686a]">
                   Budget
                   <input
                     value={budget}
                     onChange={(event) => setBudget(event.target.value)}
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#dfe4eb] bg-white px-3 text-sm font-medium text-[#111827] outline-none transition focus:border-[#111827]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#e0e0dc] bg-white px-3 text-sm font-medium text-[#181818] outline-none transition focus:border-[#181818]"
                   />
                 </label>
               </div>
@@ -1208,7 +1208,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 title="Agent conclusion"
               />
               <div className="p-4">
-                <p className="min-h-24 text-sm leading-6 text-[#384152]">
+                <p className="min-h-24 text-sm leading-6 text-[#2f2f2f]">
                   {latestSession?.result ??
                     "Run the buyer agent to produce an answer grounded in selected paid sources."}
                 </p>
@@ -1233,14 +1233,14 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                     type="button"
                     onClick={() => finalizeCitations()}
                     disabled={busy !== null || !latestSession}
-                    className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#111827] px-3 text-sm font-medium text-white transition hover:bg-[#263241] disabled:opacity-50"
+                    className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#181818] px-3 text-sm font-medium text-white transition hover:bg-[#2f2f2f] disabled:opacity-50"
                   >
                     <ReceiptText size={15} aria-hidden />
                     {busy === "citations" ? "Settling" : "Settle answer"}
                   </button>
                 }
               />
-              <div className="grid gap-3 border-t border-[#edf0f4] p-4 sm:grid-cols-2">
+              <div className="grid gap-3 border-t border-[#e9e9e4] p-4 sm:grid-cols-2">
                 <MiniMetric
                   label="Read tolls paid"
                   value={formatUsdc(latestSettlement?.readTollUsdc ?? metrics?.readTollUsdc ?? 0)}
@@ -1266,8 +1266,8 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Bonded broker"
                 title="Capital-at-risk citation proof"
               />
-              <div className="space-y-3 border-t border-[#edf0f4] p-4">
-                <p className="text-sm leading-6 text-[#596273]">
+              <div className="space-y-3 border-t border-[#e9e9e4] p-4">
+                <p className="text-sm leading-6 text-[#6f686a]">
                   {latestSettlement
                     ? `Evaluator bond is ${latestSettlement.bondStatus}; answer ${shortHash(
                         latestSettlement.answerHash,
@@ -1301,15 +1301,15 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                     type="button"
                     onClick={() => settleImpact()}
                     disabled={busy !== null || !latestSettlement}
-                    className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#111827] px-3 text-sm font-medium text-white transition hover:bg-[#263241] disabled:opacity-50"
+                    className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-[#181818] px-3 text-sm font-medium text-white transition hover:bg-[#2f2f2f] disabled:opacity-50"
                   >
                     <CircleDollarSign size={15} aria-hidden />
                     {busy === "impact" ? "Allocating" : "Settle impact"}
                   </button>
                 }
               />
-              <div className="space-y-3 border-t border-[#edf0f4] p-4">
-                <p className="text-sm leading-6 text-[#596273]">
+              <div className="space-y-3 border-t border-[#e9e9e4] p-4">
+                <p className="text-sm leading-6 text-[#6f686a]">
                   Sponsor capital is allocated after citation receipts prove which sources actually
                   supported the answer, creating a second creator reward beyond the read and citation tolls.
                 </p>
@@ -1330,11 +1330,11 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       href={grant.explorerUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-2 transition hover:border-[#111827]"
+                      className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-2 transition hover:border-[#181818]"
                     >
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium">{grant.sourceTitle}</p>
-                        <p className="mt-1 text-xs text-[#697386]">
+                        <p className="mt-1 text-xs text-[#6f686a]">
                           {grant.impactScore} impact - {grant.creatorId}
                         </p>
                       </div>
@@ -1344,7 +1344,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                     </a>
                   ))}
                   {latestImpactGrants.length === 0 ? (
-                    <p className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-4 text-center text-sm text-[#697386]">
+                    <p className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-4 text-center text-sm text-[#6f686a]">
                       Run the judge scenario or settle an answer, then allocate impact rewards.
                     </p>
                   ) : null}
@@ -1363,21 +1363,21 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   <label className="relative block w-full max-w-72">
                     <Search
                       size={15}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8a94a6]"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8e8a85]"
                       aria-hidden
                     />
                     <input
                       value={sourceQuery}
                       onChange={(event) => setSourceQuery(event.target.value)}
                       placeholder="Search sources"
-                      className="h-9 w-full rounded-lg border border-[#dfe4eb] bg-white pl-9 pr-3 text-sm outline-none transition focus:border-[#111827]"
+                      className="h-9 w-full rounded-lg border border-[#e0e0dc] bg-white pl-9 pr-3 text-sm outline-none transition focus:border-[#181818]"
                     />
                   </label>
                 }
               />
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[860px] border-t border-[#edf0f4] text-sm">
-                  <thead className="bg-[#fafbfc] text-left text-xs font-medium uppercase text-[#697386]">
+                <table className="w-full min-w-[860px] border-t border-[#e9e9e4] text-sm">
+                  <thead className="bg-[#f7f7f3] text-left text-xs font-medium uppercase text-[#6f686a]">
                     <tr>
                       <th className="px-4 py-3">Source</th>
                       <th className="px-4 py-3">Read toll</th>
@@ -1387,12 +1387,12 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       <th className="px-4 py-3">Link</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#edf0f4]">
+                  <tbody className="divide-y divide-[#e9e9e4]">
                     {catalog.map((item) => (
                       <tr key={item.id} className="align-top">
                         <td className="max-w-[360px] px-4 py-4">
-                          <p className="font-medium text-[#111827]">{item.title}</p>
-                          <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#697386]">
+                          <p className="font-medium text-[#181818]">{item.title}</p>
+                          <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#6f686a]">
                             {item.preview}
                           </p>
                           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -1404,13 +1404,13 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                         <td className="px-4 py-4 font-mono font-semibold">
                           {formatUsdc(item.currentPriceUsdc)}
                         </td>
-                        <td className="px-4 py-4 font-mono text-[#596273]">
+                        <td className="px-4 py-4 font-mono text-[#6f686a]">
                           {formatUsdc(item.citationPriceUsdc ?? item.currentPriceUsdc * 0.35)}
                         </td>
-                        <td className="px-4 py-4 text-[#596273]">
+                        <td className="px-4 py-4 text-[#6f686a]">
                           {formatUsdc(item.minPriceUsdc)} - {formatUsdc(item.maxPriceUsdc)}
                         </td>
-                        <td className="px-4 py-4 text-[#596273]">
+                        <td className="px-4 py-4 text-[#6f686a]">
                           {item.collaborators.length} collaborators
                         </td>
                         <td className="px-4 py-4">
@@ -1418,7 +1418,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                             href={item.sourceUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex size-8 items-center justify-center rounded-lg border border-[#dfe4eb] text-[#596273] transition hover:border-[#111827] hover:text-[#111827]"
+                            className="inline-flex size-8 items-center justify-center rounded-lg border border-[#e0e0dc] text-[#6f686a] transition hover:border-[#181818] hover:text-[#181818]"
                             aria-label={`Open ${item.title}`}
                           >
                             <ExternalLink size={14} aria-hidden />
@@ -1442,13 +1442,13 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   <div key={item.id}>
                     <div className="mb-2 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
                       <p className="min-w-0 truncate text-sm font-medium">{item.title}</p>
-                      <span className="font-mono text-xs text-[#596273]">
+                      <span className="font-mono text-xs text-[#6f686a]">
                         {formatUsdc(item.currentPriceUsdc)}
                       </span>
                     </div>
-                    <div className="h-2 rounded-lg bg-[#edf0f4]">
+                    <div className="h-2 rounded-lg bg-[#e9e9e4]">
                       <div
-                        className="h-2 rounded-lg bg-[#111827]"
+                        className="h-2 rounded-lg bg-[#181818]"
                         style={{ width: `${Math.max(8, (item.currentPriceUsdc / maxPrice) * 100)}%` }}
                       />
                     </div>
@@ -1466,8 +1466,8 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 title="Paid vs skipped"
               />
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[680px] border-t border-[#edf0f4] text-sm">
-                  <thead className="bg-[#fafbfc] text-left text-xs font-medium uppercase text-[#697386]">
+                <table className="w-full min-w-[680px] border-t border-[#e9e9e4] text-sm">
+                  <thead className="bg-[#f7f7f3] text-left text-xs font-medium uppercase text-[#6f686a]">
                     <tr>
                       <th className="px-4 py-3">Decision</th>
                       <th className="px-4 py-3">Source</th>
@@ -1475,10 +1475,10 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                       <th className="px-4 py-3">Relevance</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#edf0f4]">
+                  <tbody className="divide-y divide-[#e9e9e4]">
                     {allDecisions.length === 0 ? (
                       <tr>
-                        <td className="px-4 py-8 text-center text-[#697386]" colSpan={4}>
+                        <td className="px-4 py-8 text-center text-[#6f686a]" colSpan={4}>
                           Awaiting the next buyer-agent run.
                         </td>
                       </tr>
@@ -1490,7 +1490,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                           </td>
                           <td className="max-w-[340px] px-4 py-4">
                             <p className="font-medium">{decision.title}</p>
-                            <p className="mt-1 line-clamp-1 text-xs text-[#697386]">
+                            <p className="mt-1 line-clamp-1 text-xs text-[#6f686a]">
                               {decision.reason}
                             </p>
                           </td>
@@ -1510,20 +1510,20 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Payment ledger"
                 title="x402 settlements"
               />
-              <div className="divide-y divide-[#edf0f4] border-t border-[#edf0f4]">
+              <div className="divide-y divide-[#e9e9e4] border-t border-[#e9e9e4]">
                 {ledger?.payments.slice(0, 7).map((payment) => (
                   <a
                     key={payment.id}
                     href={payment.explorerUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 transition hover:bg-[#fafbfc]"
+                    className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 transition hover:bg-[#f7f7f3]"
                   >
                     <div>
                       <p className="line-clamp-1 text-sm font-medium">
                         {itemTitle(ledger, payment.itemId)}
                       </p>
-                      <p className="mt-1 text-xs text-[#697386]">
+                      <p className="mt-1 text-xs text-[#6f686a]">
                         {payment.kind} toll - {payment.gatewayTransferId} - {payment.settlementStatus}
                       </p>
                     </div>
@@ -1533,7 +1533,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   </a>
                 ))}
                 {ledger?.payments.length === 0 ? (
-                  <p className="px-4 py-8 text-center text-sm text-[#697386]">
+                  <p className="px-4 py-8 text-center text-sm text-[#6f686a]">
                     No settlement records yet.
                   </p>
                 ) : null}
@@ -1583,18 +1583,18 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 label="Royalty graph"
                 title="Collaborator payouts"
               />
-              <div className="divide-y divide-[#edf0f4] border-t border-[#edf0f4]">
+              <div className="divide-y divide-[#e9e9e4] border-t border-[#e9e9e4]">
                 {ledger?.payoutSplits.slice(0, 8).map((split) => (
                   <a
                     key={split.id}
                     href={split.explorerUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 transition hover:bg-[#fafbfc]"
+                    className="grid grid-cols-[1fr_auto] gap-4 px-4 py-3 transition hover:bg-[#f7f7f3]"
                   >
                     <div>
                       <p className="text-sm font-medium">{split.splitBps / 100}% collaborator split</p>
-                      <p className="mt-1 font-mono text-xs text-[#697386]">{split.creatorId}</p>
+                      <p className="mt-1 font-mono text-xs text-[#6f686a]">{split.creatorId}</p>
                     </div>
                     <p className="font-mono text-sm font-semibold">
                       {formatUsdc(split.amountUsdc)}
@@ -1602,7 +1602,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   </a>
                 ))}
                 {ledger?.payoutSplits.length === 0 ? (
-                  <p className="px-4 py-8 text-center text-sm text-[#697386]">
+                  <p className="px-4 py-8 text-center text-sm text-[#6f686a]">
                     No collaborator payouts yet.
                   </p>
                 ) : null}
@@ -1647,13 +1647,13 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                 ].map(([tool, detail]) => (
                   <div
                     key={tool}
-                    className="flex items-center justify-between gap-4 rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-2"
+                    className="flex items-center justify-between gap-4 rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-2"
                   >
                     <div>
                       <p className="font-mono text-sm font-medium">{tool}</p>
-                      <p className="text-xs text-[#697386]">{detail}</p>
+                      <p className="text-xs text-[#6f686a]">{detail}</p>
                     </div>
-                    <Link2 size={15} className="shrink-0 text-[#8a94a6]" aria-hidden />
+                    <Link2 size={15} className="shrink-0 text-[#8e8a85]" aria-hidden />
                   </div>
                 ))}
               </div>
@@ -1673,7 +1673,7 @@ function Card({
   id?: string;
 }) {
   return (
-    <section id={id} className="min-w-0 rounded-lg border border-[#dfe4eb] bg-white shadow-sm">
+    <section id={id} className="min-w-0 rounded-lg border border-[#e0e0dc] bg-white shadow-sm">
       {children}
     </section>
   );
@@ -1693,12 +1693,12 @@ function CardHeader({
   return (
     <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="flex min-w-0 items-start gap-3">
-        <div className="grid size-9 shrink-0 place-items-center rounded-lg border border-[#e6eaf0] bg-[#f8fafc] text-[#4d5867]">
+        <div className="grid size-9 shrink-0 place-items-center rounded-lg border border-[#e6eaf0] bg-[#f7f7f3] text-[#6f686a]">
           {icon}
         </div>
         <div className="min-w-0">
-          <p className="text-xs font-medium uppercase text-[#697386]">{label}</p>
-          <h3 className="mt-0.5 break-words text-base font-semibold text-[#111827]">{title}</h3>
+          <p className="text-xs font-medium uppercase text-[#6f686a]">{label}</p>
+          <h3 className="mt-0.5 break-words text-base font-semibold text-[#181818]">{title}</h3>
         </div>
       </div>
       {action ? <div className="w-full shrink-0 sm:w-auto">{action}</div> : null}
@@ -1720,19 +1720,19 @@ function StatCard({
   trend: string;
 }) {
   return (
-    <section className="min-w-0 rounded-lg border border-[#dfe4eb] bg-white p-4 shadow-sm">
+    <section className="min-w-0 rounded-lg border border-[#e0e0dc] bg-white p-4 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-sm text-[#697386]">{label}</p>
-          <p className="mt-2 break-words text-2xl font-semibold tabular-nums text-[#111827]">{value}</p>
+          <p className="text-sm text-[#6f686a]">{label}</p>
+          <p className="mt-2 break-words text-2xl font-semibold tabular-nums text-[#181818]">{value}</p>
         </div>
-        <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#effdf5] text-[#1f9d6a]">
+        <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#edf8f2] text-[#19c37d]">
           {icon}
         </div>
       </div>
       <div className="mt-4 flex items-center justify-between gap-3 text-xs">
-        <span className="min-w-0 text-[#697386]">{detail}</span>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[#dfe4eb] px-2 py-1 font-medium text-[#3d4654]">
+        <span className="min-w-0 text-[#6f686a]">{detail}</span>
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-[#e0e0dc] px-2 py-1 font-medium text-[#2f2f2f]">
           <TrendingUp size={12} aria-hidden />
           {trend}
         </span>
@@ -1751,10 +1751,10 @@ function ReviewStep({
   detail: string;
 }) {
   return (
-    <div className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] p-3">
-      <p className="font-mono text-xs font-semibold text-[#8a94a6]">{step}</p>
-      <p className="mt-2 text-sm font-semibold text-[#111827]">{title}</p>
-      <p className="mt-1 text-xs leading-5 text-[#697386]">{detail}</p>
+    <div className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] p-3">
+      <p className="font-mono text-xs font-semibold text-[#8e8a85]">{step}</p>
+      <p className="mt-2 text-sm font-semibold text-[#181818]">{title}</p>
+      <p className="mt-1 text-xs leading-5 text-[#6f686a]">{detail}</p>
     </div>
   );
 }
@@ -1772,27 +1772,27 @@ function RubricCard({
 }) {
   const strong = item.coverage === "Strong";
   return (
-    <div className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] p-3">
+    <div className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] p-3">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-[#111827]">{item.criterion}</p>
-          <p className="mt-1 text-xs font-medium uppercase text-[#697386]">
+          <p className="text-sm font-semibold text-[#181818]">{item.criterion}</p>
+          <p className="mt-1 text-xs font-medium uppercase text-[#6f686a]">
             {item.weightPct}% weight
           </p>
         </div>
         <span
           className={`shrink-0 rounded-md border px-2 py-1 text-xs font-medium ${
             strong
-              ? "border-[#bcebd0] bg-[#effdf5] text-[#17764f]"
+              ? "border-[#b7ead0] bg-[#edf8f2] text-[#127a52]"
               : "border-[#ead8ac] bg-[#fff8e5] text-[#856311]"
           }`}
         >
           {item.coverage}
         </span>
       </div>
-      <p className="mt-3 text-xs leading-5 text-[#596273]">{item.evidence}</p>
-      <p className="mt-3 border-t border-[#edf0f4] pt-3 text-xs leading-5 text-[#697386]">
-        <span className="font-semibold text-[#3d4654]">Full-mark move:</span>{" "}
+      <p className="mt-3 text-xs leading-5 text-[#6f686a]">{item.evidence}</p>
+      <p className="mt-3 border-t border-[#e9e9e4] pt-3 text-xs leading-5 text-[#6f686a]">
+        <span className="font-semibold text-[#2f2f2f]">Full-mark move:</span>{" "}
         {item.fullMarksMove}
       </p>
     </div>
@@ -1801,16 +1801,16 @@ function RubricCard({
 
 function MiniMetric({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-2">
-      <p className="text-xs font-medium uppercase text-[#697386]">{label}</p>
-      <p className="mt-1 break-all font-mono text-sm font-semibold text-[#111827]">{value}</p>
+    <div className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-2">
+      <p className="text-xs font-medium uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-1 break-all font-mono text-sm font-semibold text-[#181818]">{value}</p>
     </div>
   );
 }
 
 function Badge({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-md border border-[#dfe4eb] bg-white px-2 py-0.5 text-xs font-medium text-[#596273]">
+    <span className="inline-flex items-center rounded-md border border-[#e0e0dc] bg-white px-2 py-0.5 text-xs font-medium text-[#6f686a]">
       {children}
     </span>
   );
@@ -1822,7 +1822,7 @@ function StatusBadge({ status }: { status: "paid" | "skipped" }) {
     <span
       className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium ${
         paid
-          ? "border border-[#bcebd0] bg-[#effdf5] text-[#17764f]"
+          ? "border border-[#b7ead0] bg-[#edf8f2] text-[#127a52]"
           : "border border-[#ead8ac] bg-[#fff8e5] text-[#856311]"
       }`}
     >
@@ -1834,7 +1834,7 @@ function StatusBadge({ status }: { status: "paid" | "skipped" }) {
 
 function StatusPill({ children }: { children: ReactNode }) {
   return (
-    <span className="shrink-0 rounded-md border border-[#bcebd0] bg-[#effdf5] px-2 py-1 text-xs font-medium capitalize text-[#17764f]">
+    <span className="shrink-0 rounded-md border border-[#b7ead0] bg-[#edf8f2] px-2 py-1 text-xs font-medium capitalize text-[#127a52]">
       {children}
     </span>
   );
@@ -1846,10 +1846,10 @@ function ProofLink({ label, href, tx }: { label: string; href?: string; tx?: str
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-2 transition hover:border-[#111827]"
+      className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-2 transition hover:border-[#181818]"
     >
-      <p className="text-xs font-medium uppercase text-[#697386]">{label}</p>
-      <p className="mt-1 flex items-center gap-2 font-mono text-xs font-semibold text-[#111827]">
+      <p className="text-xs font-medium uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-1 flex items-center gap-2 font-mono text-xs font-semibold text-[#181818]">
         {tx ? shortHash(tx) : "Not configured"}
         <ExternalLink size={12} aria-hidden />
       </p>
@@ -1859,24 +1859,24 @@ function ProofLink({ label, href, tx }: { label: string; href?: string; tx?: str
 
 function CopyBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-[#edf0f4] bg-[#fbfcfd] px-3 py-2">
-      <p className="text-xs font-medium uppercase text-[#697386]">{label}</p>
-      <p className="mt-1 break-all font-mono text-xs font-semibold text-[#111827]">{value}</p>
+    <div className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-2">
+      <p className="text-xs font-medium uppercase text-[#6f686a]">{label}</p>
+      <p className="mt-1 break-all font-mono text-xs font-semibold text-[#181818]">{value}</p>
     </div>
   );
 }
 
 function Timeline({ children }: { children: ReactNode }) {
-  return <div className="space-y-3 border-t border-[#edf0f4] p-4">{children}</div>;
+  return <div className="space-y-3 border-t border-[#e9e9e4] p-4">{children}</div>;
 }
 
 function TimelineItem({ title, detail }: { title: string; detail: string }) {
   return (
     <div className="grid grid-cols-[12px_1fr] gap-3">
-      <div className="mt-1.5 size-2 rounded-md bg-[#111827]" />
+      <div className="mt-1.5 size-2 rounded-md bg-[#181818]" />
       <div>
-        <p className="line-clamp-1 text-sm font-medium text-[#111827]">{title}</p>
-        <p className="mt-1 text-xs leading-5 text-[#697386]">{detail}</p>
+        <p className="line-clamp-1 text-sm font-medium text-[#181818]">{title}</p>
+        <p className="mt-1 text-xs leading-5 text-[#6f686a]">{detail}</p>
       </div>
     </div>
   );
