@@ -48,6 +48,10 @@ tiny toll.
   grounded answer endpoint.
 - `GET|POST /api/agents/spend-permits` - issues and verifies budget-capped,
   tool-scoped, expiry-bound spend permits for external agents.
+- `GET|POST /api/volume/engine` - summarizes or runs capped internal
+  autonomous agent-volume batches that inspect sources, pay read tolls, finalize
+  citation tolls, and allocate impact rewards. These runs are labeled separately
+  from external tester traction.
 - `GET /.well-known/mcp.json` - MCP discovery document for agent clients.
 - `POST /api/mcp/rpc` - JSON-RPC MCP endpoint for `tools/list`,
   `tools/call`, `resources/list`, and `resources/read`.

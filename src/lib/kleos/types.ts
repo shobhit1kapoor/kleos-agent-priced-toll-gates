@@ -283,6 +283,29 @@ export type AgentSpendPermit = {
   bearerPreview: string;
 };
 
+export type AutonomousVolumeRun = {
+  id: string;
+  mode: "internal-agent-volume";
+  requestedRuns: number;
+  completedRuns: number;
+  buyerWallet: string;
+  totalReadTollUsdc: number;
+  totalCitationTollUsdc: number;
+  impactPoolUsdc: number;
+  totalUsdcMoved: number;
+  sessions: Array<{
+    sessionId: string;
+    answerHash: string;
+    paidReads: number;
+    citationReceipts: number;
+    spentUsdc: number;
+  }>;
+  proofHash: string;
+  note: string;
+  startedAt: string;
+  completedAt: string;
+};
+
 export type KleosStore = {
   creators: Creator[];
   contentItems: ContentItem[];
@@ -305,6 +328,7 @@ export type KleosStore = {
   receiptVerifications: ReceiptVerification[];
   citationChallenges: CitationChallenge[];
   agentSpendPermits: AgentSpendPermit[];
+  autonomousVolumeRuns: AutonomousVolumeRun[];
 };
 
 export type CatalogItem = ContentItem & {

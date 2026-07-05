@@ -86,6 +86,7 @@ Assert-True ($agentCard.agentWallet -eq $ledger.gatewayProof.agentWallet) "Agent
 Assert-True ($agentCard.services.mcpRpc -like "*/api/mcp/rpc") "Agent card is missing MCP RPC service."
 Assert-True ($agentCard.services.a2aAsk -like "*/api/a2a/ask") "Agent card is missing A2A service."
 Assert-True ($agentCard.services.agentSpendPermits -like "*/api/agents/spend-permits") "Agent card is missing spend permit service."
+Assert-True ($agentCard.services.volumeEngine -like "*/api/volume/engine") "Agent card is missing volume engine service."
 Assert-True ($agentCard.services.provenance -like "*/api/provenance") "Agent card is missing provenance service."
 Assert-True ($agentCard.services.tractionCenter -like "*/traction") "Agent card is missing traction center service."
 Assert-True ($agentCard.services.oneClickTester -like "*/api/tester/one-click") "Agent card is missing one-click tester service."
@@ -122,6 +123,19 @@ Assert-True ($permitList.summary.totalPermits -ge 1) "Spend permit list did not 
 Assert-True ($permitList.verification.auditHash -like "0x*") "Spend permit verification did not return audit hash."
 Write-Host "Spend permit checked: $($permit.permit.bearerPreview)."
 
+Write-Step "Autonomous volume invariants"
+$volumeRun = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/volume/engine" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"targetRuns":2,"taskPrefix":"Invariant autonomous volume"}'
+Assert-True ($volumeRun.run.mode -eq "internal-agent-volume") "Volume engine run is not labeled as internal agent volume."
+Assert-True ($volumeRun.run.completedRuns -eq 2) "Volume engine did not complete the requested run count."
+Assert-True ($volumeRun.run.totalUsdcMoved -gt 0) "Volume engine did not move any internal volume."
+Assert-True ($volumeRun.run.proofHash -like "0x*") "Volume engine did not return a proof hash."
+Assert-True ($volumeRun.summary.honesty -like "*do not count as external tester traction*") "Volume engine is missing external traction honesty copy."
+Write-Host "Volume engine checked: $($volumeRun.run.completedRuns) run(s), $($volumeRun.run.totalUsdcMoved) USDC."
+
 $positioning = Invoke-RestMethod "$BaseUrl/api/competitive/positioning"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if (-not $githubTraction.successGates.allPassed) {
@@ -152,7 +166,10 @@ Assert-True ($proofPack.apiSurfaces -contains "POST /api/publishers/verify") "Pr
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/reputation/passport") "Proof pack missing reputation passport surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/reputation/passport") "Proof pack missing reputation attestation surface."
 Assert-True ($proofPack.apiSurfaces -contains "POST /api/agents/spend-permits") "Proof pack missing spend permit surface."
+Assert-True ($proofPack.apiSurfaces -contains "GET /api/volume/engine") "Proof pack missing volume engine summary surface."
+Assert-True ($proofPack.apiSurfaces -contains "POST /api/volume/engine") "Proof pack missing volume engine run surface."
 Assert-True ($proofPack.apiSurfaces -contains "GET /api/transparency/log") "Proof pack missing transparency log surface."
+Assert-True ($proofPack.volumeEngine.honesty -like "*do not count as external tester traction*") "Proof pack volume engine is missing honesty label."
 Assert-True ($proofPack.transparencyLog.rootHash -like "0x*") "Proof pack missing transparency log root."
 Assert-True ($proofPack.transparencyLog.totals.publisher_verification -ge 1) "Proof pack transparency log is missing publisher verification leaves."
 Assert-True ($proofPack.transparencyLog.totals.agent_trust_event -ge 1) "Proof pack transparency log is missing agent trust leaves."
@@ -168,6 +185,7 @@ Assert-True ($certificate.circleArcProof.liveX402Receipt.receiptId -eq $ledger.g
 Assert-True ($certificate.judgeProofLinks.submissionCertificate -like "*/api/submission/certificate") "Submission certificate is missing judge alias link."
 Assert-True ($certificate.judgeProofLinks.submissionBundle -like "*/api/submission/bundle") "Submission certificate is missing submission bundle link."
 Assert-True ($certificate.judgeProofLinks.tractionCenter -like "*/traction") "Submission certificate is missing traction center link."
+Assert-True ($certificate.judgeProofLinks.volumeEngine -like "*/api/volume/engine") "Submission certificate is missing volume engine link."
 Assert-True ($certificate.checks.Count -ge 8) "Submission certificate has too few checks."
 if (-not $githubTraction.successGates.allPassed) {
   Assert-True ($certificate.rubricScoreEstimate.total -lt 100) "Submission certificate reached 100 without public GitHub traction gates."
@@ -180,6 +198,7 @@ $bundle = Invoke-RestMethod "$BaseUrl/api/submission/bundle"
 Assert-True ($bundle.bundleHash -like "0x*") "Submission bundle did not return a bundle hash."
 Assert-True ($bundle.formFields.liveUrl -like "http*") "Submission bundle is missing live URL form field."
 Assert-True ($bundle.formFields.tractionCenter -like "*/traction") "Submission bundle is missing traction center form field."
+Assert-True ($bundle.formFields.volumeEngine -like "*/api/volume/engine") "Submission bundle is missing volume engine form field."
 Assert-True ($bundle.formFields.proofPack -like "*/api/proof-pack") "Submission bundle is missing proof pack link."
 Assert-True ($bundle.demoScriptUnder3Min.Count -ge 4) "Submission bundle has too few demo script beats."
 Assert-True ($bundle.testerRecruitment.creatorInvite.inviteUrl -like "*/test?*role=creator*") "Submission bundle is missing creator invite URL."
@@ -205,6 +224,8 @@ $permitTools = @($toolsList.result.tools | Where-Object { $_.name -eq "issue_age
 Assert-True ($permitTools.Count -eq 1) "MCP tools/list is missing issue_agent_spend_permit."
 $bundleTools = @($toolsList.result.tools | Where-Object { $_.name -eq "get_submission_bundle" })
 Assert-True ($bundleTools.Count -eq 1) "MCP tools/list is missing get_submission_bundle."
+$volumeTools = @($toolsList.result.tools | Where-Object { $_.name -eq "run_autonomous_volume_engine" })
+Assert-True ($volumeTools.Count -eq 1) "MCP tools/list is missing run_autonomous_volume_engine."
 $quote = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `
@@ -223,6 +244,13 @@ $mcpBundle = Invoke-RestMethod `
   -ContentType "application/json" `
   -Body '{"jsonrpc":"2.0","id":22,"method":"tools/call","params":{"name":"get_submission_bundle","arguments":{}}}'
 Assert-True ($mcpBundle.result.structuredContent.bundleHash -like "0x*") "MCP get_submission_bundle did not return a bundle hash."
+$mcpVolume = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/mcp/rpc" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"jsonrpc":"2.0","id":23,"method":"tools/call","params":{"name":"run_autonomous_volume_engine","arguments":{"targetRuns":1,"taskPrefix":"MCP autonomous volume"}}}'
+Assert-True ($mcpVolume.result.structuredContent.run.completedRuns -eq 1) "MCP run_autonomous_volume_engine did not complete one run."
+Assert-True ($mcpVolume.result.structuredContent.run.proofHash -like "0x*") "MCP run_autonomous_volume_engine did not return a proof hash."
 $mcpTransparency = Invoke-RestMethod `
   -Uri "$BaseUrl/api/mcp/rpc" `
   -Method Post `

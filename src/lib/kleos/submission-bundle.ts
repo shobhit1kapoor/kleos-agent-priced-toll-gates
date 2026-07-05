@@ -62,6 +62,7 @@ export async function buildSubmissionBundle(origin: string) {
       tractionCenter: certificate.judgeProofLinks.tractionCenter,
       proofPack: certificate.judgeProofLinks.proofPack,
       submissionCertificate: certificate.judgeProofLinks.submissionCertificate,
+      volumeEngine: certificate.judgeProofLinks.volumeEngine,
       liveX402ReceiptUrl: certificate.judgeProofLinks.liveX402Receipt,
     },
     judgeRunbook: [
@@ -70,6 +71,7 @@ export async function buildSubmissionBundle(origin: string) {
       "Open /traction to see live public tester gates, role-specific invite links, and outreach copy.",
       "Open /api/proof-pack to inspect differentiators, receipts, claim traces, impact graph, spend permits, and proof links.",
       "Open /api/agents/spend-permits?permitId=permit_seed_judge_agent to verify external-agent spend limits.",
+      "POST /api/volume/engine with targetRuns=3 to generate a labeled internal autonomous volume batch.",
       "Open /creators to inspect read toll splits, citation toll splits, impact rewards, and cash-outs.",
       "Open /api/traction/github to verify whether public tester gates have passed.",
     ],

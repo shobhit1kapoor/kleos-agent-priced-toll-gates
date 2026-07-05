@@ -612,6 +612,7 @@ const initialStore = (): KleosStore => ({
       bearerPreview: `${seedSpendPermitPolicyDigest.slice(0, 12)}...${seedSpendPermitPolicyDigest.slice(-8)}`,
     },
   ],
+  autonomousVolumeRuns: [],
 });
 
 declare global {
@@ -631,6 +632,7 @@ function ensureStoreShape(store: KleosStore) {
   store.receiptVerifications ??= [];
   store.citationChallenges ??= [];
   store.agentSpendPermits ??= [];
+  store.autonomousVolumeRuns ??= [];
 
   for (const creator of store.creators) {
     if (!store.creatorWebhooks.some((webhook) => webhook.creatorId === creator.id)) {

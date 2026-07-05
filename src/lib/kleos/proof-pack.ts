@@ -6,6 +6,7 @@ import { buildImpactGraph } from "./impact-graph";
 import { spendPermitSummary } from "./spend-permits";
 import { buildTractionCampaign } from "./traction";
 import { buildTransparencyLog } from "./transparency-log";
+import { volumeEngineSummary } from "./volume-engine";
 
 export function buildProofPack(origin?: string) {
   const ledger = getLedgerSnapshot();
@@ -16,6 +17,7 @@ export function buildProofPack(origin?: string) {
   const spendPermits = spendPermitSummary();
   const tractionCampaign = buildTractionCampaign(origin);
   const transparencyLog = buildTransparencyLog();
+  const volumeEngine = volumeEngineSummary();
 
   return {
     generatedAt: new Date().toISOString(),
@@ -38,6 +40,7 @@ export function buildProofPack(origin?: string) {
       "Hosted one-click tester flow: /api/tester/one-click runs the no-wallet scenario, verifies a receipt, mints a proof hash, and returns the public GitHub issue URL.",
       "Public tester page: /test gives nontechnical testers a form-driven path to create a proof hash and submit durable GitHub feedback.",
       "Public traction command center: /traction shows live GitHub gates, role-specific invite links, outreach copy, and judge proof links in one reviewer-readable surface.",
+      "Autonomous volume engine: /api/volume/engine lets reviewers run labeled internal agent batches that inspect paid sources, settle citation tolls, and allocate impact rewards without counting them as external traction.",
       "One-command tester runner: scripts/tester-run.ps1 executes the live no-wallet scenario, verifies proof surfaces, mints a proof hash, and prints the public GitHub issue URL.",
       "Public operations proof: status, health, treasury, and OpenAPI endpoints let async judges verify scope and liveness without a guided demo.",
       "Proof explorer: /proof turns the live x402 receipt, score certificate, transparency root, impact graph, and traction gates into a reviewer-readable audit console.",
@@ -98,6 +101,7 @@ export function buildProofPack(origin?: string) {
       "Run scripts/tester-run.ps1 to mint a proof hash and public GitHub issue URL",
       "Open /api/traction/campaign",
       "Open /api/traction/github",
+      "POST /api/volume/engine to generate a labeled internal autonomous volume batch",
       "Open /api/oss-kit",
       "Open /api/competitive/positioning",
       "Open /api/publisher-kit",
@@ -126,6 +130,7 @@ export function buildProofPack(origin?: string) {
     citationChallenges: ledger.citationChallenges.slice(0, 8),
     testerAttestations: ledger.testerAttestations.slice(0, 8),
     tractionCampaign,
+    volumeEngine,
     transparencyLog: {
       schema: transparencyLog.schema,
       rootHash: transparencyLog.rootHash,
@@ -171,6 +176,8 @@ export function buildProofPack(origin?: string) {
       "POST /api/traction/attest",
       "GET /api/traction/campaign",
       "GET /api/traction/github",
+      "GET /api/volume/engine",
+      "POST /api/volume/engine",
       "GET /api/tester/one-click",
       "POST /api/tester/one-click",
       "GET /test",

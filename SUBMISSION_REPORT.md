@@ -112,6 +112,9 @@ Implemented:
   Kleos, after which Kleos pays creator sources and returns settlement proof.
 - Agent spend permits that issue budget-capped, tool-scoped, expiry-bound
   policies for external agents before they buy, cite, or verify sources.
+- Autonomous volume engine endpoint that runs capped, labeled internal
+  agent-volume batches across read tolls, citation tolls, and impact rewards
+  without counting them as external tester traction.
 - Callable JSON-RPC MCP endpoint and `/.well-known/mcp.json` discovery document
   so agent clients can list resources, quote sources, and call Kleos tools.
 - Publishable `packages/kleos-mcp` stdio bridge so agent clients can connect to

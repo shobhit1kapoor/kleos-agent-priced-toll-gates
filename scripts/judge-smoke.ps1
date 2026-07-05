@@ -350,6 +350,9 @@ if (-not $openApi.paths."/api/publishers/verify") {
 if (-not $openApi.paths."/api/reputation/passport") {
   throw "OpenAPI manifest is missing reputation passport route."
 }
+if (-not $openApi.paths."/api/volume/engine") {
+  throw "OpenAPI manifest is missing volume engine route."
+}
 if (-not $openApi.paths."/traction") {
   throw "OpenAPI manifest is missing traction command center route."
 }
@@ -435,6 +438,21 @@ if ($permitList.verification.auditHash -notlike "0x*") {
 }
 Write-Host "Spend permit: $($permit.permit.bearerPreview)"
 
+Write-Step "Autonomous volume engine"
+$volumeRun = Invoke-RestMethod `
+  -Uri "$BaseUrl/api/volume/engine" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"targetRuns":3,"taskPrefix":"Judge smoke autonomous volume"}'
+if ($volumeRun.run.completedRuns -lt 3 -or -not $volumeRun.run.proofHash) {
+  throw "Volume engine did not complete the requested autonomous runs."
+}
+if ($volumeRun.summary.honesty -notlike "*do not count as external tester traction*") {
+  throw "Volume engine summary is missing the traction honesty label."
+}
+Write-Host "Volume engine runs: $($volumeRun.run.completedRuns)"
+Write-Host "Volume proof: $($volumeRun.run.proofHash)"
+
 Write-Step "Sponsored no-wallet trial"
 $trial = Invoke-RestMethod `
   -Uri "$BaseUrl/api/trial/sponsored" `
@@ -509,6 +527,9 @@ Write-Step "Proof pack"
 $proofPack = Invoke-RestMethod "$BaseUrl/api/proof-pack"
 if (-not $proofPack.strongestDifferentiators -or $proofPack.strongestDifferentiators.Count -lt 3) {
   throw "Proof pack is missing differentiators."
+}
+if ($proofPack.volumeEngine.honesty -notlike "*do not count as external tester traction*") {
+  throw "Proof pack is missing the volume engine honesty label."
 }
 Write-Host "Proof pack differentiators: $($proofPack.strongestDifferentiators.Count)"
 

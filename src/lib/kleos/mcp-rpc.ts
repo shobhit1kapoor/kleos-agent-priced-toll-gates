@@ -20,6 +20,7 @@ import { runOneClickTesterFlow } from "./tester-flow";
 import { buildTractionCampaign, createTesterAttestation } from "./traction";
 import { buildTesterInvitePacket } from "./traction-invite";
 import { buildTransparencyLog, buildTransparencyProof } from "./transparency-log";
+import { runAutonomousVolumeEngine, volumeEngineSummary } from "./volume-engine";
 
 type JsonRpcRequest = {
   jsonrpc?: "2.0";
@@ -299,6 +300,22 @@ export const mcpTools: ToolDefinition[] = [
     inputSchema: { type: "object", properties: {} },
   },
   {
+    name: "get_volume_engine",
+    description: "Return current-runtime internal autonomous volume batches and the honesty label separating them from external traction.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "run_autonomous_volume_engine",
+    description: "Run a capped internal autonomous volume batch that pays read tolls, citation tolls, and impact rewards.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        targetRuns: { type: "number" },
+        taskPrefix: { type: "string" },
+      },
+    },
+  },
+  {
     name: "get_submission_bundle",
     description: "Return the portable judge evidence bundle with form fields, proof links, demo script, tester invites, and score gates.",
     inputSchema: { type: "object", properties: {} },
@@ -511,6 +528,15 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       );
     case "verify_github_traction":
       return toolResult(await getGithubTractionSnapshot());
+    case "get_volume_engine":
+      return toolResult(volumeEngineSummary());
+    case "run_autonomous_volume_engine":
+      return toolResult(
+        runAutonomousVolumeEngine({
+          targetRuns: asNumber(args.targetRuns),
+          taskPrefix: asString(args.taskPrefix) || undefined,
+        }),
+      );
     case "get_submission_bundle":
       return toolResult(await buildSubmissionBundle(origin));
     case "get_public_status":

@@ -3,6 +3,7 @@ import { finalizeAnswerCitations } from "./citation-settlement";
 import { KLEOS_AGENT_WALLET } from "./config";
 import { settleImpactPool } from "./impact-pool";
 import { recomputePrices } from "./pricing";
+import { getCatalogItems } from "./store";
 
 const DEFAULT_TASK =
   "Evaluate Kleos as a settlement layer for grounded AI answers, including x402, citation receipts, creator payouts, and dynamic repricing.";
@@ -13,8 +14,27 @@ export function runSponsoredTrial(input?: {
   citationBudgetUsdc?: number;
   sponsorPoolUsdc?: number;
 }) {
-  const budgetUsdc = Math.min(Math.max(input?.budgetUsdc ?? 0.018, 0.004), 0.03);
-  const citationBudgetUsdc = Math.min(Math.max(input?.citationBudgetUsdc ?? 0.006, 0.001), budgetUsdc);
+  const buyerReputation = 94;
+  const cheapestViable = getCatalogItems()
+    .map((item) => {
+      const effectiveReadTollUsdc = Number((item.currentPriceUsdc * 0.92).toFixed(6));
+      const citationTollUsdc = Number(
+        Math.max(0.000001, item.citationPriceUsdc ?? item.currentPriceUsdc * 0.35).toFixed(6),
+      );
+
+      return {
+        effectiveReadTollUsdc,
+        citationTollUsdc,
+        totalUsdc: Number((effectiveReadTollUsdc + citationTollUsdc).toFixed(6)),
+      };
+    })
+    .sort((left, right) => left.totalUsdc - right.totalUsdc)[0];
+  const requestedCitationBudgetUsdc = Math.max(input?.citationBudgetUsdc ?? 0.006, 0.001);
+  const minimumViableBudgetUsdc = cheapestViable
+    ? Math.min(0.03, Number((cheapestViable.effectiveReadTollUsdc + requestedCitationBudgetUsdc).toFixed(6)))
+    : 0.004;
+  const budgetUsdc = Math.min(Math.max(input?.budgetUsdc ?? 0.018, minimumViableBudgetUsdc), 0.03);
+  const citationBudgetUsdc = Math.min(requestedCitationBudgetUsdc, budgetUsdc);
   const sponsorPoolUsdc = Math.min(Math.max(input?.sponsorPoolUsdc ?? 0.012, 0.001), 0.025);
   const task = input?.task?.trim() || DEFAULT_TASK;
 
@@ -23,7 +43,7 @@ export function runSponsoredTrial(input?: {
     budgetUsdc,
     reservedCitationBudgetUsdc: citationBudgetUsdc,
     buyerWallet: KLEOS_AGENT_WALLET,
-    buyerReputation: 88,
+    buyerReputation,
   });
   const citations = finalizeAnswerCitations({
     sessionId: research.session.id,

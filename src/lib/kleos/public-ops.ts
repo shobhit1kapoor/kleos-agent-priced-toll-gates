@@ -3,6 +3,7 @@ import { buildImpactGraph } from "./impact-graph";
 import { getLedgerSnapshot } from "./ledger";
 import { buildSourceRegistry } from "./source-registry";
 import { buildTransparencyLog } from "./transparency-log";
+import { volumeEngineSummary } from "./volume-engine";
 
 const APP_URL = "https://kleos-agent-priced-toll-gates.vercel.app";
 const GITHUB_URL = "https://github.com/shobhit1kapoor/kleos-agent-priced-toll-gates";
@@ -13,6 +14,7 @@ export async function buildPublicStatus() {
   const sourceRegistry = buildSourceRegistry();
   const transparencyLog = buildTransparencyLog();
   const impactGraph = buildImpactGraph();
+  const volumeEngine = volumeEngineSummary();
 
   const checks = [
     {
@@ -78,6 +80,12 @@ export async function buildPublicStatus() {
       detail: `${impactGraph.summary.nodes} node(s), ${impactGraph.summary.edges} edge(s), ${impactGraph.summary.valueFlowUsdc} USDC traced.`,
     },
     {
+      id: "autonomous-volume-engine",
+      label: "Autonomous volume engine",
+      status: "pass",
+      detail: `${volumeEngine.currentRuntimeTotals.completedRuns} labeled internal agent run(s) in the current runtime; endpoint is ready for repeatable judge execution.`,
+    },
+    {
       id: "public-traction",
       label: "Public tester traction",
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
@@ -129,6 +137,7 @@ export async function buildPublicStatus() {
       transparencyLog: `${APP_URL}/api/transparency/log`,
       githubTraction: `${APP_URL}/api/traction/github`,
       tractionInvite: `${APP_URL}/api/traction/invite`,
+      volumeEngine: `${APP_URL}/api/volume/engine`,
       oneClickTester: `${APP_URL}/api/tester/one-click`,
       sponsoredTrial: `${APP_URL}/api/trial/sponsored`,
       liveX402Receipt: ledger.gatewayProof.liveX402Receipt.receiptId
@@ -157,6 +166,7 @@ export async function buildPublicStatus() {
       graphHash: impactGraph.graphHash,
       summary: impactGraph.summary,
     },
+    volumeEngine,
   };
 }
 
@@ -244,6 +254,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/traction/attest": { get: { summary: "Tester attestation instructions." }, post: { summary: "Mint tester proof hash and GitHub issue URL." } },
       "/api/traction/invite": { get: { summary: "Role-specific tester invite packet with prefilled /test links, outreach copy, and current GitHub traction gates." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
+      "/api/volume/engine": { get: { summary: "Summarize current-runtime internal autonomous volume batches." }, post: { summary: "Run a capped internal autonomous volume batch with read tolls, citation tolls, and impact rewards." } },
       "/traction": { get: { summary: "Public traction command center with tester gates, role-specific invite links, and judge proof links." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },
       "/api/mcp": { get: { summary: "MCP-style manifest for agent discovery and actions." } },
