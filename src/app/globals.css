@@ -70,6 +70,11 @@ html {
   background: transparent;
 }
 
+.kleos-copy-wrap {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 :focus-visible {
   outline: 2px solid rgba(25, 195, 125, 0.65);
   outline-offset: 2px;

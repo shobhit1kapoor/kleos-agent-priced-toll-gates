@@ -99,9 +99,11 @@ function GateCard({ label, passed, detail }: { label: string; passed: boolean; d
 
 function CopyBlock({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
+    <div className="min-w-0 rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
       <p className="text-xs font-semibold uppercase text-[#6f686a]">{label}</p>
-      <p className="mt-3 break-words font-mono text-sm leading-6 text-[#2f2f2f]">{value}</p>
+      <p className="kleos-copy-wrap mt-3 whitespace-pre-wrap font-mono text-sm leading-6 text-[#2f2f2f]">
+        {value}
+      </p>
     </div>
   );
 }
@@ -235,13 +237,13 @@ export default async function TractionPage() {
                   <a
                     key={`${invite.role}-${invite.inviteUrl}`}
                     href={invite.inviteUrl}
-                    className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4 transition hover:border-[#b8b8b1] hover:bg-white"
+                    className="min-w-0 rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4 transition hover:border-[#b8b8b1] hover:bg-white"
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <p className="font-semibold text-[#181818]">{invite.label}</p>
+                      <p className="min-w-0 font-semibold text-[#181818]">{invite.label}</p>
                       <ExternalLink size={15} className="text-[#6f686a]" aria-hidden />
                     </div>
-                    <p className="mt-2 text-sm leading-5 text-[#6f686a]">{invite.shortDm}</p>
+                    <p className="kleos-copy-wrap mt-2 text-sm leading-5 text-[#6f686a]">{invite.shortDm}</p>
                   </a>
                 ))
               ) : (
@@ -253,7 +255,7 @@ export default async function TractionPage() {
           </section>
         </div>
 
-        <div className="mt-6 grid gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(360px,0.8fr)]">
+        <div className="mt-6 grid min-w-0 gap-5 xl:grid-cols-[minmax(0,0.92fr)_minmax(320px,0.8fr)]">
           <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="Invite packets"
@@ -261,11 +263,14 @@ export default async function TractionPage() {
               description="Each packet opens a prefilled tester page that runs the no-wallet scenario and generates a GitHub issue URL."
               icon={<Users size={20} aria-hidden />}
             />
-            <div className="grid gap-4 p-5 lg:grid-cols-2">
+            <div className="grid min-w-0 gap-4 p-5 lg:grid-cols-2">
               {invitePackets.map((packet) => (
-                <div key={packet.selectedRole.role} className="rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4">
+                <div
+                  key={packet.selectedRole.role}
+                  className="min-w-0 rounded-xl border border-[#e6e6e1] bg-[#fbfbf8] p-4"
+                >
                   <div className="flex items-start justify-between gap-4">
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-xs font-semibold uppercase text-[#6f686a]">{packet.selectedRole.role}</p>
                       <h3 className="mt-1 text-lg font-semibold text-[#181818]">{packet.selectedRole.label}</h3>
                     </div>
@@ -278,7 +283,7 @@ export default async function TractionPage() {
                     </a>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-[#6f686a]">{packet.selectedRole.whyThisMatters}</p>
-                  <p className="mt-4 rounded-lg border border-[#e6e6e1] bg-white p-3 text-sm leading-6 text-[#2f2f2f]">
+                  <p className="kleos-copy-wrap mt-4 rounded-lg border border-[#e6e6e1] bg-white p-3 text-sm leading-6 text-[#2f2f2f]">
                     {packet.copyBlocks.shortDm}
                   </p>
                 </div>
