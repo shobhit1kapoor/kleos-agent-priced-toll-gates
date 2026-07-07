@@ -141,7 +141,7 @@ export default function CreatorEarningsPage() {
             </div>
             <p className="mt-4 text-sm leading-6 text-[#6f686a]">
               Cash-out records aggregate existing split and impact balances only. They do not invent payout
-              volume, which keeps the ledger honest for judges and creators.
+              volume, which keeps the ledger clear for reviewers and creators.
             </p>
           </div>
         </div>

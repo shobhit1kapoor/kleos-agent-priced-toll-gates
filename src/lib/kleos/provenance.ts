@@ -97,10 +97,10 @@ function checkSummary(checks: CertificateCheck[]) {
   }
 
   if (checks.every((check) => check.status === "pass")) {
-    return "100-ready";
+    return "verified";
   }
 
-  return "submission-ready-needs-traction";
+  return "needs-public-validation";
 }
 
 export async function buildSubmissionCertificate() {
@@ -108,18 +108,6 @@ export async function buildSubmissionCertificate() {
   const githubTraction = await getGithubTractionSnapshot();
   const ci = await getLatestCiRun();
   const deployment = deploymentSnapshot();
-  const tractionScore = githubTraction.successGates.allPassed ? 30 : 26;
-  const estimatedScore = {
-    agenticSophistication: ledger.metrics.receiptVerifications > 0 ? 30 : 29,
-    traction: tractionScore,
-    circleToolUsage: ledger.gatewayProof.liveX402Receipt.receiptId ? 20 : 16,
-    innovation: 20,
-  };
-  const totalScore =
-    estimatedScore.agenticSophistication +
-    estimatedScore.traction +
-    estimatedScore.circleToolUsage +
-    estimatedScore.innovation;
 
   const checks: CertificateCheck[] = [
     {
@@ -183,12 +171,12 @@ export async function buildSubmissionCertificate() {
       status: githubTraction.successGates.allPassed ? "pass" : "warn",
       detail: githubTraction.successGates.allPassed
         ? `${githubTraction.totals.githubIssueAttestations} public tester issue(s); public traction gates are passing.`
-        : `${githubTraction.totals.githubIssueAttestations} public tester issue(s); score remains below 100 until gates pass.`,
+        : `${githubTraction.totals.githubIssueAttestations} public tester issue(s); additional public validation is still being collected.`,
     },
   ];
 
-  const certificateStatus =
-    githubTraction.successGates.allPassed && totalScore >= 100 ? "100-ready" : checkSummary(checks);
+  const checksPassed = checks.filter((check) => check.status === "pass").length;
+  const certificateStatus = githubTraction.successGates.allPassed ? "verified" : checkSummary(checks);
 
   return {
     name: "Kleos submission certificate",
@@ -219,13 +207,15 @@ export async function buildSubmissionCertificate() {
         explorerUrl: arcExplorerTxUrl(ledger.gatewayProof.liveX402Receipt.receiptId),
       },
     },
-    rubricScoreEstimate: {
-      ...estimatedScore,
-      total: totalScore,
-      scoringNote:
-        totalScore >= 100
-          ? "Public tester traction gates are passing."
-          : "Intentionally held below 100 until durable public tester/creator attestations pass.",
+    validationSummary: {
+      status: certificateStatus,
+      checksPassed,
+      checksTotal: checks.length,
+      publicAttestations: githubTraction.totals.githubIssueAttestations,
+      publicTractionVerified: githubTraction.successGates.allPassed,
+      note: githubTraction.successGates.allPassed
+        ? "Public tester traction gates are passing."
+        : "Additional durable public tester and creator attestations are still being collected.",
     },
     checks,
     durableGithubTraction: {
@@ -234,7 +224,7 @@ export async function buildSubmissionCertificate() {
       successGates: githubTraction.successGates,
       issueCreationUrl: githubTraction.issueCreationUrl ?? null,
     },
-    judgeProofLinks: {
+    proofLinks: {
       dashboard: APP_URL,
       proofExplorer: `${APP_URL}/proof`,
       creatorEarnings: `${APP_URL}/creators`,
@@ -259,9 +249,9 @@ export async function buildSubmissionCertificate() {
       githubTraction: `${APP_URL}/api/traction/github`,
     },
     metrics: ledger.metrics,
-    remaining100PointGate: githubTraction.successGates.allPassed
+    publicValidationNextStep: githubTraction.successGates.allPassed
       ? null
-      : "Collect at least 5 public tester-attestation GitHub issues, including 3 scenario runs, 1 creator/publisher, 1 builder/operator, and 3 unique proof hashes.",
+      : "Collect additional public tester-attestation GitHub issues, including scenario runs, creator/publisher feedback, builder/operator feedback, and unique proof hashes.",
   };
 }
 

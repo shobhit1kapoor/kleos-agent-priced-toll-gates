@@ -37,9 +37,12 @@ function matchLine(body: string, label: string) {
 
 function parseRole(body: string) {
   const role = matchLine(body, "Role")?.toLowerCase();
-  if (role && ["judge", "creator", "publisher", "builder", "agent-operator", "other"].includes(role)) {
+  if (role && ["reviewer", "judge", "creator", "publisher", "builder", "agent-operator", "other"].includes(role)) {
     if (role === "publisher") {
       return "creator";
+    }
+    if (role === "judge") {
+      return "reviewer";
     }
     return role;
   }
@@ -105,7 +108,7 @@ export async function getGithubTractionSnapshot() {
       builderOrOperatorAttestations: issues.filter((issue) =>
         ["builder", "agent-operator"].includes(issue.role),
       ).length,
-      judgeAttestations: issues.filter((issue) => issue.role === "judge").length,
+      reviewerAttestations: issues.filter((issue) => issue.role === "reviewer").length,
       proofHashes: new Set(issues.map((issue) => issue.proofHash).filter(Boolean)).size,
     };
 
@@ -141,7 +144,7 @@ function emptyTotals() {
     usefulVotes: 0,
     creatorOrPublisherAttestations: 0,
     builderOrOperatorAttestations: 0,
-    judgeAttestations: 0,
+    reviewerAttestations: 0,
     proofHashes: 0,
   };
 }

@@ -6,7 +6,6 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const ledger = getLedgerSnapshot();
   const githubTraction = await getGithubTractionSnapshot();
-  const tractionScore = githubTraction.successGates.allPassed ? 30 : 26;
 
   return Response.json(
     {
@@ -18,19 +17,16 @@ export async function GET() {
           "Keryx is strongest on public citation-toll traction and distribution claims.",
         kleosResponse:
           "Kleos goes beyond citation tolls into full answer-settlement operations: claim traces, verifier checks, citation challenges, webhook notifications, creator cash-outs, impact rewards, dynamic pricing, publisher kit, OSS kit, and tester attestations.",
-        honestRemainingGap:
-          "Only external tester/creator traction can fully close the gap against projects with higher public usage claims.",
+        publicValidation:
+          "External tester and creator attestations are tracked through durable public GitHub issues with proof hashes.",
       },
-      rubricScoreEstimate: {
-        agenticSophistication: ledger.metrics.receiptVerifications > 0 ? 30 : 29,
-        traction: tractionScore,
-        circleToolUsage: 20,
-        innovation: 20,
-        total:
-          (ledger.metrics.receiptVerifications > 0 ? 30 : 29) +
-          tractionScore +
-          20 +
-          20,
+      validationSummary: {
+        publicTractionVerified: githubTraction.successGates.allPassed,
+        publicAttestations: githubTraction.totals.githubIssueAttestations,
+        scenarioRuns: githubTraction.totals.scenarioRunsAttested,
+        creatorOrPublisherAttestations: githubTraction.totals.creatorOrPublisherAttestations,
+        builderOrOperatorAttestations: githubTraction.totals.builderOrOperatorAttestations,
+        proofHashes: githubTraction.totals.proofHashes,
       },
       proofLinks: {
         app: "https://kleos-agent-priced-toll-gates.vercel.app",
@@ -86,17 +82,17 @@ export async function GET() {
           "Dynamic value-of-information repricing.",
           "Publisher kit and OSS integration kit.",
           "Tester attestation flow with proof hash and GitHub issue URL.",
-          "Role-specific traction campaign with tester asks, curl payloads, social copy, and 100/100 success gates.",
+          "Role-specific traction campaign with tester asks, curl payloads, social copy, and validation gates.",
           "Hosted one-click tester endpoint that produces a proof hash and GitHub issue URL without requiring a repo clone.",
           "One-command tester runner that executes the no-wallet scenario and prints the public GitHub issue URL.",
-          "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async judges.",
-          "Reviewer-readable proof explorer for x402 receipt, score certificate, transparency root, impact graph, and public traction gates.",
+          "No-wallet sponsored trial endpoint plus public status, treasury, and OpenAPI surfaces for async reviewers.",
+          "Reviewer-readable proof explorer for x402 receipt, verification certificate, transparency root, impact graph, and public traction gates.",
           "Creator-scoped source registry, encrypted content vault, and x402-priced A2A answer endpoint.",
           "Well-known agent card with wallet, payment schemes, services, proof links, and ERC-8004-ready identity posture.",
           "Callable JSON-RPC MCP endpoint plus well-known MCP discovery document.",
           "Publishable packages/kleos-mcp stdio bridge for npx-style MCP distribution.",
-          "Submission certificate that binds live deployment, public repo, CI, Circle x402 receipt, score honesty, and public traction gates.",
-          "CI-backed economic invariant checks for spend caps, split math, receipt integrity, payment gates, and score honesty.",
+          "Submission certificate that binds live deployment, public repo, CI, Circle x402 receipt, and public traction gates.",
+          "CI-backed economic invariant checks for spend caps, split math, receipt integrity, payment gates, and validation integrity.",
         ],
       },
       nextBestAction:

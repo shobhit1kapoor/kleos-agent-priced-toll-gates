@@ -177,7 +177,7 @@ export function challengeCitationReceipt(input: {
 }) {
   const store = getStore();
   const receipt = findTargetReceipt(input.receiptId);
-  const challenger = input.challenger?.trim().slice(0, 96) || "judge-auditor";
+  const challenger = input.challenger?.trim().slice(0, 96) || "citation-auditor";
   const challengeReason =
     input.challengeReason?.trim().slice(0, 240) ||
     "Independent audit of whether the citation deserved settlement.";

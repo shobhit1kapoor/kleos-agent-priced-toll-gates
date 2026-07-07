@@ -19,20 +19,20 @@ app now emits Circle-compatible x402 challenges and includes a seller-side
 `BatchFacilitatorClient` verifier, but the submission still needs a deployed URL
 plus real external paid traffic.
 
-## Official Rubric Read
+## Official Criteria Read
 
 Lepton rewards projects that make AI agents economic actors. The official event
 framing emphasizes agents that pay, receive, and orchestrate nanopayments on Arc,
 with real settlement, stable USDC fees, and sub-second finality.
 
-The judging section weighs:
+The official criteria emphasize:
 
 - Agentic sophistication: 30%
 - Traction: 30%
 - Circle tool usage: 20%
 - Innovation: 20%
 
-The page also says judges review asynchronously. That means the repo and live app
+The page also says reviewers review asynchronously. That means the repo and live app
 must explain themselves without a narrated demo.
 
 ## Circle / Arc Technical Bar
@@ -49,7 +49,7 @@ Circle Nanopayments defines the technical pattern Kleos must satisfy:
 
 The reference app uses a LangChain buyer agent, x402-protected Next.js seller
 routes, Gateway batching, seller dashboard, and payment persistence. Kleos should
-be judged against that bar, not against a simple paywall.
+be reviewerd against that bar, not against a simple paywall.
 
 ## Final Competitor Read - July 4
 
@@ -70,8 +70,8 @@ How Kleos must beat it:
 - Do not pretend citation tolling alone is unique.
 - Pitch Kleos as an operations and settlement layer: read toll -> citation toll
   -> collaborator split -> retroactive impact pool -> value-aware repricing.
-- Make the async judge path clearer than Keryx: one button, one proof pack, one
-  publisher kit, one rubric view.
+- Make the async review path clearer than Keryx: one button, one proof pack, one
+  publisher kit, one proof view.
 - Emphasize that the seller agent changes future prices from answer impact, not
   only from access/citation counts.
 
@@ -98,7 +98,7 @@ Distribution Bootstrap section of Lepton.
 
 How Kleos beats it:
 
-- More focused judge path.
+- More focused review path.
 - Better agentic pricing loop.
 - Stronger answer-linked receipt schema.
 - Retroactive impact pool directly rewards what changed the final answer.
@@ -111,8 +111,8 @@ Where Tollgate beats Kleos:
 ### Argus
 
 Strong on agency and traction: multi-agent consensus, Telegram, CLI, web, and
-reported user counts. It is not creator monetization, but it may score highly on
-agency and real usage.
+reported user counts. It is not creator monetization, but it may read as credible
+if the usage claims verify.
 
 How Kleos beats it:
 
@@ -127,7 +127,7 @@ Where Argus beats Kleos:
 ### AgoraFX
 
 Strong vertical project with reported markets, x402-paid signals, and a creator
-article layer. It can win if judges value vertical traction over creator-payment
+article layer. It can win if reviewers value vertical traction over creator-payment
 primitives.
 
 How Kleos beats it:
@@ -153,7 +153,7 @@ access.
 
 Where they beat Kleos:
 
-- Creator/media workflows may feel more real to non-technical judges.
+- Creator/media workflows may feel more real to non-technical reviewers.
 
 ## Older Competitor Read
 
@@ -211,7 +211,7 @@ Where Findling beats Kleos:
 
 - Creator marketplace is concrete.
 - Human studio upload path and agent path sound production-like.
-- Real license purchase receipts may score higher than local proof.
+- Real license purchase receipts may read as stronger than local proof.
 
 ### Mahshar
 

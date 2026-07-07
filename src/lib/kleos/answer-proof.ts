@@ -158,7 +158,7 @@ export function buildAnswerProof(settlementId?: string, origin?: string) {
     impactGrants,
     webhookDeliveries: deliveries,
     liveX402Receipt: ledger.gatewayProof.liveX402Receipt,
-    judgeSummary: {
+    reviewSummary: {
       coveredClaims: claimTraces.filter((trace) => trace.status === "covered").length,
       partialClaims: claimTraces.filter((trace) => trace.status === "partial").length,
       unsupportedClaims: claimTraces.filter((trace) => trace.status === "unsupported").length,

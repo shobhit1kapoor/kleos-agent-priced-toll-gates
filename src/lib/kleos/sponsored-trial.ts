@@ -12,7 +12,7 @@ const SPONSORED_EVIDENCE_ITEM_IDS = [
   "ci_rss_creator_tolls",
   "ci_dynamic_pricing_agents",
   "ci_collaborator_splits",
-  "ci_hackathon_judge_path",
+  "ci_hackathon_review_path",
 ];
 
 export function runSponsoredTrial(input?: {

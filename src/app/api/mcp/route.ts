@@ -294,7 +294,7 @@ export async function GET() {
             testerName: { type: "string" },
             testerRole: {
               type: "string",
-              enum: ["judge", "creator", "builder", "agent-operator", "other"],
+              enum: ["reviewer", "creator", "builder", "agent-operator", "other"],
             },
             quote: { type: "string" },
           },
@@ -315,7 +315,7 @@ export async function GET() {
           properties: {
             role: {
               type: "string",
-              enum: ["judge", "creator", "publisher", "builder", "agent-operator", "other"],
+              enum: ["reviewer", "creator", "publisher", "builder", "agent-operator", "other"],
             },
             testerName: { type: "string" },
             quote: { type: "string" },
@@ -331,7 +331,7 @@ export async function GET() {
       {
         name: "get_submission_bundle",
         description:
-          "Return the portable judge evidence bundle with form fields, proof links, demo script, tester invites, and score gates.",
+          "Return the portable evidence bundle with form fields, proof links, demo script, tester invites, and validation gates.",
         inputSchema: { type: "object", properties: {} },
       },
     ],

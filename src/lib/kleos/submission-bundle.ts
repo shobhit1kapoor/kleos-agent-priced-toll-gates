@@ -36,7 +36,7 @@ export async function buildSubmissionBundle(origin: string) {
     generatedAt: new Date().toISOString(),
     project: certificate.project,
     status: certificate.status,
-    score: certificate.rubricScoreEstimate,
+    validationSummary: certificate.validationSummary,
     deployment: certificate.deployment,
     liveX402Receipt,
     tractionGates: githubTraction.successGates,
@@ -57,20 +57,20 @@ export async function buildSubmissionBundle(origin: string) {
       supportingRfbs: report.project.supportingRfbs,
       liveUrl: certificate.project.app,
       githubUrl: certificate.project.github,
-      proofExplorer: certificate.judgeProofLinks.proofExplorer,
-      creatorEarnings: certificate.judgeProofLinks.creatorEarnings,
-      tractionCenter: certificate.judgeProofLinks.tractionCenter,
-      proofPack: certificate.judgeProofLinks.proofPack,
-      submissionCertificate: certificate.judgeProofLinks.submissionCertificate,
-      volumeEngine: certificate.judgeProofLinks.volumeEngine,
-      liveX402ReceiptUrl: certificate.judgeProofLinks.liveX402Receipt,
+      proofExplorer: certificate.proofLinks.proofExplorer,
+      creatorEarnings: certificate.proofLinks.creatorEarnings,
+      tractionCenter: certificate.proofLinks.tractionCenter,
+      proofPack: certificate.proofLinks.proofPack,
+      submissionCertificate: certificate.proofLinks.submissionCertificate,
+      volumeEngine: certificate.proofLinks.volumeEngine,
+      liveX402ReceiptUrl: certificate.proofLinks.liveX402Receipt,
     },
-    judgeRunbook: [
+    reviewRunbook: [
       "Open the live dashboard and click Run scenario.",
-      "Open /proof to see the x402 receipt, score certificate, transparency root, and traction gates.",
+      "Open /proof to see the x402 receipt, verification certificate, transparency root, and traction gates.",
       "Open /traction to see live public tester gates, role-specific invite links, and outreach copy.",
       "Open /api/proof-pack to inspect differentiators, receipts, claim traces, impact graph, spend permits, and proof links.",
-      "Open /api/agents/spend-permits?permitId=permit_seed_judge_agent to verify external-agent spend limits.",
+      "Open /api/agents/spend-permits?permitId=permit_seed_reviewer_agent to verify external-agent spend limits.",
       "POST /api/volume/engine with targetRuns=3 to generate a labeled internal autonomous volume batch.",
       "Open /creators to inspect read toll splits, citation toll splits, impact rewards, and cash-outs.",
       "Open /api/traction/github to verify whether public tester gates have passed.",
@@ -98,13 +98,13 @@ export async function buildSubmissionBundle(origin: string) {
         seconds: "95-135",
         beat: "Audit and control",
         narration:
-          "Judges can verify claim traces, receipt checks, transparency roots, spend permits, publisher ownership, and creator earnings.",
+          "Reviewers can verify claim traces, receipt checks, transparency roots, spend permits, publisher ownership, and creator earnings.",
       },
       {
         seconds: "135-170",
         beat: "Traction path",
         narration:
-          "Public tester invite links produce proof hashes and GitHub attestations; the score stays below 100 until real public gates pass.",
+          "Public tester invite links produce proof hashes and GitHub attestations that make external validation durable.",
       },
     ],
     testerRecruitment: {
@@ -124,8 +124,8 @@ export async function buildSubmissionBundle(origin: string) {
       },
     },
     proofLinks: {
-      ...certificate.judgeProofLinks,
-      spendPermit: `${origin}/api/agents/spend-permits?permitId=permit_seed_judge_agent`,
+      ...certificate.proofLinks,
+      spendPermit: `${origin}/api/agents/spend-permits?permitId=permit_seed_reviewer_agent`,
       submissionBundle: `${origin}/api/submission/bundle`,
     },
     proofDigest: {
@@ -136,7 +136,7 @@ export async function buildSubmissionBundle(origin: string) {
       impactGraphHash: proofPack.impactGraph.graphHash,
     },
     honestyNote:
-      "Kleos does not claim 100/100 until durable public GitHub tester attestations pass. The current score remains intentionally below 100 when those gates are incomplete.",
+      "Kleos separates live product activity from durable external validation. Public GitHub tester attestations are counted only after they are submitted and verified.",
     nextBestAction:
       githubTraction.successGates.allPassed
         ? "Record and submit the final demo."

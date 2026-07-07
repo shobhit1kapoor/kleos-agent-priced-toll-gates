@@ -37,7 +37,7 @@ export function buildAgentCard(origin: string) {
       },
       {
         scheme: "kleos-local-proof",
-        protocol: "deterministic-judge-walkthrough",
+        protocol: "deterministic-review-walkthrough",
         note: "Local proof mode is only for deterministic review and smoke tests; live x402 proof is exposed separately.",
       },
     ],
@@ -75,8 +75,8 @@ export function buildAgentCard(origin: string) {
         "Buyer-agent runs are capped by per-task budgets; citation finalization cannot spend above remaining budget.",
       creatorSettlement:
         "Every paid read and citation creates collaborator split records; creator cash-outs aggregate existing balances only.",
-      scoreHonesty:
-        "Public score remains below 100 until durable GitHub tester-attestation gates pass.",
+      publicValidation:
+        "Public tester validation is counted only after generated GitHub attestation issues are submitted and verified.",
       citationIntegrity:
         "Answer receipts can be independently verified and challenged; weak support can mark the broker bond at risk.",
     },

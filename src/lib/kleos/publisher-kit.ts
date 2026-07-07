@@ -56,7 +56,7 @@ export function buildPublisherKit(origin?: string) {
       defaultReadTollUsdc: 0.0039,
       defaultCitationTollRatio: 0.35,
     },
-    judgeCurl: [
+    reviewCurl: [
       `curl ${baseUrl}/api/catalog`,
       `curl -X POST ${baseUrl}/api/sources/import-rss -H "Content-Type: application/json" -d "{\\"feedUrl\\":\\"https://example.com/feed.xml\\",\\"creatorName\\":\\"Example Publisher\\",\\"limit\\":1}"`,
       `curl -X POST ${baseUrl}/api/publishers/verify -H "Content-Type: application/json" -d "{\\"creatorName\\":\\"Example Publisher\\",\\"wallet\\":\\"0x0000000000000000000000000000000000000001\\",\\"publisherUrl\\":\\"https://example.com\\"}"`,

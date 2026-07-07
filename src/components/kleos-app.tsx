@@ -283,7 +283,7 @@ const formatUsdc = (value: number) => `$${value.toFixed(value < 0.01 ? 4 : 3)}`;
 
 const navItems = [
   { label: "Overview", icon: LayoutDashboard, href: "#overview" },
-  { label: "Scorecard", icon: Gauge, href: "#scorecard" },
+  { label: "Evidence", icon: Gauge, href: "#evidence" },
   { label: "Proofs", icon: ShieldCheck, href: "#proofs" },
   { label: "Proof explorer", icon: ShieldCheck, href: "/proof" },
   { label: "Creator earnings", icon: CircleDollarSign, href: "/creators" },
@@ -313,7 +313,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
   const [budget, setBudget] = useState("0.018");
   const [busy, setBusy] = useState<string | null>(null);
   const [lastChallenge, setLastChallenge] = useState<string | null>(null);
-  const [statusMessage, setStatusMessage] = useState("Ready to run the judge scenario.");
+  const [statusMessage, setStatusMessage] = useState("Ready to run the settlement scenario.");
   const [sourceQuery, setSourceQuery] = useState("");
   const [sourceForm, setSourceForm] = useState({
     title: "Independent climate desk: local flood-risk explainer",
@@ -545,7 +545,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
 
   async function runJudgeScenario() {
     setBusy("scenario");
-    setStatusMessage("Running full judge scenario: research, citation settlement, and repricing...");
+    setStatusMessage("Running full settlement scenario: research, citation settlement, and repricing...");
     try {
       const researchResponse = await fetch("/api/agent/research", {
         method: "POST",
@@ -556,7 +556,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
         }),
       });
       if (!researchResponse.ok) {
-        throw new Error(`Judge scenario research failed with ${researchResponse.status}.`);
+        throw new Error(`Settlement scenario research failed with ${researchResponse.status}.`);
       }
       const research = (await researchResponse.json()) as AgentRun;
       setAgentRun(research);
@@ -573,7 +573,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
       });
       if (!citationResponse.ok) {
         const errorBody = (await citationResponse.json().catch(() => ({}))) as { error?: string };
-        throw new Error(errorBody.error ?? `Judge scenario citation settlement failed with ${citationResponse.status}.`);
+        throw new Error(errorBody.error ?? `Settlement scenario citation settlement failed with ${citationResponse.status}.`);
       }
       const settlement = (await citationResponse.json()) as CitationSettlementResult;
       setCitationSettlement(settlement);
@@ -586,13 +586,13 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
         }),
       });
       if (!impactResponse.ok) {
-        throw new Error(`Judge scenario impact pool failed with ${impactResponse.status}.`);
+        throw new Error(`Settlement scenario impact pool failed with ${impactResponse.status}.`);
       }
       const impact = (await impactResponse.json()) as ImpactSettlementResult;
       setImpactSettlement(impact);
       const pricingResponse = await fetch("/api/pricing/recompute", { method: "POST" });
       if (!pricingResponse.ok) {
-        throw new Error(`Judge scenario pricing failed with ${pricingResponse.status}.`);
+        throw new Error(`Settlement scenario pricing failed with ${pricingResponse.status}.`);
       }
       await refreshLedger();
       setStatusMessage(
@@ -604,7 +604,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
       );
       setLastChallenge(`Scenario complete: ${settlement.citationReceipts.length} citation receipt(s).`);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Judge scenario failed.";
+      const message = error instanceof Error ? error.message : "Settlement scenario failed.";
       setStatusMessage(message);
       setLastChallenge(message);
     } finally {
@@ -821,7 +821,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
             <Card>
               <CardHeader
                 icon={<Command size={18} aria-hidden />}
-                label="Judge scenarios"
+                label="Settlement workflow"
                 title="Run settlement scenario"
                 action={
                   <div className="flex flex-wrap gap-2">
@@ -965,16 +965,16 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
             />
           </section>
 
-          <section className="grid gap-5 2xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]" id="scorecard">
+          <section className="grid gap-5 2xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]" id="evidence">
             <Card>
               <CardHeader
                 icon={<Gauge size={18} aria-hidden />}
-                label="Judging readiness"
-                title="Rubric position"
+                label="Operational evidence"
+                title="System coverage"
               />
               <div className="border-t border-[#e9e9e4] p-4">
                 <p className="text-4xl font-semibold tabular-nums text-[#181818]">
-                  {ledger?.rubric.readiness.totalPct ?? 0}%
+                  Live
                 </p>
                 <p className="mt-3 text-sm leading-6 text-[#6f686a]">
                   {ledger?.rubric.readiness.verdict}
@@ -989,8 +989,8 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
             <Card>
               <CardHeader
                 icon={<Command size={18} aria-hidden />}
-                label="Scorecard"
-                title="How Kleos earns points"
+                label="System map"
+                title="What Kleos proves"
               />
               <div className="grid gap-3 border-t border-[#e9e9e4] p-4 md:grid-cols-2">
                 {ledger?.rubric.scorecard.map((item) => (
@@ -1345,7 +1345,7 @@ export function KleosApp({ initialLedger }: { initialLedger: Ledger }) {
                   ))}
                   {latestImpactGrants.length === 0 ? (
                     <p className="rounded-lg border border-[#e9e9e4] bg-[#fbfbf8] px-3 py-4 text-center text-sm text-[#6f686a]">
-                      Run the judge scenario or settle an answer, then allocate impact rewards.
+                      Run the settlement scenario or settle an answer, then allocate impact rewards.
                     </p>
                   ) : null}
                 </div>
@@ -1776,9 +1776,7 @@ function RubricCard({
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-[#181818]">{item.criterion}</p>
-          <p className="mt-1 text-xs font-medium uppercase text-[#6f686a]">
-            {item.weightPct}% weight
-          </p>
+          <p className="mt-1 text-xs font-medium uppercase text-[#6f686a]">Product surface</p>
         </div>
         <span
           className={`shrink-0 rounded-md border px-2 py-1 text-xs font-medium ${
@@ -1792,7 +1790,7 @@ function RubricCard({
       </div>
       <p className="mt-3 text-xs leading-5 text-[#6f686a]">{item.evidence}</p>
       <p className="mt-3 border-t border-[#e9e9e4] pt-3 text-xs leading-5 text-[#6f686a]">
-        <span className="font-semibold text-[#2f2f2f]">Full-mark move:</span>{" "}
+        <span className="font-semibold text-[#2f2f2f]">Next proof point:</span>{" "}
         {item.fullMarksMove}
       </p>
     </div>

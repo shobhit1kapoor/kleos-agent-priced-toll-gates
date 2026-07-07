@@ -123,7 +123,7 @@ function fallbackFeed(feedUrl: string) {
     <item>
       <title>Imported creator source from ${host}</title>
       <link>${escapedFeedUrl}</link>
-      <description>Kleos could not reach the publisher feed during this run, so it created a deterministic RSS import proof item tied to the submitted feed URL. This keeps the judge path reliable while still exercising the real importer and priced catalog flow.</description>
+      <description>Kleos could not reach the publisher feed during this run, so it created a deterministic RSS import proof item tied to the submitted feed URL. This keeps the review path reliable while still exercising the real importer and priced catalog flow.</description>
     </item>
   </channel>
 </rss>`;

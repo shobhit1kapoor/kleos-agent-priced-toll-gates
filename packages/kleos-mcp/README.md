@@ -59,10 +59,10 @@ The bridge forwards to the live Kleos MCP JSON-RPC endpoint, including:
 - `get_public_status`
 - `get_treasury_proof`
 
-## Judge Note
+## Reviewer Note
 
 Keryx has strong MCP distribution. This package is Kleos' reusable bridge for the
 same agent-client channel, while Kleos adds answer-linked receipts, receipt
 verification, citation challenges, impact rewards, creator webhooks, cash-outs,
-source registry records, encrypted vaults, and score-honest public traction
+source registry records, encrypted vaults, and validation-aware public traction
 gates.

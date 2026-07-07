@@ -17,7 +17,7 @@ export function buildSubmissionReport() {
         "RFB 5 - Nanopayment Infrastructure & Tooling",
       ],
     },
-    judgePath: [
+    reviewPath: [
       "Open the dashboard and inspect the source catalog.",
       "Click Run agent to make the buyer spend from a fixed USDC budget.",
       "Click Finalize citations or Run scenario to settle only the sources used in the final answer.",
@@ -25,7 +25,7 @@ export function buildSubmissionReport() {
       "Open x402 settlement records and collaborator split payouts for both read tolls and citation tolls.",
       "Click Reprice sources to see the seller pricing agent react to demand.",
       "Inspect /api/catalog, /api/content/:id, /api/citations/finalize, /api/answers/proof, /api/webhooks/dispatch, /api/creators/cashout, /api/dashboard/ledger, /api/mcp, and /api/submission/report.",
-      "Open /api/provenance or /api/submission/certificate to verify deployment, CI, live x402, score honesty, and remaining traction gates in one object.",
+      "Open /api/provenance or /api/submission/certificate to verify deployment, CI, live x402, and public validation gates in one object.",
     ],
     implementation: {
       surfaces: [
@@ -52,16 +52,16 @@ export function buildSubmissionReport() {
         "Publisher kit for RSS/Ghost-style creators through /.well-known/kleos.json and crawler payment policy.",
         "MCP-style catalog manifest.",
         "Publishable `packages/kleos-mcp` stdio bridge so MCP clients can call Kleos tools through a one-command agent connector.",
-        "Submission certificate endpoint that binds the stable deployment, GitHub repo, CI status, live x402 receipt, rubric score, and public traction gates.",
+        "Submission certificate endpoint that binds the stable deployment, GitHub repo, CI status, live x402 receipt, and public traction gates.",
         "RoyaltySplitter smart contract.",
-        "Judge dashboard and ledger APIs.",
+        "Dashboard and ledger APIs.",
       ],
       currentPaymentMode:
-        "Live Circle Gateway x402 verification through BatchFacilitatorClient is implemented for real PAYMENT-SIGNATURE payloads, with a local judge walkthrough proof path kept for deterministic async review.",
+        "Live Circle Gateway x402 verification through BatchFacilitatorClient is implemented for real PAYMENT-SIGNATURE payloads, with a local walkthrough proof path kept for deterministic async review.",
       fullCircleGatewayMove:
         "A real Circle CLI paid request has succeeded against the stable public content endpoint. Include the receipt and Arcscan link in the video.",
     },
-    rubric: ledger.rubric,
+    evidenceMap: ledger.rubric,
     liveMetrics: ledger.metrics,
     gatewayProof: ledger.gatewayProof,
     citationReceipts: ledger.citationReceipts.slice(0, 10),
@@ -78,7 +78,7 @@ export function buildSubmissionReport() {
       "Video demo under 3 minutes",
       "Real testnet USDC payment flow shown",
       "Traction notes: users onboarded, creators/sources onboarded, buyer-agent runs, and user problem",
-      "README with local setup and judge path",
+      "README with local setup and review path",
     ],
   };
 }

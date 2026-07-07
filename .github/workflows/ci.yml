@@ -52,9 +52,9 @@ jobs:
           }
           throw "Next production server did not become healthy."
 
-      - name: Judge smoke
+      - name: Product smoke
         shell: powershell
-        run: powershell -ExecutionPolicy Bypass -File scripts/judge-smoke.ps1 -BaseUrl http://127.0.0.1:3000
+        run: powershell -ExecutionPolicy Bypass -File scripts/smoke.ps1 -BaseUrl http://127.0.0.1:3000
 
       - name: Economic invariants
         shell: powershell

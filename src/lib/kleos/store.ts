@@ -72,7 +72,7 @@ const contentItems: ContentItem[] = [
     preview:
       "The core Circle source explaining gas-free USDC nanopayments, Gateway batching, and the buyer-seller flow Kleos builds on.",
     fullContent:
-      "Kleos-curated memo: Circle Gateway is the economic reason an agent can pay a fraction of a cent for creator content. The buyer funds Gateway once, receives a 402 challenge from a paid resource, signs an offchain authorization, retries with proof of payment, and lets Gateway batch settlement later. For judges, this source supports the claim that Kleos is not a conventional paywall; it is a high-frequency agent commerce rail where the HTTP request itself becomes the payment negotiation.",
+      "Kleos-curated memo: Circle Gateway is the economic reason an agent can pay a fraction of a cent for creator content. The buyer funds Gateway once, receives a 402 challenge from a paid resource, signs an offchain authorization, retries with proof of payment, and lets Gateway batch settlement later. For reviewers, this source supports the claim that Kleos is not a conventional paywall; it is a high-frequency agent commerce rail where the HTTP request itself becomes the payment negotiation.",
     currentPriceUsdc: 0.004,
     citationPriceUsdc: 0.0014,
     minPriceUsdc: 0.001,
@@ -150,7 +150,7 @@ const contentItems: ContentItem[] = [
     tags: ["erc-8004", "reputation", "agent-to-agent", "trust"],
   },
   {
-    id: "ci_hackathon_judge_path",
+    id: "ci_hackathon_review_path",
     title: "Canteen distribution bootstrap: start where audiences already are",
     sourceUrl:
       "https://thecanteenapp.com/analysis/2026/05/28/distribution-bootstrap-payments-founders.html",
@@ -175,7 +175,7 @@ const contentItems: ContentItem[] = [
     preview:
       "The Canteen CLI source that helps builders log product and traction updates and pull Arc/Circle context into agent workflows.",
     fullContent:
-      "Kleos-curated memo: ARC CLI matters because Lepton judging rewards real traction and clear progress, not only code. The CLI gives builders a way to authenticate, inspect status, post product updates, post traction updates, and sync Arc/Circle developer context. Kleos uses this source to explain its submission workflow: build the rail, show the ledger, then keep the project and traction record visible.",
+      "Kleos-curated memo: ARC CLI matters because public product progress needs clear traction records, not only code. The CLI gives builders a way to authenticate, inspect status, post product updates, post traction updates, and sync Arc/Circle developer context. Kleos uses this source to explain its submission workflow: build the rail, show the ledger, then keep the project and traction record visible.",
     currentPriceUsdc: 0.0036,
     citationPriceUsdc: 0.0012,
     minPriceUsdc: 0.001,
@@ -200,8 +200,8 @@ const collaborators: Collaborator[] = [
   { id: "co_11", itemId: "ci_agent_reputation", creatorId: "cr_ada", splitBps: 4000 },
   { id: "co_12", itemId: "ci_agent_reputation", creatorId: "cr_maya", splitBps: 4000 },
   { id: "co_13", itemId: "ci_agent_reputation", creatorId: "cr_civic", splitBps: 2000 },
-  { id: "co_14", itemId: "ci_hackathon_judge_path", creatorId: "cr_noah", splitBps: 7000 },
-  { id: "co_15", itemId: "ci_hackathon_judge_path", creatorId: "cr_civic", splitBps: 3000 },
+  { id: "co_14", itemId: "ci_hackathon_review_path", creatorId: "cr_noah", splitBps: 7000 },
+  { id: "co_15", itemId: "ci_hackathon_review_path", creatorId: "cr_civic", splitBps: 3000 },
   { id: "co_16", itemId: "ci_arc_cli_project_updates", creatorId: "cr_ada", splitBps: 3000 },
   { id: "co_17", itemId: "ci_arc_cli_project_updates", creatorId: "cr_noah", splitBps: 3000 },
   { id: "co_18", itemId: "ci_arc_cli_project_updates", creatorId: "cr_civic", splitBps: 4000 },
@@ -285,9 +285,9 @@ const seedPublisherVerification: PublisherVerification = {
 };
 
 const seedSpendPermitPolicy = {
-  agentName: "Judge external agent",
+  agentName: "Reviewer external agent",
   purpose:
-    "Bounded inspection, citation settlement, and receipt verification for the Lepton judge path.",
+    "Bounded inspection, citation settlement, and receipt verification for the Lepton review path.",
   budgetUsdc: 0.025,
   maxTollUsdc: 0.006,
   expiresAt: "2026-07-06T23:59:00.000Z",
@@ -503,7 +503,7 @@ const initialStore = (): KleosStore => ({
       sourceTitle: "Circle Gateway Nanopayments: why sub-cent agent payments work",
       amountUsdc: 0.0036,
       impactScore: 93,
-      reason: "Seeded judge proof: live Gateway source was cited with high confidence.",
+      reason: "Seeded review proof: live Gateway source was cited with high confidence.",
       txHash: makeShapeHash("impact_seed_ada"),
       explorerUrl: arcExplorerTxUrl(makeShapeHash("impact_seed_ada")),
       createdAt: now(),
@@ -517,7 +517,7 @@ const initialStore = (): KleosStore => ({
       sourceTitle: "Circle Gateway Nanopayments: why sub-cent agent payments work",
       amountUsdc: 0.0015,
       impactScore: 93,
-      reason: "Seeded judge proof: research collaborator receives impact-pool upside.",
+      reason: "Seeded review proof: research collaborator receives impact-pool upside.",
       txHash: makeShapeHash("impact_seed_maya"),
       explorerUrl: arcExplorerTxUrl(makeShapeHash("impact_seed_maya")),
       createdAt: now(),
@@ -569,7 +569,7 @@ const initialStore = (): KleosStore => ({
       supportingItemIds: ["ci_arc_gateway_notes"],
       paidReadIds: ["pay_seed_live_gateway"],
       citationReceiptIds: ["cite_seed_gateway"],
-      rationale: "Seeded judge proof is backed by the live Gateway read payment and citation receipt.",
+      rationale: "Seeded review proof is backed by the live Gateway read payment and citation receipt.",
     },
   ],
   testerAttestations: [],
@@ -587,13 +587,13 @@ const initialStore = (): KleosStore => ({
       contractAddress: "0x20dcA96B0C487D94De885c726c956ffaF38b12C2",
       digest: "0x385da6598ecf182bd4ceecd28fa55e43116e978255336b9b505cfbb1e3ca452b",
       note:
-        "Kleos signer authorized a bounded 0.01 USDC provider spend; Shadow Float bound it onchain with repayment intentionally pending until after judging.",
+        "Kleos signer authorized a bounded 0.01 USDC provider spend; Shadow Float bound it onchain with repayment pending until after review.",
       createdAt: now(),
     },
   ],
   agentSpendPermits: [
     {
-      id: "permit_seed_judge_agent",
+      id: "permit_seed_reviewer_agent",
       agentName: seedSpendPermitPolicy.agentName,
       purpose: seedSpendPermitPolicy.purpose,
       budgetUsdc: seedSpendPermitPolicy.budgetUsdc,
@@ -606,7 +606,7 @@ const initialStore = (): KleosStore => ({
       expiresAt: seedSpendPermitPolicy.expiresAt,
       issuedAt: "2026-07-04T20:00:00.000Z",
       permitHash: makeShapeHash(
-        `permit_seed_judge_agent:${seedSpendPermitPolicyDigest}:2026-07-04T20:00:00.000Z`,
+        `permit_seed_reviewer_agent:${seedSpendPermitPolicyDigest}:2026-07-04T20:00:00.000Z`,
       ),
       policyDigest: seedSpendPermitPolicyDigest,
       bearerPreview: `${seedSpendPermitPolicyDigest.slice(0, 12)}...${seedSpendPermitPolicyDigest.slice(-8)}`,

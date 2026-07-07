@@ -27,7 +27,7 @@ tiny toll.
 ## Product surfaces
 
 - `GET /api/catalog` - priced source catalog for agents.
-- `GET /api/status` - public operations status for async judges, including
+- `GET /api/status` - public operations status for async reviewers, including
   health checks, proof links, and the honest public-traction gate.
 - `GET /api/health` - small uptime-monitor health check.
 - `GET /api/treasury` - Gateway, read toll, citation toll, split, impact, and
@@ -87,14 +87,14 @@ tiny toll.
 - `POST /api/creators/cashout` - aggregates creator balances from read tolls,
   citation tolls, and impact grants into Arc-ready cash-out records.
 - `scripts/invariant-check.ps1` - verifies budget caps, split totals, receipt
-  links, registry records, vault gates, A2A gates, and score honesty.
+  links, registry records, vault gates, A2A gates, and validation integrity.
 - `scripts/tester-run.ps1` - one-command tester runner that checks the live app,
   runs the no-wallet settlement scenario, mints a proof hash, and prints the
   prefilled GitHub attestation issue URL.
 - `GET /test` - public tester page that lets nontechnical testers run the hosted
   scenario and open the prefilled GitHub issue from a browser.
 - `GET /traction` - public traction command center with live GitHub gate status,
-  role-specific tester invite links, outreach copy, and judge proof links.
+  role-specific tester invite links, outreach copy, and reviewer proof links.
 - `GET /proof` - public proof explorer that turns the x402 receipt, submission
   certificate, transparency root, impact graph, and traction gates into a
   reviewer-readable audit console.
@@ -117,15 +117,15 @@ tiny toll.
   prefilled GitHub issue URL without requiring a repo clone.
 - `GET /api/publisher-kit` - returns a `/.well-known/kleos.json` publisher
   manifest, crawler policy, and RSS/Ghost integration mapping.
-- `GET /api/proof-pack` - bundles the judge proof trail: rubric, metrics,
+- `GET /api/proof-pack` - bundles the proof trail: metrics,
   Gateway proof, receipts, impact grants, and remaining submission items.
 - `GET /api/provenance` and `GET /api/submission/certificate` - machine-readable
   submission certificate binding the live deployment, public repo, CI status,
-  Circle x402 receipt, score estimate, and public traction gates.
-- `GET /api/submission/bundle` - portable judge evidence bundle with form
-  fields, demo script, proof links, tester invites, score gates, and a bundle
+  Circle x402 receipt, verification summary, and public traction gates.
+- `GET /api/submission/bundle` - portable reviewer evidence bundle with form
+  fields, demo script, proof links, tester invites, validation gates, and a bundle
   hash.
-- `GET /api/submission/report` - judge-facing project summary, rubric mapping,
+- `GET /api/submission/report` - reviewer-facing project summary, technical mapping,
   current metrics, Gateway proof, and submission checklist.
 - `POST /api/sources/register` - creator source intake that adds a priced source
   to the catalog with a default 100% creator split.
@@ -136,28 +136,28 @@ tiny toll.
 - `GET|POST /api/reputation/passport` - exports ERC-8004-ready local
   reputation passports and appends signed local trust attestations.
 
-## Judging strategy
+## Product strategy
 
 Kleos is designed around the hackathon scoring surface:
 
-- **Agentic sophistication (30%):** buyer agents score sources by relevance,
+- **Autonomous agents:** buyer agents score sources by relevance,
   trust, current toll, reputation discount, and remaining budget, then decide
   which purchased sources deserve citation tolls; seller agents reprice from
   read demand, citation rate, confidence, and bought-but-not-cited signals; answer
   proofs expose claim-level covered, partial, and unsupported support traces;
   verifier and challenge agents audit receipts and release or risk the citation
   broker bond.
-- **Traction (30%):** the app records buyer-agent runs, paid accesses, USDC
+- **Public validation:** the app records buyer-agent runs, paid accesses, USDC
   moved, creators paid, source count, answer settlements, citation receipts,
   registered/RSS-imported sources, receipt verifications, citation challenges,
   A2A proof events, and payout splits. For final submission, use the live
   deployment with several external testers so the traction numbers are not only
   local.
-- **Circle tool usage (20%):** the project uses the x402 request shape, Gateway
+- **Circle / Arc payment rails:** the project uses the x402 request shape, Gateway
   funding proof, Arc explorer links, USDC-denominated tolls, and a split
   contract. Live Circle Gateway verification through `BatchFacilitatorClient` is
-  implemented, with local proof mode retained for deterministic judge walkthroughs.
-- **Innovation (20%):** Kleos combines two-stage creator citation tolls,
+  implemented, with local proof mode retained for deterministic reviewer walkthroughs.
+- **Original settlement design:** Kleos combines two-stage creator citation tolls,
   answer-linked receipt hashes, claim-level proof traces, independent receipt
   verification, adversarial citation challenges, signed creator webhooks, creator
   cash-out aggregation, tester attestations, value-of-information pricing,
@@ -167,7 +167,7 @@ Kleos is designed around the hackathon scoring surface:
   source registry records, encrypted content vaults, and x402-priced A2A
   research, callable JSON-RPC MCP tools, plus CI-checked economic invariants.
 
-The dashboard includes a rubric scorecard so reviewers can see the judge case
+The dashboard includes a system evidence map so reviewers can see the product case
 and the remaining full-mark moves without needing a guided live demo.
 
 See `COMPETITIVE_RESEARCH.md` for the detailed competitor teardown and final
@@ -196,7 +196,7 @@ The app supports two payment paths:
 - **Live Circle Gateway path:** real base64 x402 `PAYMENT-SIGNATURE` payloads
   are verified and settled through `@circle-fin/x402-batching` using
   `BatchFacilitatorClient`.
-- **Local judge walkthrough path:** `PAYMENT-SIGNATURE:
+- **Local reviewer walkthrough path:** `PAYMENT-SIGNATURE:
   kleos-payment-proof:<item-id>:...` unlocks content without private keys and
   records Gateway-shaped read/citation payments and split events.
 
@@ -223,9 +223,9 @@ The current build is anchored to a real Arc Testnet-funded agent wallet:
 The live x402 adapter lives in `src/lib/kleos/gateway-x402.ts`; the content
 route calls it from `src/app/api/content/[id]/route.ts`.
 
-## Judge path
+## Review path
 
-1. Open the app and inspect the rubric scorecard.
+1. Open the app and inspect the system evidence map.
 2. Register a creator source, import an RSS/Atom feed, verify publisher
    ownership, or inspect the existing catalog.
 3. Click **Run scenario** or **Run agent** to execute a budgeted buyer-agent run.
@@ -240,7 +240,7 @@ route calls it from `src/app/api/content/[id]/route.ts`.
    creator notifications and Arc-ready creator cash-outs.
 9. Click **Attest** or POST `/api/traction/attest` to mint a tester proof hash.
 10. Open `/api/traction/campaign` to copy role-specific tester links and
-    submission-ready traction wording.
+    public validation wording.
 11. Open `/api/traction/github` to verify public tester issues once testers submit
     the generated GitHub feedback links.
 12. Open `/api/status`, `/api/treasury`, `/api/openapi`, and
@@ -266,7 +266,7 @@ route calls it from `src/app/api/content/[id]/route.ts`.
 21. Open `/api/proof-pack` and `/api/submission/report` for the structured
    submission summary.
 22. Open `/api/provenance` or `/api/submission/certificate` to verify the live
-   deployment, repo, CI, x402 receipt, score honesty, and remaining traction
+   deployment, repo, CI, x402 receipt, and public validation
    gate in one object.
 
 ## Citation receipt schema
@@ -322,7 +322,7 @@ corepack pnpm tester:run -TesterName "Your Name" -Role builder -OpenIssue
 
 The script checks the live deployment, runs the no-wallet settlement scenario,
 verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue
-URL. The score only reaches 100 when those generated issues are submitted
+URL. Generated issues count only after they are submitted
 publicly and `/api/traction/github` verifies the public gates.
 
 ## Royalty splitter
@@ -351,7 +351,7 @@ from the payer, and emits one `RoyaltySplit` event per collaborator.
 - split digest derived from collaborator recipients and basis points
 - `SourceRegistered` and `SourceDeactivated` events
 
-The live API mirrors that schema at `/api/registry/sources` so judges can inspect
+The live API mirrors that schema at `/api/registry/sources` so reviewers can inspect
 the registry shape before contract deployment.
 
 ## Local setup
@@ -398,7 +398,7 @@ prefix secrets with `NEXT_PUBLIC_`.
 
 ## Submission assets
 
-- `SUBMISSION_REPORT.md` - judge-facing project report.
+- `SUBMISSION_REPORT.md` - reviewer-facing project report.
 - `COMPETITIVE_RESEARCH.md` - competitor teardown and full-mark strategy.
 - `VIDEO_SCRIPT.md` - under-3-minute recording script.
 - `FINAL_SUBMISSION_CHECKLIST.md` - final deploy/submission checklist.

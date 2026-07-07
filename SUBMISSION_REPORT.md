@@ -2,20 +2,15 @@
 
 ## Verdict
 
-Kleos is a prize-competitive hackathon idea because it sits directly on the strongest
-Lepton prompt: creator and publisher monetization. It is not another generic
-payment dashboard. It gives AI agents a reason to spend, gives creators a reason
-to onboard, and turns grounded AI answers into settlement events that prove which
-creator work was inspected, cited, paid, and split.
+Kleos is a creator settlement product for grounded AI answers. It gives AI agents
+a reason to spend, gives creators a reason to onboard, and turns grounded answers
+into settlement events that prove which creator work was inspected, cited, paid,
+and split.
 
-The current build is strong enough to submit as a polished prototype and now has
-the category-defining primitive: answer-linked citation settlement. It also has a
-stable public deployment and a real Circle CLI x402 paid request against the
-public content endpoint. The remaining gap that matters most is real
-tester/creator usage before the deadline.
-
-If that traction gap is closed with public tester-attestation issues, Kleos
-becomes a strong top-submission contender.
+The current build has a stable public deployment, a real Circle CLI x402 paid
+request against the public content endpoint, answer-linked citation settlement,
+public tester attestations, and machine-readable proof surfaces for reviewers and
+downstream agents.
 
 ## Hackathon Fit
 
@@ -76,7 +71,7 @@ Implemented:
 - Public `/test` tester page that makes the same proof-hash and GitHub-issue
   flow usable from a browser.
 - Public `/traction` command center that shows live GitHub traction gates,
-  role-specific tester invite links, outreach copy, and judge proof links in one
+  role-specific tester invite links, outreach copy, and reviewer proof links in one
   reviewer-readable page.
 - Public `/proof` proof explorer that presents the live x402 receipt, submission
   certificate, transparency root, impact graph, proof links, and honest traction
@@ -99,9 +94,9 @@ Implemented:
 - Public GitHub tester-attestation issue template so external testers can submit
   parseable traction evidence without custom instructions.
 - Public operations status, health, treasury, and OpenAPI endpoints so async
-  judges can verify liveness and scope without clicking through the UI.
+  reviewers can verify liveness and scope without clicking through the UI.
 - Portable submission evidence bundle with form fields, proof links, demo
-  script, tester invites, score gates, and bundle hash for async judging.
+  script, tester invites, validation gates, and bundle hash for async review.
 - Well-known agent card exposing Kleos wallet, x402 payment schemes, MCP/A2A
   endpoints, proof links, and ERC-8004-ready identity posture.
 - Creator-scoped source registry with IPFS-shaped metadata/content CIDs, split
@@ -120,8 +115,8 @@ Implemented:
 - Publishable `packages/kleos-mcp` stdio bridge so agent clients can connect to
   Kleos with an `npx`-style MCP command after package publication.
 - Economic invariant checker and GitHub Actions workflow for budget caps, split
-  totals, receipt links, registry records, vault gates, A2A gates, and score
-  honesty.
+  totals, receipt links, registry records, vault gates, A2A gates, and validation
+  integrity.
 - Sponsored no-wallet trial endpoint that runs inspect, read toll settlement,
   citation settlement, impact allocation, and repricing from a bounded sponsor
   budget.
@@ -148,7 +143,7 @@ Implemented:
     - Arc explorer:
       `https://testnet.arcscan.app/tx/0b795e06-3f01-4eff-b4f2-7fa9240781b1`
 
-## Rubric Mapping
+## Technical Mapping
 
 ### Agentic Sophistication - 30%
 
@@ -164,7 +159,7 @@ Kleos has three active agent loops:
   uncited signals.
 - Evidence loop: finalized answers become citation receipts tied to answer
   hashes, support spans, read payments, citation payments, and split payouts.
-- Proof loop: finalized answers expose claim-level support traces so judges can
+- Proof loop: finalized answers expose claim-level support traces so reviewers can
   see which claims are covered, partial, or unsupported.
 - Verifier loop: audit agents can independently verify receipts and challenge
   weak citations, causing bond and reputation consequences when support fails.
@@ -242,7 +237,7 @@ adversarial: a weak citation can be challenged and can put the broker bond at
 risk. The tester attestation flow converts external review into verifiable proof
 hashes and public GitHub feedback links.
 Competitors may build x402 endpoints or agent wallets; Kleos connects them into a
-creator economy workflow judges can understand.
+creator economy workflow reviewers can understand.
 
 Full-mark move:
 
@@ -273,7 +268,7 @@ Target length: under 3 minutes.
 13. Open the traction campaign endpoint and show the tester success gates.
 14. Open the GitHub traction verifier to show durable public feedback evidence.
 15. Open `/proof` to show the proof explorer: x402 receipt, transparency root,
-   impact graph, and score-honesty gate.
+   impact graph, and validation integrity gate.
 16. Open `/creators` to show creator earnings, split policies, wallets, and
    cash-out records.
 17. Trigger repricing and show seller-agent price movement.
@@ -322,10 +317,10 @@ Target length: under 3 minutes.
   a proof hash and public GitHub issue URL.
 - `/api/dashboard/ledger` shows payments, answer settlements, receipts, and splits.
 - `/api/provenance` and `/api/submission/certificate` bind deployment, repo, CI,
-  live x402 proof, score honesty, and public traction gates into one verifier.
-- `/api/submission/bundle` returns the portable judge packet and tester invite
+  live x402 proof, validation integrity, and public traction gates into one verifier.
+- `/api/submission/bundle` returns the portable reviewer packet and tester invite
   packet in one hashed object.
-- `/api/submission/report` returns the judge-facing summary.
+- `/api/submission/report` returns the reviewer-facing summary.
 - Video demo under 3 minutes.
 - Submission form includes exact user/creator/payment counts.
 

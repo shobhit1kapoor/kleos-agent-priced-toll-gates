@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         testerRole: "builder",
         quote: "I ran the Kleos settlement flow and could inspect the proof trail.",
       },
-      acceptedRoles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
+      acceptedRoles: ["builder", "creator", "publisher", "agent-operator", "reviewer", "other"],
     },
     {
       headers: {

@@ -2,9 +2,9 @@ import { TesterPage } from "@/components/tester-page";
 
 export const dynamic = "force-dynamic";
 
-type TesterRole = "judge" | "creator" | "publisher" | "builder" | "agent-operator" | "other";
+type TesterRole = "reviewer" | "creator" | "publisher" | "builder" | "agent-operator" | "other";
 
-const roles = new Set<TesterRole>(["judge", "creator", "publisher", "builder", "agent-operator", "other"]);
+const roles = new Set<TesterRole>(["reviewer", "creator", "publisher", "builder", "agent-operator", "other"]);
 
 function first(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;

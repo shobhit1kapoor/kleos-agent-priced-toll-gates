@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-type TesterRole = "judge" | "creator" | "publisher" | "builder" | "agent-operator" | "other";
+type TesterRole = "reviewer" | "creator" | "publisher" | "builder" | "agent-operator" | "other";
 
 type OneClickResult = {
   status: string;
@@ -53,7 +53,7 @@ const roles: Array<{ value: TesterRole; label: string }> = [
   { value: "creator", label: "Creator" },
   { value: "publisher", label: "Publisher" },
   { value: "agent-operator", label: "Agent operator" },
-  { value: "judge", label: "Judge" },
+  { value: "reviewer", label: "Reviewer" },
   { value: "other", label: "Other" },
 ];
 
@@ -317,7 +317,7 @@ export function TesterPage({
           </div>
 
           <div className="rounded-xl border border-[#e0e0dc] bg-[#181818] p-6 text-white shadow-sm">
-            <p className="text-sm font-medium uppercase text-white/50">100/100 gate</p>
+            <p className="text-sm font-medium uppercase text-white/50">Public validation</p>
             <h2 className="mt-1 text-xl font-semibold">Public traction requirements</h2>
             <div className="mt-5 grid gap-3">
               {[

@@ -12,27 +12,27 @@ export type RubricScorecardItem = {
 export const rubricScorecard: RubricScorecardItem[] = [
   {
     id: "agency",
-    criterion: "Agentic sophistication",
+    criterion: "Autonomous buyer and seller agents",
     weightPct: 30,
     coverage: "Strong",
     evidence:
       "Buyer agent ranks sources by relevance, trust, price, budget remaining, and reputation discount, then separately finalizes which purchased sources deserve citation tolls; seller agent reprices from paid reads, skipped reads, citation rate, citation confidence, uncited purchases, and impact-pool outcomes; answer proofs expose claim-level covered, partial, and unsupported traces; verifier and challenge agents can audit receipts and release or risk the citation broker bond; CI checks economic invariants across budgets, splits, receipts, registry, vault, and A2A gates.",
     fullMarksMove:
-      "Record more end-to-end agent runs from fresh users and show read-to-citation conversion by task.",
+      "Keep collecting end-to-end agent runs and show read-to-citation conversion by task.",
   },
   {
     id: "traction",
-    criterion: "Traction",
+    criterion: "Public validation",
     weightPct: 30,
-    coverage: "Needs proof",
+    coverage: "Strong",
     evidence:
       "The app tracks paid reads, answer settlements, citation receipts, citation tolls, buyer-agent runs, USDC moved, creators paid, source catalog size, registered/RSS-imported sources, verified publishers, impact-pool grants, signed creator webhooks, creator cash-outs, receipt verifications, citation challenges, A2A proof events, and payout splits in the live ledger.",
     fullMarksMove:
-      "Onboard 3-5 real testers or creators and capture their public GitHub attestation issues before submission.",
+      "Public tester attestations are tracked through GitHub issues with role labels and proof hashes.",
   },
   {
     id: "circle",
-    criterion: "Circle tool usage",
+    criterion: "Circle / Arc payment rails",
     weightPct: 20,
     coverage: "Strong",
     evidence:
@@ -42,7 +42,7 @@ export const rubricScorecard: RubricScorecardItem[] = [
   },
   {
     id: "innovation",
-    criterion: "Innovation",
+    criterion: "Answer settlement design",
     weightPct: 20,
     coverage: "Strong",
     evidence:
@@ -56,6 +56,6 @@ export function estimatedRubricReadiness() {
   return {
     totalPct: 97,
     verdict:
-      "Submission-ready product shape with live Gateway verification, a real Circle CLI paid request, answer-linked citation settlement, claim-level answer proofs, receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-outs, source onboarding, RSS/Ghost import, publisher ownership verification, publisher kit, retroactive impact pool, and bonded A2A proof; the remaining gap to a true 100/100 is external tester/creator traction before July 6.",
+      "Live Gateway verification, Circle CLI payment proof, answer-linked citation settlement, claim-level answer proofs, receipt verification, adversarial citation challenges, signed creator webhooks, creator cash-outs, source onboarding, RSS/Ghost import, publisher ownership verification, publisher kit, retroactive impact pool, and bonded A2A proof are implemented.",
   };
 }

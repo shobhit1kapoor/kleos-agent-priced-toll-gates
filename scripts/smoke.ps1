@@ -39,7 +39,7 @@ try {
 Write-Step "Local payment proof unlocks content"
 $paid = Invoke-RestMethod `
   -Uri "$BaseUrl/api/content/$first" `
-  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:$first:judge-smoke" }
+  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:$first:smoke" }
 Write-Host "Unlocked: $($paid.item.title)"
 
 Write-Step "Creator source registration"
@@ -47,7 +47,7 @@ $registered = Invoke-RestMethod `
   -Uri "$BaseUrl/api/sources/register" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"title":"Judge smoke source","sourceUrl":"https://example.com/judge-smoke","preview":"A creator source registered by the judge smoke script.","priceUsdc":0.003,"creatorName":"Judge Smoke Creator"}'
+  -Body '{"title":"Smoke test source","sourceUrl":"https://example.com/smoke-test-source","preview":"A creator source registered by the smoke script.","priceUsdc":0.003,"creatorName":"Smoke Test Creator"}'
 Write-Host "Registered: $($registered.item.title)"
 
 Write-Step "RSS publisher import"
@@ -55,7 +55,7 @@ $rssImport = Invoke-RestMethod `
   -Uri "$BaseUrl/api/sources/import-rss" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"feedUrl":"https://example.com/kleos-smoke-feed.xml","priceUsdc":0.0039,"creatorName":"Judge RSS Publisher","limit":1}'
+  -Body '{"feedUrl":"https://example.com/kleos-smoke-feed.xml","priceUsdc":0.0039,"creatorName":"Smoke RSS Publisher","limit":1}'
 if (-not $rssImport.imported -or $rssImport.imported.Count -lt 1) {
   throw "RSS import did not create a priced source."
 }
@@ -66,10 +66,10 @@ $publisherChallenge = Invoke-RestMethod `
   -Uri "$BaseUrl/api/publishers/verify" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"creatorName":"Judge RSS Publisher","wallet":"0x0000000000000000000000000000000000000001","publisherUrl":"https://example.com","feedUrl":"https://example.com/kleos-smoke-feed.xml"}'
+  -Body '{"creatorName":"Smoke RSS Publisher","wallet":"0x0000000000000000000000000000000000000001","publisherUrl":"https://example.com","feedUrl":"https://example.com/kleos-smoke-feed.xml"}'
 $challenge = $publisherChallenge.record.challenge
 $publisherVerifyBody = @{
-  creatorName = "Judge RSS Publisher"
+  creatorName = "Smoke RSS Publisher"
   wallet = "0x0000000000000000000000000000000000000001"
   publisherUrl = "https://example.com"
   feedUrl = "https://example.com/kleos-smoke-feed.xml"
@@ -89,7 +89,7 @@ Write-Host "Publisher verified: $($publisherVerification.record.id)"
 Write-Step "Reputation passport"
 $reputationPassport = Invoke-RestMethod "$BaseUrl/api/reputation/passport"
 if (-not $reputationPassport.erc8004Ready -or $reputationPassport.erc8004Ready.onchainRegistrationClaimed) {
-  throw "Reputation passport is missing honest ERC-8004 readiness."
+  throw "Reputation passport is missing the ERC-8004 adapter status."
 }
 if ($reputationPassport.settlementAgent.score -lt 80) {
   throw "Reputation passport settlement-agent score is unexpectedly low."
@@ -98,7 +98,7 @@ $reputationAttestation = Invoke-RestMethod `
   -Uri "$BaseUrl/api/reputation/passport" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"subject":"0x0000000000000000000000000000000000000003","title":"Judge smoke reputation attestation","note":"Smoke test appended a local trust event.","amountUsdc":0}'
+  -Body '{"subject":"0x0000000000000000000000000000000000000003","title":"Smoke reputation attestation","note":"Smoke test appended a local trust event.","amountUsdc":0}'
 if (-not $reputationAttestation.event.digest) {
   throw "Reputation attestation did not return a digest."
 }
@@ -109,7 +109,7 @@ $run = Invoke-RestMethod `
   -Uri "$BaseUrl/api/agent/research" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"task":"Explain Kleos to judges with emphasis on citation receipts, x402, buyer budgets, dynamic pricing, and splits.","budgetUsdc":0.018}'
+  -Body '{"task":"Explain Kleos with emphasis on citation receipts, x402, buyer budgets, dynamic pricing, and splits.","budgetUsdc":0.018}'
 if ($run.session.spentUsdc -gt $run.session.budgetUsdc) {
   throw "Buyer agent exceeded budget."
 }
@@ -172,7 +172,7 @@ $challenge = Invoke-RestMethod `
   -Uri "$BaseUrl/api/citations/challenge" `
   -Method Post `
   -ContentType "application/json" `
-  -Body "{`"receiptId`":`"$receiptId`",`"challenger`":`"Judge Smoke Auditor`",`"challengeReason`":`"Stress-test citation support before submission.`",`"claimedWeakness`":`"weak_support_span`"}"
+  -Body "{`"receiptId`":`"$receiptId`",`"challenger`":`"Smoke Auditor`",`"challengeReason`":`"Stress-test citation support before submission.`",`"claimedWeakness`":`"weak_support_span`"}"
 if (-not $challenge.challenge.proofHash) {
   throw "Citation challenge did not return a proof hash."
 }
@@ -229,7 +229,7 @@ $attestation = Invoke-RestMethod `
   -Uri "$BaseUrl/api/traction/attest" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"testerName":"Judge Smoke Tester","testerRole":"builder","scenarioRun":true,"useful":true,"quote":"Smoke test verified the Kleos proof flow end to end."}'
+  -Body '{"testerName":"Smoke Tester","testerRole":"builder","scenarioRun":true,"useful":true,"quote":"Smoke test verified the Kleos proof flow end to end."}'
 if (-not $attestation.attestation.proofHash) {
   throw "Tester attestation did not return a proof hash."
 }
@@ -246,7 +246,7 @@ if (-not $campaign.roleSpecificAsks -or $campaign.roleSpecificAsks.Count -lt 3) 
 if (-not $campaign.discordCopy -or -not $campaign.xCopy) {
   throw "Traction campaign is missing outreach copy."
 }
-Write-Host "Remaining attestations: $($campaign.currentScorePath.remainingAttestations)"
+Write-Host "Remaining attestations: $($campaign.publicValidationPath.remainingAttestations)"
 Write-Host "Tester roles: $($campaign.roleSpecificAsks.Count)"
 
 Write-Step "Tester invite packet"
@@ -271,7 +271,7 @@ $oneClick = Invoke-RestMethod `
   -Uri "$BaseUrl/api/tester/one-click" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"testerName":"Judge One Click Tester","testerRole":"builder","quote":"One-click tester flow verified the hosted traction path."}'
+  -Body '{"testerName":"One Click Tester","testerRole":"builder","quote":"One-click tester flow verified the hosted traction path."}'
 if (-not $oneClick.attestation.proofHash -or -not $oneClick.githubIssueUrl) {
   throw "One-click tester flow did not return a proof hash and GitHub issue URL."
 }
@@ -413,7 +413,7 @@ $a2a = Invoke-RestMethod `
   -Uri "$BaseUrl/api/a2a/ask" `
   -Method Post `
   -ContentType "application/json" `
-  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:a2a:judge-smoke" } `
+  -Headers @{ "PAYMENT-SIGNATURE" = "kleos-payment-proof:a2a:smoke" } `
   -Body '{"question":"How should agents pay creators for grounded answers?","budgetUsdc":0.018}'
 if (-not $a2a.answerHash -or -not $a2a.citationReceipts -or $a2a.citationReceipts.Count -lt 1) {
   throw "A2A paid ask did not produce answer settlement proof."
@@ -443,7 +443,7 @@ $volumeRun = Invoke-RestMethod `
   -Uri "$BaseUrl/api/volume/engine" `
   -Method Post `
   -ContentType "application/json" `
-  -Body '{"targetRuns":3,"taskPrefix":"Judge smoke autonomous volume"}'
+  -Body '{"targetRuns":3,"taskPrefix":"Smoke autonomous volume"}'
 if ($volumeRun.run.completedRuns -lt 3 -or -not $volumeRun.run.proofHash) {
   throw "Volume engine did not complete the requested autonomous runs."
 }
@@ -508,7 +508,7 @@ Write-Host "Publisher manifest: $($publisherKit.wellKnownManifest.protocol)"
 Write-Step "Submission report"
 $report = Invoke-RestMethod "$BaseUrl/api/submission/report"
 Write-Host "Project: $($report.project.name)"
-Write-Host "Readiness: $($report.rubric.readiness.totalPct)%"
+Write-Host "Evidence checks: $($report.evidenceMap.readiness.totalPct)%"
 
 Write-Step "Submission bundle"
 $bundle = Invoke-RestMethod "$BaseUrl/api/submission/bundle"
@@ -534,4 +534,4 @@ if ($proofPack.volumeEngine.honesty -notlike "*do not count as external tester t
 Write-Host "Proof pack differentiators: $($proofPack.strongestDifferentiators.Count)"
 
 Write-Host ""
-Write-Host "Judge smoke test passed." -ForegroundColor Green
+Write-Host "Kleos smoke test passed." -ForegroundColor Green

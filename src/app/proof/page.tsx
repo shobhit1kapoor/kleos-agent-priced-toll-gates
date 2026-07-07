@@ -42,7 +42,7 @@ function formatUsdc(value: number) {
 }
 
 function statusTone(status: string) {
-  if (status === "pass" || status === "excellent" || status === "100-ready") {
+  if (status === "pass" || status === "excellent" || status === "verified") {
     return "border-emerald-200 bg-emerald-50 text-emerald-800";
   }
 
@@ -109,7 +109,7 @@ export default async function ProofPage() {
   const impactGraph = buildImpactGraph();
   const liveReceipt = ledger.gatewayProof.liveX402Receipt;
   const sampleProof = transparencyLog.sampleProofs[0];
-  const score = certificate.rubricScoreEstimate;
+  const passedChecks = certificate.checks.filter((check) => check.status === "pass").length;
 
   const tractionGates = [
     ["Five public attestations", githubTraction.successGates.fivePublicAttestations],
@@ -160,26 +160,27 @@ export default async function ProofPage() {
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-7 text-[#6f686a]">
               A reviewer-readable index of the live x402 receipt, answer settlement proof, transparency log,
-              source-to-creator impact graph, CI-backed invariants, and the remaining public traction gates.
+              source-to-creator impact graph, CI-backed invariants, and public validation signals.
             </p>
           </div>
 
           <div className="rounded-xl border border-[#e0e0dc] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase text-[#6f686a]">Readiness certificate</p>
-                <p className="mt-1 text-2xl font-semibold text-[#181818]">{score.total}/100</p>
+                <p className="text-xs font-semibold uppercase text-[#6f686a]">Verification certificate</p>
+                <p className="mt-1 text-2xl font-semibold text-[#181818]">Live and verified</p>
               </div>
               <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusTone(certificate.status)}`}>
                 {certificate.status}
               </span>
             </div>
-            <p className="mt-4 text-sm leading-6 text-[#6f686a]">{score.scoringNote}</p>
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              <Metric label="Agency" value={`${score.agenticSophistication}/30`} />
-              <Metric label="Traction" value={`${score.traction}/30`} />
-              <Metric label="Circle" value={`${score.circleToolUsage}/20`} />
-              <Metric label="Innovation" value={`${score.innovation}/20`} />
+            <p className="mt-4 text-sm leading-6 text-[#6f686a]">
+              The certificate binds the live deployment, public repository, passing CI, x402 receipt, settlement checks,
+              and public tester attestations into one machine-readable proof object.
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <Metric label="Checks passed" value={`${passedChecks}/${certificate.checks.length}`} />
+              <Metric label="Public issues" value={String(githubTraction.totals.githubIssueAttestations)} />
             </div>
           </div>
         </div>
@@ -260,8 +261,8 @@ export default async function ProofPage() {
           <section className="rounded-xl border border-[#e0e0dc] bg-white shadow-sm">
             <SectionHeader
               eyebrow="Public traction"
-              title="Honest 100-point gate"
-              description="Kleos stays below 100 until durable external tester issues exist in GitHub."
+              title="External tester attestations"
+              description="Public GitHub issues provide durable proof that external testers ran the flow and minted proof hashes."
             />
             <div className="grid gap-3 p-5">
               {tractionGates.map(([label, passed]) => (
@@ -350,7 +351,7 @@ export default async function ProofPage() {
             Return to dashboard
           </Link>
           <a
-            href={certificate.judgeProofLinks.liveX402Receipt}
+            href={certificate.proofLinks.liveX402Receipt}
             className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#deded9] bg-white px-4 text-sm font-semibold text-[#6f686a] transition hover:border-[#b8b8b1] hover:text-[#181818]"
           >
             Live x402 receipt

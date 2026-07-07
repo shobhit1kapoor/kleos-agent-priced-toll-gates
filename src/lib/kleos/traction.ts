@@ -168,13 +168,13 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
       ),
     },
     {
-      role: "judge",
-      label: "Judge reviewer",
+      role: "reviewer",
+      label: "Reviewer",
       ask: "Use the one-click path, then open proof-pack, answer proof, receipt verifier, and competitive positioning.",
       payload: roleAttestationPayload(
-        "judge",
-        "Judge-path reviewer",
-        "The Kleos judge path showed read tolls, citation tolls, proof hashes, and creator settlement evidence.",
+        "reviewer",
+        "Reviewer",
+        "The Kleos review path showed read tolls, citation tolls, proof hashes, and creator settlement evidence.",
       ),
     },
   ];
@@ -200,17 +200,15 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
   return {
     name: "Kleos tester traction campaign",
     purpose:
-      "Turn the remaining traction gap into a repeatable tester flow with proof hashes and public GitHub feedback.",
-    currentScorePath: {
-      currentEstimate: 96,
-      targetEstimate: 100,
+      "Make tester validation repeatable with proof hashes and public GitHub feedback.",
+    publicValidationPath: {
       remainingAttestations,
       reason:
         remainingAttestations === 0
-          ? "Five or more draft tester attestations are present; publish them as GitHub issues so /api/traction/github can verify durable public traction."
+          ? "Five or more draft tester attestations are present; publish them as GitHub issues so /api/traction/github can verify durable public validation."
           : `${remainingAttestations} more real tester attestation${
               remainingAttestations === 1 ? "" : "s"
-            } needed, then each generated GitHub issue URL must be published to close the traction gap honestly.`,
+            } needed, then each generated GitHub issue URL must be published so the validation is durable.`,
     },
     successGates: [
       "At least 5 public GitHub issues labeled tester-attestation.",
@@ -226,7 +224,7 @@ export function buildTractionCampaign(origin = DEFAULT_PUBLIC_URL) {
         'powershell -ExecutionPolicy Bypass -File scripts/tester-run.ps1 -TesterName "Your Name" -Role builder -OpenIssue',
       purpose:
         "Runs the live no-wallet scenario, verifies proof surfaces, mints a proof hash, and opens the prefilled GitHub issue URL. Testers can use either the hosted endpoint or the local script.",
-      roles: ["builder", "creator", "publisher", "agent-operator", "judge", "other"],
+      roles: ["builder", "creator", "publisher", "agent-operator", "reviewer", "other"],
     },
     testerFlow: [
       "Fastest command-center path: open /traction, pick the missing role, send the invite link, then verify the GitHub issue gate.",

@@ -35,10 +35,10 @@ const roleDefaults: Record<
     quote: "The Kleos API surfaces were clear enough for another agent to discover, buy, cite, and verify sources.",
     priority: "Confirms MCP/A2A/API usefulness and counts toward the builder/operator gate.",
   },
-  judge: {
-    label: "Judge reviewer",
-    testerName: "Judge-path reviewer",
-    quote: "The Kleos judge path showed read tolls, citation tolls, proof hashes, and creator settlement evidence.",
+  reviewer: {
+    label: "Reviewer",
+    testerName: "Reviewer",
+    quote: "The Kleos review path showed read tolls, citation tolls, proof hashes, and creator settlement evidence.",
     priority: "Useful for async review, but creator and builder/operator attestations are higher priority right now.",
   },
   other: {
@@ -85,7 +85,7 @@ function neededRoles(snapshot: Awaited<ReturnType<typeof getGithubTractionSnapsh
     roles.push("builder", "agent-operator");
   }
   if (!snapshot.successGates.threeScenarioRuns || !snapshot.successGates.fivePublicAttestations) {
-    roles.push("judge", "other");
+    roles.push("reviewer", "other");
   }
 
   return Array.from(new Set(roles));
@@ -145,6 +145,6 @@ export async function buildTesterInvitePacket(
     campaignLinks: campaign.links,
     nextStep: githubTraction.successGates.allPassed
       ? "Public tester gates are already verified. Keep this packet as an easy way to collect additional backup attestations."
-      : "Send the recommendedBatch links to real testers. The score only reaches 100 after the generated GitHub issues are submitted publicly and /api/traction/github verifies the gates.",
+      : "Send the recommendedBatch links to real testers. Generated GitHub issues are counted only after they are submitted publicly and /api/traction/github verifies the gates.",
   };
 }

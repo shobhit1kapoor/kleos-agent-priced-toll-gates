@@ -279,7 +279,7 @@ export const mcpTools: ToolDefinition[] = [
   },
   {
     name: "get_traction_campaign",
-    description: "Return tester asks, curl payloads, social copy, and 100/100 success gates.",
+    description: "Return tester asks, curl payloads, social copy, and public validation gates.",
     inputSchema: { type: "object", properties: {} },
   },
   {
@@ -317,7 +317,7 @@ export const mcpTools: ToolDefinition[] = [
   },
   {
     name: "get_submission_bundle",
-    description: "Return the portable judge evidence bundle with form fields, proof links, demo script, tester invites, and score gates.",
+    description: "Return the portable evidence bundle with form fields, proof links, demo script, tester invites, and validation gates.",
     inputSchema: { type: "object", properties: {} },
   },
   {

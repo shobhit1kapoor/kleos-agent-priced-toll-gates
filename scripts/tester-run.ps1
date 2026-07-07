@@ -1,7 +1,7 @@
 param(
   [string]$BaseUrl = "https://kleos-agent-priced-toll-gates.vercel.app",
   [string]$TesterName = "Kleos tester",
-  [ValidateSet("builder", "creator", "publisher", "agent-operator", "judge", "other")]
+  [ValidateSet("builder", "creator", "publisher", "agent-operator", "reviewer", "other")]
   [string]$Role = "builder",
   [string]$Quote = "I ran the Kleos settlement flow and could inspect the proof trail.",
   [string]$Contact = "",

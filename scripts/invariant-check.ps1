@@ -95,7 +95,7 @@ Assert-True (-not $agentCard.erc8004Readiness.onchainRegistrationClaimed) "Agent
 Assert-True ($agentCardAlias.agentWallet -eq $agentCard.agentWallet) "Agent card API alias does not match well-known card."
 Write-Host "Agent card checked: $($agentCard.agentWallet)."
 
-Write-Step "A2A and score honesty invariants"
+Write-Step "A2A and validation invariants"
 try {
   Invoke-RestMethod `
     -Uri "$BaseUrl/api/a2a/ask" `
@@ -139,14 +139,14 @@ Write-Host "Volume engine checked: $($volumeRun.run.completedRuns) run(s), $($vo
 $positioning = Invoke-RestMethod "$BaseUrl/api/competitive/positioning"
 $githubTraction = Invoke-RestMethod "$BaseUrl/api/traction/github"
 if (-not $githubTraction.successGates.allPassed) {
-  Assert-True ($positioning.rubricScoreEstimate.total -lt 100) "Score reached 100 without public GitHub traction gates."
+  Assert-True (-not $positioning.validationSummary.publicTractionVerified) "Positioning marked public validation complete without public GitHub traction gates."
   Assert-True (-not $githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should be false before enough public attestations exist."
 } else {
-  Assert-True ($positioning.rubricScoreEstimate.total -ge 100) "Score did not reach 100 after public GitHub traction gates passed."
+  Assert-True ($positioning.validationSummary.publicTractionVerified) "Positioning did not reflect passing public GitHub traction gates."
   Assert-True ($githubTraction.successGates.uniqueProofHashes) "Unique proof hashes gate should pass after verified public attestations."
 }
 Assert-True ($githubTraction.issueCreationUrl -like "*template=tester-attestation.md*") "GitHub traction verifier is not pointing to the tester issue template."
-Write-Host "Score honesty checked: $($positioning.rubricScoreEstimate.total)/100."
+Write-Host "Validation gates checked."
 
 Write-Step "Proof surface invariants"
 $proofPack = Invoke-RestMethod "$BaseUrl/api/proof-pack"
@@ -185,19 +185,19 @@ Write-Step "Submission certificate invariants"
 $certificate = Invoke-RestMethod "$BaseUrl/api/provenance"
 Assert-True ($certificate.project.name -eq "Kleos") "Submission certificate project name is wrong."
 Assert-True ($certificate.circleArcProof.liveX402Receipt.receiptId -eq $ledger.gatewayProof.liveX402Receipt.receiptId) "Submission certificate live x402 receipt does not match ledger."
-Assert-True ($certificate.judgeProofLinks.submissionCertificate -like "*/api/submission/certificate") "Submission certificate is missing judge alias link."
-Assert-True ($certificate.judgeProofLinks.submissionBundle -like "*/api/submission/bundle") "Submission certificate is missing submission bundle link."
-Assert-True ($certificate.judgeProofLinks.tractionCenter -like "*/traction") "Submission certificate is missing traction center link."
-Assert-True ($certificate.judgeProofLinks.volumeEngine -like "*/api/volume/engine") "Submission certificate is missing volume engine link."
+Assert-True ($certificate.proofLinks.submissionCertificate -like "*/api/submission/certificate") "Submission certificate is missing certificate link."
+Assert-True ($certificate.proofLinks.submissionBundle -like "*/api/submission/bundle") "Submission certificate is missing submission bundle link."
+Assert-True ($certificate.proofLinks.tractionCenter -like "*/traction") "Submission certificate is missing traction center link."
+Assert-True ($certificate.proofLinks.volumeEngine -like "*/api/volume/engine") "Submission certificate is missing volume engine link."
 Assert-True ($certificate.checks.Count -ge 8) "Submission certificate has too few checks."
 if (-not $githubTraction.successGates.allPassed) {
-  Assert-True ($certificate.rubricScoreEstimate.total -lt 100) "Submission certificate reached 100 without public GitHub traction gates."
-  Assert-True ($certificate.remaining100PointGate -like "*5 public tester-attestation*") "Submission certificate does not explain the remaining public traction gate."
+  Assert-True (-not $certificate.validationSummary.publicTractionVerified) "Submission certificate marked validation complete without public GitHub traction gates."
+  Assert-True ($certificate.publicValidationNextStep -like "*tester-attestation*") "Submission certificate does not explain the remaining public traction gate."
 } else {
-  Assert-True ($certificate.status -eq "100-ready") "Submission certificate did not mark the project 100-ready after public traction gates passed."
-  Assert-True ($certificate.rubricScoreEstimate.total -eq 100) "Submission certificate did not reach 100 after public traction gates passed."
+  Assert-True ($certificate.status -eq "verified") "Submission certificate did not mark the project verified after public traction gates passed."
+  Assert-True ($certificate.validationSummary.publicTractionVerified) "Submission certificate did not reflect complete validation after public traction gates passed."
 }
-Write-Host "Submission certificate checked: $($certificate.status), $($certificate.rubricScoreEstimate.total)/100."
+Write-Host "Submission certificate checked: $($certificate.status)."
 
 Write-Step "Submission bundle invariants"
 $bundle = Invoke-RestMethod "$BaseUrl/api/submission/bundle"

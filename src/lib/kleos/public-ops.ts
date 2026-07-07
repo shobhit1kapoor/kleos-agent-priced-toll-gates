@@ -83,7 +83,7 @@ export async function buildPublicStatus() {
       id: "autonomous-volume-engine",
       label: "Autonomous volume engine",
       status: "pass",
-      detail: `${volumeEngine.currentRuntimeTotals.completedRuns} labeled internal agent run(s) in the current runtime; endpoint is ready for repeatable judge execution.`,
+      detail: `${volumeEngine.currentRuntimeTotals.completedRuns} labeled internal agent run(s) in the current runtime; endpoint is ready for repeatable execution.`,
     },
     {
       id: "public-traction",
@@ -97,7 +97,7 @@ export async function buildPublicStatus() {
     ? "degraded"
     : checks.every((check) => check.status === "pass")
       ? "excellent"
-      : "ready-needs-traction";
+      : "needs-public-validation";
 
   return {
     name: "Kleos public operations status",
@@ -108,7 +108,7 @@ export async function buildPublicStatus() {
     summary:
       status === "excellent"
         ? "Core product, proof, Circle, creator-ops, and public traction gates are all passing."
-        : "Core product, proof, and Circle gates are live; final public traction attestations remain the honest 100/100 gap.",
+        : "Core product, proof, and Circle gates are live; additional public tester attestations are still being collected.",
     checks,
     publicProofs: {
       dashboard: APP_URL,
@@ -182,7 +182,7 @@ export function buildTreasuryProof() {
     generatedAt: new Date().toISOString(),
     network: ledger.gatewayProof.network,
     custodyModel:
-      "Demo treasury records are non-custodial proof objects: x402/Gateway receipts, collaborator split ledgers, and Arc-ready cash-out batches are linked for judge verification.",
+      "Demo treasury records are non-custodial proof objects: x402/Gateway receipts, collaborator split ledgers, and Arc-ready cash-out batches are linked for reviewer verification.",
     gateway: ledger.gatewayProof,
     totals: {
       fundedGatewayBalanceUsdc: ledger.gatewayProof.fundedBalanceUsdc,
@@ -207,7 +207,7 @@ export function buildTreasuryProof() {
       "Citation toll settlement is capped by the buyer session's remaining budget.",
       "Impact grants are allocated only after citation receipts exist.",
       "Creator cash-outs aggregate existing split and impact balances instead of inventing payout volume.",
-      "Public tester traction must pass GitHub issue gates before the score endpoint returns 100/100.",
+      "Public tester traction is counted only after generated GitHub issues are submitted and verified.",
     ],
   };
 }
@@ -222,7 +222,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
     },
     servers: [{ url: origin }],
     paths: {
-      "/api/status": { get: { summary: "Public operations status and judge proof links." } },
+      "/api/status": { get: { summary: "Public operations status and proof links." } },
       "/api/health": { get: { summary: "Small health check for uptime monitors." } },
       "/api/treasury": { get: { summary: "Gateway, toll, split, impact, and cash-out treasury proof." } },
       "/api/agent-card": { get: { summary: "Kleos agent card with wallet, x402 schemes, services, tools, and proof links." } },
@@ -255,7 +255,7 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/api/traction/invite": { get: { summary: "Role-specific tester invite packet with prefilled /test links, outreach copy, and current GitHub traction gates." } },
       "/api/traction/github": { get: { summary: "Verify durable public tester GitHub issues." } },
       "/api/volume/engine": { get: { summary: "Summarize current-runtime internal autonomous volume batches." }, post: { summary: "Run a capped internal autonomous volume batch with read tolls, citation tolls, and impact rewards." } },
-      "/traction": { get: { summary: "Public traction command center with tester gates, role-specific invite links, and judge proof links." } },
+      "/traction": { get: { summary: "Public traction command center with tester gates, role-specific invite links, and proof links." } },
       "/api/tester/one-click": { get: { summary: "Hosted one-click tester instructions." }, post: { summary: "Run scenario, verify receipt, mint proof hash, and return public GitHub issue URL." } },
       "/api/mcp": { get: { summary: "MCP-style manifest for agent discovery and actions." } },
       "/api/mcp/rpc": { get: { summary: "MCP JSON-RPC endpoint metadata." }, post: { summary: "MCP JSON-RPC calls for tools/list, tools/call, resources/list, and resources/read." } },
@@ -263,11 +263,11 @@ export function buildOpenApiDocument(origin = APP_URL) {
       "/.well-known/agent-card.json": { get: { summary: "Well-known Kleos agent service card." } },
       "/api/publisher-kit": { get: { summary: "Publisher manifest and crawler payment policy." } },
       "/api/oss-kit": { get: { summary: "Reusable integration kit for builders." } },
-      "/api/proof-pack": { get: { summary: "Single judge proof pack." } },
-      "/api/provenance": { get: { summary: "Submission certificate with deployment, CI, x402, score, and traction gates." } },
-      "/api/submission/certificate": { get: { summary: "Judge-facing submission certificate alias for /api/provenance." } },
-      "/api/submission/bundle": { get: { summary: "Portable judge evidence bundle with form fields, demo script, proof links, tester invites, score gates, and bundle hash." } },
-      "/api/competitive/positioning": { get: { summary: "Rubric score estimate with honest traction gates." } },
+      "/api/proof-pack": { get: { summary: "Single proof pack." } },
+      "/api/provenance": { get: { summary: "Submission certificate with deployment, CI, x402, and traction gates." } },
+      "/api/submission/certificate": { get: { summary: "Submission certificate alias for /api/provenance." } },
+      "/api/submission/bundle": { get: { summary: "Portable evidence bundle with form fields, demo script, proof links, tester invites, validation gates, and bundle hash." } },
+      "/api/competitive/positioning": { get: { summary: "Competitive positioning with public validation gates." } },
     },
   };
 }
